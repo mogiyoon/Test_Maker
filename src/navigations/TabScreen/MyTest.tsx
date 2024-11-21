@@ -10,6 +10,7 @@ const StyledText = styled.Text`
   font-size: 30px;
 `
 export const MyTest = () => {
+  
   return (
   <Container>
     <StyledText>My Test</StyledText>
