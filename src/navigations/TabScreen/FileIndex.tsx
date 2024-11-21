@@ -11,6 +11,7 @@ const StyledText = styled.Text`
 `
 
 export const FileIndex = () => {
+  
   return (
     <Container>
       <StyledText>File</StyledText>
