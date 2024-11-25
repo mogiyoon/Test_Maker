@@ -1,39 +1,86 @@
-import { useContext } from "react"
+import React, { useContext } from "react"
 import styled from "styled-components/native"
-import SettingContext from "../../context/setting"
+import SettingContext from "../../context/Setting"
+import { useContentContext } from "../../context/Contents"
+import { Dimensions } from "react-native"
 
-const Container = styled.View`
+const WindowContainer = styled.View`
+  background-color: #28A0FF;
   flex: 1;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
+`
+const Container = styled.View`
+  background-color: #FFFFFF;
+  flex: 1;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 15px;
+  justify-content: start;
+  align-items: start;
+  width: ${({width}) => width - 20}px;
+`
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: start;
+  width: ${({width}) => width}px;
+  height: 50px;
+`
+const StyledButton = styled.TouchableOpacity`
+  background-color: #FFFFFF;
+  height: 30px;
+  width: 80px;
+  margin: 8px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
 `
 const StyledText = styled.Text`
   font-size: 12px;
 `
 
 const useSetting = () => useContext(SettingContext)
+const useContent = () => useContentContext()
 
-let writing = 'the real thing is (dummy data) which is [that paragraph] the real thing is (dummy datae) which is [that paragraph]'
 
 export const Edit = () => {
-  const setting = useSetting()
+  const WindowWidth = Dimensions.get('window').width
+
+  const setting = useSetting() // setting 참고하여 단어와 뜻 나눔
   const name = setting.name
   const mean = setting.mean
 
-  const result = returnProblem(writing, name, mean)
+  const content = useContent()
+  let writing = content.content // TextBox에서 데이터 불러옴
+  console.log(content)
+
+  const result = returnProblem(writing, name, mean) // 문제 만들기 Auto 기능
   const problemDicList = result.problemDicList
   const problemDictionary = result.problemDictionary
-  console.log(problemDicList)
   console.log(problemDictionary)
   
   return (
-    <Container>
-      <StyledText>{result.problemDicList[0]}</StyledText>
-    </Container>
+    <WindowContainer>
+      <Container width={WindowWidth}>
+        <StyledText>{writing}</StyledText>
+      </Container>
+      <Container width={WindowWidth}>
+        <StyledText>{problemDicList} : {problemDictionary[problemDicList[0]]}</StyledText>
+      </Container>
+      <ButtonContainer width={WindowWidth}>
+        <StyledButton>
+          <StyledText>Save</StyledText>
+        </StyledButton>
+        <StyledButton>
+          <StyledText>Delete</StyledText>
+        </StyledButton>
+      </ButtonContainer>
+    </WindowContainer>
   )
 }
 
-function returnProblem (paragraph, name, mean) {
+function returnProblem (paragraph: string, name: string, mean: string) {
   const problemDictionary = {}
   const problemDicList = []
   const paragraphLength = paragraph.length
