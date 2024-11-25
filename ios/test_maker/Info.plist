@@ -48,6 +48,10 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>test_maker needs access to your Camera.</string>
+	<string>We needs access to your Camera.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your files.</string>
+	<key>NSDocumentsDirectoryUsageDescription</key>
+	<string>We need access to your documents.</string>
 </dict>
 </plist>

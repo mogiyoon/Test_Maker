@@ -1,5 +1,7 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components/native"
+import RNFS from 'react-native-fs'
+import { FlatList, View } from "react-native"
 
 const Container = styled.View`
   flex: 1;
@@ -11,10 +13,36 @@ const StyledText = styled.Text`
 `
 
 export const FileIndex = () => {
-  
+  const [files, setFiles] = useState([])
+
+  useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        const path = RNFS.DocumentDirectoryPath
+        console.log(path)
+        const fileList = await RNFS.readDir(path);
+        setFiles(fileList)
+      } catch {
+        console.log("fail")
+      }
+    }
+
+    fetchFiles()
+  }, [])
+
   return (
     <Container>
       <StyledText>File</StyledText>
+      <FlatList
+        data={files}
+        keyExtractor={(item) => item.path}
+        renderItem={({item}) => (
+          <View>      
+            <StyledText>{item.name}</StyledText>
+            <StyledText>{item.path}</StyledText>
+          </View>
+        )}
+      />
     </Container>
   )
 }
