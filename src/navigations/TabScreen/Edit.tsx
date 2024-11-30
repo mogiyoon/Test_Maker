@@ -50,16 +50,17 @@ const MeaningContainer = styled.View`
 let tempTestList = []
 let toggleCheckBoxFunctionList = []
 let allToggleSwitch = false
-
+//TODO 체크박스 체크 후 저장까지
 const FlatListComponent = ({word, meaning}) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
+
   if (!toggleCheckBoxFunctionList.includes(setToggleCheckBox)) {
     toggleCheckBoxFunctionList.push(setToggleCheckBox)
   }
 
   useEffect(() => {
     insertWord(toggleCheckBox, word)
-  }, [toggleCheckBox])
+  })
   
   return (
     <FlatListContainer>
@@ -136,14 +137,17 @@ const StyledTextInput = styled.TextInput.attrs({
 `
 
 let myTest = testRealm.objects('MyTest') // 내부 저장소
-const useSetting = () => useContext(SettingContext) // 
+const useSetting = () => useContext(SettingContext)
 
 let problemDictionary = {}
 let problemDicList = []
 
 export const Edit = () => {
-  const {content, setContent, isChanged, setIsChanged} = useContentContext()
   const WindowWidth = Dimensions.get('window').width
+
+  const {content, setContent, isChanged, setIsChanged} = useContentContext()
+  const [firstRender, setFirstRender] = useState(false)
+  const [secondRender, setSecondRender] = useState(false)
 
   const [category, setCategory] = useState('')
 
@@ -151,15 +155,23 @@ export const Edit = () => {
   const name = setting.name
   const mean = setting.mean
 
-  if (isChanged === true) {
+  if (isChanged && !firstRender) {
+    setFirstRender(true)
     toggleCheckBoxFunctionList = []
     problemDictionary = {}
     problemDicList = []
-    const result = returnProblem(content, name, mean) // 문제 만들기 Auto 기능
-    problemDicList = result.problemDicList
-    problemDictionary = result.problemDictionary
     setIsChanged(false)
   }
+
+  useEffect(() => {
+    if (firstRender) {
+      setFirstRender(false)
+      const result = returnProblem(content, name, mean) // 문제 만들기 Auto 기능
+      problemDicList = result.problemDicList
+      problemDictionary = result.problemDictionary
+      setSecondRender(true)
+    }
+  }, [firstRender])
   
   return (
     <WindowContainer>
@@ -238,7 +250,7 @@ function returnProblem (paragraph: string, name: string, mean: string) {
 }
 
 function insertWord (toggleCheckBox, word) {
-  if (toggleCheckBox === false) {
+  if (toggleCheckBox === true) {
     if (!(tempTestList.includes(word))) {
       tempTestList.push(word)
     }
