@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components/native"
 import { testRealm } from "../../context/MyTest"
 import { Dimensions } from "react-native"
@@ -49,16 +49,11 @@ const MeaningContainer = styled.View`
   justify-content: center;
 `
 
-const FlatListComponent = ({key, category, word, meaning}) => {
-  const [toggleCheckBox, setToggleCheckBox] = useState(false)
-
+const FlatListComponent = ({id, category, word, meaning}) => {
   return (
     <TouchableContainer
       onLongPress={() => {
-        console.log(key)
-        console.log(category)
-        console.log(word)
-        console.log(meaning)
+        _deleteData(id, word)
       }}>
       <FlatListContainer>
         <WordContainer>
@@ -83,22 +78,31 @@ const FlatListComponent = ({key, category, word, meaning}) => {
 
 
 export const MyTest = () => {
-  let myTest = testRealm.objects('MyTest')
+  const [data, setData] = useState([]);
 
-  useFocusEffect(() => {
-    myTest = testRealm.objects('MyTest')
+  useEffect(() => {
+    const loadData = () => {
+      const myTest = testRealm.objects('MyTest')
+      setData(Array.from(myTest))
+    }
 
-    console.log(myTest)
-    console.log("new")
-  })
+    loadData()
+
+    testRealm.objects('MyTest').addListener(loadData)
+
+    return () => {
+      testRealm.objects('MyTest').removeListener(loadData)
+      testRealm.close()
+    }
+  }, [])
 
   return (
   <Container>
     <StyledFlatList 
-      data={myTest}
+      data={data}
       renderItem={({item}) => (
         <FlatListComponent
-          key = {item["key"]}
+          id={item["id"]}
           category={item["category"]}
           word={item["word"]}
           meaning={item["meaning"]}
@@ -109,9 +113,9 @@ export const MyTest = () => {
   )
 }
 
-function _deleteData (key, inputWord) {
+function _deleteData (id, inputWord) {
   testRealm.write(() => {
-    const dataToDelete = testRealm.objects('MyTest').filtered(`word == "${inputWord}" AND key == "${key}"`)
+    const dataToDelete = testRealm.objects('MyTest').filtered(`word == "${inputWord}" AND id == "${id}"`)
     testRealm.delete(dataToDelete)
   });
 }

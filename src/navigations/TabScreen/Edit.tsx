@@ -56,6 +56,10 @@ const FlatListComponent = ({word, meaning}) => {
   if (!toggleCheckBoxFunctionList.includes(setToggleCheckBox)) {
     toggleCheckBoxFunctionList.push(setToggleCheckBox)
   }
+
+  useEffect(() => {
+    insertWord(toggleCheckBox, word)
+  }, [toggleCheckBox])
   
   return (
     <FlatListContainer>
@@ -65,7 +69,6 @@ const FlatListComponent = ({word, meaning}) => {
           value={toggleCheckBox}
           onValueChange={(newValue) => {
             setToggleCheckBox(newValue)
-            insertWord(toggleCheckBox, word)
           }}
           />
       </CheckBoxContainer>
@@ -148,13 +151,11 @@ export const Edit = () => {
   const name = setting.name
   const mean = setting.mean
 
-  let writing = content // TextBox에서 데이터 불러옴
-
   if (isChanged === true) {
     toggleCheckBoxFunctionList = []
     problemDictionary = {}
     problemDicList = []
-    const result = returnProblem(writing, name, mean) // 문제 만들기 Auto 기능
+    const result = returnProblem(content, name, mean) // 문제 만들기 Auto 기능
     problemDicList = result.problemDicList
     problemDictionary = result.problemDictionary
     setIsChanged(false)
@@ -164,7 +165,7 @@ export const Edit = () => {
     <WindowContainer>
       {/*화면 윗부분*/}
       <Container width={WindowWidth}>
-        <StyledText>{writing}</StyledText>
+        <StyledText>{content}</StyledText>
       </Container>
       {/*화면 아랫부분*/}
       <Container width={WindowWidth}>
@@ -253,13 +254,13 @@ function saveToMyTest (categoryName) {
 
     const word = tempTestList[i]
     const meaning = problemDictionary[tempTestList[i]]
-    const key = Date.now().toString()
-    console.log(key)
+    const inputTimeKey = Date.now().toString()
     const dataToCheck = testRealm.objects('MyTest').filtered(`category == "${categoryName}" AND word == "${word}"`)
 
     if (dataToCheck.length === 0) {
       testRealm.write(() => {
-        testRealm.create('MyTest', { key: key, category: categoryName, word: word, meaning: meaning})
+        testRealm.create('MyTest', { id: inputTimeKey, category: categoryName, word: word, meaning: meaning})
+        console.log(myTest)
       })
     }
   }
