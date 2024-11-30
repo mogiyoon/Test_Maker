@@ -1,8 +1,87 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import styled from "styled-components/native"
 import SettingContext from "../../context/Setting"
 import { useContentContext } from "../../context/Contents"
 import { Dimensions } from "react-native"
+import CheckBox from "@react-native-community/checkbox"
+import { testRealm } from "../../context/MyTest"
+
+const StyledFlatList = styled.FlatList`
+`
+const FlatListContainer = styled.View`
+  flex-direction: row;
+  background-color: #B4B4DC;
+  min-height: 40px;
+  width: ${({width}) => width}px;
+  margin: 2px;
+  padding: 4px;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  `
+const CheckBoxContainer = styled.View`
+  min-height: 10px;
+  min-width: 10px;
+  margin: 4px;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  `
+const WordContainer = styled.View`
+  background-color: #FFFFFF;
+  min-height: 30px;
+  width: 60px;
+  padding: 5px;
+  margin: 8px;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  `
+const MeaningContainer = styled.View`
+  background-color: #FFFFFF;
+  flex: 1;
+  min-height: 30px;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 2px;
+  justify-content: center;
+  `
+
+let tempTestList = []
+let toggleCheckBoxFunctionList = []
+let allToggleSwitch = false
+
+const FlatListComponent = ({word, meaning}) => {
+  const [toggleCheckBox, setToggleCheckBox] = useState(false)
+  if (!toggleCheckBoxFunctionList.includes(setToggleCheckBox)) {
+    toggleCheckBoxFunctionList.push(setToggleCheckBox)
+  }
+  
+  return (
+    <FlatListContainer>
+      <CheckBoxContainer>
+        <CheckBox
+          disabled={false}
+          value={toggleCheckBox}
+          onValueChange={(newValue) => {
+            setToggleCheckBox(newValue)
+            insertWord(toggleCheckBox, word)
+          }}
+          />
+      </CheckBoxContainer>
+      <WordContainer>
+        <StyledText>
+          {word}
+        </StyledText>
+      </WordContainer>
+      <MeaningContainer>
+        <StyledText>
+          {meaning}
+        </StyledText>
+      </MeaningContainer>
+    </FlatListContainer>
+  )
+}
 
 const WindowContainer = styled.View`
   background-color: #28A0FF;
@@ -39,41 +118,82 @@ const StyledButton = styled.TouchableOpacity`
 const StyledText = styled.Text`
   font-size: 12px;
 `
+const StyledTextInput = styled.TextInput.attrs({
+  autoCapitalize: 'none',
+  autoCorrect: false,
+  textAlign: 'center',
+})`
+  background-color: #FFFFFF;
+  height: 30px;
+  width: 80px;
+  margin: 8px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+`
 
-const useSetting = () => useContext(SettingContext)
-const useContent = () => useContentContext()
+let myTest = testRealm.objects('MyTest') // 내부 저장소
+const useSetting = () => useContext(SettingContext) // 
 
+let problemDictionary = {}
+let problemDicList = []
 
 export const Edit = () => {
+  const {content, setContent, isChanged, setIsChanged} = useContentContext()
   const WindowWidth = Dimensions.get('window').width
+
+  const [category, setCategory] = useState('')
 
   const setting = useSetting() // setting 참고하여 단어와 뜻 나눔
   const name = setting.name
   const mean = setting.mean
 
-  const content = useContent()
-  let writing = content.content // TextBox에서 데이터 불러옴
-  console.log(content)
+  let writing = content // TextBox에서 데이터 불러옴
 
-  const result = returnProblem(writing, name, mean) // 문제 만들기 Auto 기능
-  const problemDicList = result.problemDicList
-  const problemDictionary = result.problemDictionary
-  console.log(problemDictionary)
+  if (isChanged === true) {
+    toggleCheckBoxFunctionList = []
+    problemDictionary = {}
+    problemDicList = []
+    const result = returnProblem(writing, name, mean) // 문제 만들기 Auto 기능
+    problemDicList = result.problemDicList
+    problemDictionary = result.problemDictionary
+    setIsChanged(false)
+  }
   
   return (
     <WindowContainer>
+      {/*화면 윗부분*/}
       <Container width={WindowWidth}>
         <StyledText>{writing}</StyledText>
       </Container>
+      {/*화면 아랫부분*/}
       <Container width={WindowWidth}>
-        <StyledText>{problemDicList} : {problemDictionary[problemDicList[0]]}</StyledText>
+        <StyledFlatList 
+          data={problemDicList}
+          renderItem={({item}) => (
+            <FlatListComponent
+              word={item}
+              meaning={problemDictionary[item]}
+            />
+          )}
+        />
       </Container>
+      {/*화면 아래 버튼*/}
       <ButtonContainer width={WindowWidth}>
-        <StyledButton>
-          <StyledText>Save</StyledText>
+        <StyledTextInput
+          value = {category}
+          onChangeText={text => {
+            setCategory(text)
+          }}
+          placeholder="Category"
+        />
+        <StyledButton
+          onPress={() => selectAll(toggleCheckBoxFunctionList)}>
+          <StyledText>Select All</StyledText>
         </StyledButton>
-        <StyledButton>
-          <StyledText>Delete</StyledText>
+        <StyledButton
+          onPress={() => {saveToMyTest(category)}}>
+          <StyledText>Save</StyledText>
         </StyledButton>
       </ButtonContainer>
     </WindowContainer>
@@ -81,8 +201,6 @@ export const Edit = () => {
 }
 
 function returnProblem (paragraph: string, name: string, mean: string) {
-  const problemDictionary = {}
-  const problemDicList = []
   const paragraphLength = paragraph.length
   let tempName = ''
   let tempMean = ''
@@ -103,8 +221,10 @@ function returnProblem (paragraph: string, name: string, mean: string) {
       tempMean = ''
       for (let j = 1; j < paragraphLength - i; j++) {
         if (paragraph[i + j] === mean[1]) {
-          problemDictionary[tempName] = tempMean
-          problemDicList.push(tempName)
+          if (!(tempName in problemDictionary)) {
+            problemDictionary[tempName] = tempMean
+            problemDicList.push(tempName)
+          }
           i += j
           break
         }
@@ -114,4 +234,47 @@ function returnProblem (paragraph: string, name: string, mean: string) {
   }
 
   return {problemDictionary, problemDicList}
+}
+
+function insertWord (toggleCheckBox, word) {
+  if (toggleCheckBox === false) {
+    if (!(tempTestList.includes(word))) {
+      tempTestList.push(word)
+    }
+  } else {
+    if ((tempTestList.includes(word))) {
+      tempTestList = tempTestList.filter((test) => test !== word)
+    }
+  }
+}
+
+function saveToMyTest (categoryName) {
+  for (let i = 0; i < tempTestList.length; i++) {
+
+    const word = tempTestList[i]
+    const meaning = problemDictionary[tempTestList[i]]
+    const key = Date.now().toString()
+    console.log(key)
+    const dataToCheck = testRealm.objects('MyTest').filtered(`category == "${categoryName}" AND word == "${word}"`)
+
+    if (dataToCheck.length === 0) {
+      testRealm.write(() => {
+        testRealm.create('MyTest', { key: key, category: categoryName, word: word, meaning: meaning})
+      })
+    }
+  }
+}
+
+function selectAll (inputToggleCheckBoxList) {
+  if (allToggleSwitch === false) {
+    for (let i = 0; i < inputToggleCheckBoxList.length; i++) {
+      inputToggleCheckBoxList[i](true)
+      allToggleSwitch = true
+    }
+  } else {
+    for (let i = 0; i < inputToggleCheckBoxList.length; i++) {
+      inputToggleCheckBoxList[i](false)
+      allToggleSwitch = false
+    }
+  }
 }

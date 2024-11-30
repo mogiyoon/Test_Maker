@@ -3,10 +3,19 @@ import { Dimensions } from "react-native"
 import styled from "styled-components/native"
 import { useContentContext } from "../../context/Contents"
 
+const WindowWidth = Dimensions.get('window').width
+const WindowHeight = Dimensions.get('window').height
+
 const Container = styled.View`
   flex: 1;
   justify-content: start;
   align-items: center;
+`
+const RowContainer = styled.View`
+  width: ${WindowWidth}px;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: stretch;
 `
 const StyledText = styled.Text`
   font-size: ${({fontSize}) => fontSize}px;
@@ -28,21 +37,26 @@ const StyledTextInput = styled.TextInput.attrs({
 `
 const StyledButton = styled.TouchableOpacity`
   background-color: #28A0FF;
-  padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
+  height: 30px;
+  width: 80px;
   align-items: center;
   justify-content: center;
 `
 
 export const TextBox = () => {
-  const WindowWidth = Dimensions.get('window').width
-  const WindowHeight = Dimensions.get('window').height
   const [testContext, setTestContext] = useState('')
-  const {content, setContent} = useContentContext()
+  const {content, setContent, isChanged, setIsChanged} = useContentContext()
 
   const updateContent = () => {
     setContent(testContext)
-    console.log(content)
+    setIsChanged(true)
+  }
+
+  const deleteContent = () => {
+    setTestContext('')
+    setContent('')
+    setIsChanged(true)
   }
 
   return (
@@ -54,11 +68,18 @@ export const TextBox = () => {
         width={WindowWidth}
         height={WindowHeight}
       />
-      <StyledButton
-        onPress={() => updateContent()}>
-        <StyledText
-          fontSize={17}>Confirm</StyledText>
-      </StyledButton>
+      <RowContainer>
+        <StyledButton
+          onPress={() => updateContent()}>
+          <StyledText
+            fontSize={14}>Confirm</StyledText>
+        </StyledButton>
+        <StyledButton
+          onPress={() => deleteContent()}>
+          <StyledText
+            fontSize={14}>Delete</StyledText>
+        </StyledButton>
+      </RowContainer>
     </Container>
   )
 }
