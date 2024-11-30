@@ -5,14 +5,18 @@ const MyTestContext = createContext()
 const MyTestSchema = {
   name: 'MyTest',
   properties: {
-    key: 'string',
+    id: 'string',
     category: 'string',
     word: 'string',
     meaning: 'string',
   }
 }
 
-export const testRealm = new Realm({schema: [MyTestSchema]})
+export const testRealm = new Realm({
+    schema: [MyTestSchema],
+    schemaVersion: 1,
+  }
+)
 
 export const ContentsProvider = ({children}) => {
   const [myTest, setMyTest] = useState()

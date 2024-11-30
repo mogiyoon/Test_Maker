@@ -25,7 +25,7 @@ const TabNavigation = () => {
       <Tab.Screen name="Edit" component={Edit} />
       <Tab.Screen name="Setting" component={Setting} />
     </Tab.Navigator>
-   </ContentsProvider>
+  </ContentsProvider>
   )
 }
 
