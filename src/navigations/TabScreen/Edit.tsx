@@ -157,6 +157,7 @@ export const Edit = () => {
 
   if (isChanged && !firstRender) {
     setFirstRender(true)
+    tempTestList = []
     toggleCheckBoxFunctionList = []
     problemDictionary = {}
     problemDicList = []
@@ -272,7 +273,6 @@ function saveToMyTest (categoryName) {
     if (dataToCheck.length === 0) {
       testRealm.write(() => {
         testRealm.create('MyTest', { id: inputTimeKey, category: categoryName, word: word, meaning: meaning})
-        console.log(myTest)
       })
     }
   }
