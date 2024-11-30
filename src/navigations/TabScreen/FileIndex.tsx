@@ -19,11 +19,9 @@ export const FileIndex = () => {
     const fetchFiles = async () => {
       try {
         const path = RNFS.DocumentDirectoryPath
-        console.log(path)
         const fileList = await RNFS.readDir(path);
         setFiles(fileList)
       } catch {
-        console.log("fail")
       }
     }
 
