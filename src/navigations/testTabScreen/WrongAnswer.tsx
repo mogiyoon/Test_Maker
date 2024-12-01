@@ -11,11 +11,11 @@ const StyledText = styled.Text`
 `
 
 
-export const Setting = () => {
+export const WrongAnswer = () => {
 
   return (
     <Container>
-      <StyledText>Setting</StyledText>
+      <StyledText>WrongAnswer</StyledText>
     </Container>
   )
 }

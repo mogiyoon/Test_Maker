@@ -46,6 +46,7 @@ const StyledButton = styled.TouchableOpacity`
 
 export const TextBox = () => {
   const [testContext, setTestContext] = useState('') // TextBox의 값
+
   const {content, setContent, isChanged, setIsChanged} = useContentContext() // Edit으로 가는 값
 
   const updateContent = () => {

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components/native"
-import { testRealm } from "../../context/MyTest"
+import { testRealm } from '../../context/MyTestContext'
 import { Dimensions } from "react-native"
-import { useFocusEffect } from "@react-navigation/native"
 
 const Container = styled.View`
   flex: 1;
@@ -92,13 +91,17 @@ export const MyTest = () => {
 
     return () => {
       testRealm.objects('MyTest').removeListener(loadData)
-      testRealm.close()
     }
   }, [])
 
   return (
   <Container>
-    <StyledFlatList 
+    {data.length === 0 ?
+      <StyledText>
+        No Data
+      </StyledText>
+      :
+      <StyledFlatList 
       data={data}
       renderItem={({item}) => (
         <FlatListComponent
@@ -108,7 +111,7 @@ export const MyTest = () => {
           meaning={item["meaning"]}
         />
       )}
-    />
+    />}
   </Container>
   )
 }

@@ -1,32 +1,47 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import { MyTest } from './TabScreen/MyTest'
-import { CameraScreen } from './TabScreen/Camera'
-import { FileIndex } from './TabScreen/FileIndex'
-import { Edit } from './TabScreen/Edit'
-import { Setting } from './TabScreen/Setting'
-import { TextBox } from './TabScreen/TextBox'
+import { MyTest } from './makerTabScreen/MyTest'
+import { CameraScreen } from './makerTabScreen/Camera'
+import { FileIndex } from './makerTabScreen/FileIndex'
+import { Edit } from './makerTabScreen/Edit'
+import { MakerSetting } from './makerTabScreen/MakerSetting'
+import { TextBox } from './makerTabScreen/TextBox'
 import { ContentsProvider } from '../context/Contents'
+import { TestSpace } from './testTabScreen/TestSpace'
+import { WrongAnswer } from './testTabScreen/WrongAnswer'
+import { TestSetting } from './testTabScreen/TestSetting'
 
 
-const Tab = createBottomTabNavigator()
+const MakerTab = createBottomTabNavigator()
+const TestTab = createBottomTabNavigator()
 
-const TabNavigation = () => {
+export const MakerTabNavigation = ({navigation}) => {
   return (
   <ContentsProvider>
-    <Tab.Navigator
+    <MakerTab.Navigator
       initialRouteName="MyTest"
-      screenOptions={{headerTitle: "Test Maker"}}
+      screenOptions={{headerShown: false}}
       backBehavior='order'>
-      <Tab.Screen name="MyTest" component={MyTest} />
-      <Tab.Screen name="Camera" component={CameraScreen} />
-      <Tab.Screen name="File" component={FileIndex} />
-      <Tab.Screen name="TextBox" component={TextBox} />
-      <Tab.Screen name="Edit" component={Edit} />
-      <Tab.Screen name="Setting" component={Setting} />
-    </Tab.Navigator>
+      <MakerTab.Screen name="MyTest" component={MyTest} />
+      <MakerTab.Screen name="Camera" component={CameraScreen} />
+      <MakerTab.Screen name="File" component={FileIndex} />
+      <MakerTab.Screen name="TextBox" component={TextBox} />
+      <MakerTab.Screen name="Edit" component={Edit} />
+      <MakerTab.Screen name="Setting" component={MakerSetting} />
+    </MakerTab.Navigator>
   </ContentsProvider>
   )
 }
 
-export default TabNavigation
+export const TestTabNavigation = ({navigation}) => {
+  return (
+    <TestTab.Navigator
+      initialRouteName='Test Space'
+      screenOptions={{headerShown: false}}
+      backBehavior='order'>
+      <TestTab.Screen name="Test Space" component={TestSpace} />
+      <TestTab.Screen name="Wrong Answer" component={WrongAnswer} />
+      <TestTab.Screen name="Setting" component={TestSetting} />
+    </TestTab.Navigator>
+  )
+}

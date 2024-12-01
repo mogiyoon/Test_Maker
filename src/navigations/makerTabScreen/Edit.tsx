@@ -4,7 +4,7 @@ import SettingContext from "../../context/Setting"
 import { useContentContext } from "../../context/Contents"
 import { Dimensions } from "react-native"
 import CheckBox from "@react-native-community/checkbox"
-import { testRealm } from "../../context/MyTest"
+import { testRealm } from '../../context/MyTestContext'
 
 const StyledFlatList = styled.FlatList`
 `
@@ -93,6 +93,14 @@ const WindowContainer = styled.View`
   justify-content: start;
   align-items: center;
 `
+const ScrollableContainer = styled.ScrollView`
+  background-color: #FFFFFF;
+  flex: 1;
+  margin: 8px;
+  padding: 8px;
+  border-radius: 15px;
+  width: ${({width}) => width - 20}px;
+`
 const Container = styled.View`
   background-color: #FFFFFF;
   flex: 1;
@@ -155,14 +163,17 @@ export const Edit = () => {
   const name = setting.name
   const mean = setting.mean
 
-  if (isChanged && !firstRender) {
-    setFirstRender(true)
-    tempTestList = []
-    toggleCheckBoxFunctionList = []
-    problemDictionary = {}
-    problemDicList = []
-    setIsChanged(false)
-  }
+  useEffect(() => {
+    if (isChanged && !firstRender) {
+      setFirstRender(true)
+      tempTestList = []
+      toggleCheckBoxFunctionList = []
+      problemDictionary = {}
+      problemDicList = []
+      setIsChanged(false)
+    }
+  }, [isChanged, firstRender])
+
 
   useEffect(() => {
     if (firstRender) {
@@ -177,9 +188,9 @@ export const Edit = () => {
   return (
     <WindowContainer>
       {/*화면 윗부분*/}
-      <Container width={WindowWidth}>
+      <ScrollableContainer width={WindowWidth}>
         <StyledText>{content}</StyledText>
-      </Container>
+      </ScrollableContainer>
       {/*화면 아랫부분*/}
       <Container width={WindowWidth}>
         <StyledFlatList 
