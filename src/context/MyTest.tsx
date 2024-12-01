@@ -1,22 +1,7 @@
 import React, { createContext, useContext, useState } from 'react'
-import Realm from 'realm'
+import { MyTestContext } from './MyTestContext'
 
-const MyTestContext = createContext()
-const MyTestSchema = {
-  name: 'MyTest',
-  properties: {
-    id: 'string',
-    category: 'string',
-    word: 'string',
-    meaning: 'string',
-  }
-}
-
-export const testRealm = new Realm({
-    schema: [MyTestSchema],
-    schemaVersion: 1,
-  }
-)
+const MyTestContext = createContext();
 
 export const ContentsProvider = ({children}) => {
   const [myTest, setMyTest] = useState()

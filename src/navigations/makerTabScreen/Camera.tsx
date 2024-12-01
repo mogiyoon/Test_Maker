@@ -53,6 +53,7 @@ export const CameraScreen = () => {
 
   return (
     <Container>
+      <CameraView />
     </Container>
   )
 }
