@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react"
-import { Dimensions } from "react-native"
+import React, { useEffect, useState } from "react"
+import { Dimensions, Keyboard, TouchableWithoutFeedback } from "react-native"
 import styled from "styled-components/native"
 import { useContentContext } from "../../context/Contents"
 
@@ -60,27 +60,38 @@ export const TextBox = () => {
     setIsChanged(true)
   }
 
+  useEffect(() => {
+    if(isChanged === true) {
+      setTestContext(content)
+      setIsChanged(false)
+    }
+  }, [isChanged])
+
   return (
-    <Container>
-      <StyledTextInput
-        value = {testContext}
-        onChangeText={text => setTestContext(text)}
-        placeholder="Input Contents"
-        width={WindowWidth}
-        height={WindowHeight}
-      />
-      <RowContainer>
-        <StyledButton
-          onPress={() => updateContent()}>
-          <StyledText
-            fontSize={14}>Confirm</StyledText>
-        </StyledButton>
-        <StyledButton
-          onPress={() => deleteContent()}>
-          <StyledText
-            fontSize={14}>Delete</StyledText>
-        </StyledButton>
-      </RowContainer>
-    </Container>
+    <TouchableWithoutFeedback onPress={() => {
+      console.log("dismissing")
+      Keyboard.dismiss()}}>
+      <Container>
+        <StyledTextInput
+          value = {testContext}
+          onChangeText={text => setTestContext(text)}
+          placeholder="Input Contents"
+          width={WindowWidth}
+          height={WindowHeight}
+        />
+        <RowContainer>
+          <StyledButton
+            onPress={() => updateContent()}>
+            <StyledText
+              fontSize={14}>Confirm</StyledText>
+          </StyledButton>
+          <StyledButton
+            onPress={() => deleteContent()}>
+            <StyledText
+              fontSize={14}>Delete</StyledText>
+          </StyledButton>
+        </RowContainer>
+      </Container>
+    </TouchableWithoutFeedback>
   )
 }
