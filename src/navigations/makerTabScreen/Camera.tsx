@@ -5,6 +5,8 @@ import { readFile } from "react-native-fs"
 import { PERMISSIONS, request } from "react-native-permissions"
 import { Camera, useCameraDevice} from "react-native-vision-camera"
 import styled from "styled-components/native"
+import { useContentContext } from "../../context/Contents"
+import { getTextFromImage } from "../../services/GoogleVision"
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -72,11 +74,16 @@ async function CheckPermission (navigation) {
   }
 }
 
+async function DonePhoto(navigation) {
+  await navigation.navigate('TextBox')
+}
+
 export const CameraScreen = () => {
   const cameraRef = useRef<Camera>(null)
   const navigation = useNavigation()
   const device = useCameraDevice('back')
   const [photoPath, setPhotoPath] = useState(null)
+  const {content, setContent, isChanged, setIsChanged} = useContentContext()
 
   const onPressTakePhoto = async () => {
     if (cameraRef.current) {
@@ -121,8 +128,22 @@ export const CameraScreen = () => {
             source={{uri: 'file://' + photoPath}} />
           <RowContainer>
             <StyledButton
-              onPress={() => {
-                const encodedImage = encodePhoto()
+              onPress={async () => {
+                try{
+                  const encodedImage = await encodePhoto()
+                  const encodedText = await getTextFromImage(encodedImage)
+                  console.log("responsedData")
+                  console.log(encodedText)
+                  await setContent(encodedText.
+                    responses[0].
+                    textAnnotations[0].
+                    description)
+                  await setIsChanged(true)
+                  await DonePhoto(navigation)
+                }
+                catch (e) {
+                  console.log(e)
+                }
               }}
             >
               <StyledText>Select</StyledText>
