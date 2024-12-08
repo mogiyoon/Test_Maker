@@ -3,7 +3,7 @@ import { MyTestContext } from './MyTestContext'
 
 const MyTestContext = createContext();
 
-export const ContentsProvider = ({children}) => {
+export const MyTestContextProvider = ({children}) => {
   const [myTest, setMyTest] = useState()
 
   return (

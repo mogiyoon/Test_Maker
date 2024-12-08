@@ -1,47 +1,13 @@
 import { useNavigation } from "@react-navigation/native"
 import React, { useEffect, useRef, useState } from "react"
 import { Alert, Dimensions, Image, Linking, Platform, StyleSheet } from "react-native"
-import { readFile } from "react-native-fs"
 import { PERMISSIONS, request } from "react-native-permissions"
 import { Camera, useCameraDevice} from "react-native-vision-camera"
-import styled from "styled-components/native"
 import { useContentContext } from "../../context/Contents"
-import { getTextFromImage } from "../../services/GoogleVision"
-
-const windowWidth = Dimensions.get('window').width
-const windowHeight = Dimensions.get('window').height
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`
-const RowContainer = styled.View`
-  flex-direction: row;
-  width: ${windowWidth};
-  justify-content: space-evenly;
-  align-items: center;
-`
-const StyledText = styled.Text`
-  font-size: 15px;
-`
-const StyledTakePhotoButton = styled.TouchableOpacity`
-  position: absolute;
-  bottom: 40px;
-  width: 60px;
-  height: 60px;
-  border-radius: 40px;
-  background-color: #FFFFFF;
-`
-const StyledButton = styled.TouchableOpacity`
-  width: 60px;
-  height: 20px;
-  border-radius: 5px;
-  background-color: #FFFFFF;
-  justify-content: center;
-  align-items: center;
-`
-
+import { fileProcessing } from "../../services/FileProcessing"
+import { resetPhoto } from "../../services/ModifyPhoto"
+import { Container, RowContainer, StyledButton, StyledTakePhotoButton, StyledText, windowHeight, windowWidth } from "../../components/makerTabScreen/Camera"
+import { useAsyncStorageContext } from "../../context/AsyncStorage"
 
 async function CheckPermission (navigation) {
   const cameraPermission = await Camera.getCameraPermissionStatus()
@@ -74,15 +40,13 @@ async function CheckPermission (navigation) {
   }
 }
 
-async function DonePhoto(navigation) {
-  await navigation.navigate('TextBox')
-}
 
 export const CameraScreen = () => {
   const cameraRef = useRef<Camera>(null)
   const navigation = useNavigation()
   const device = useCameraDevice('back')
   const [photoPath, setPhotoPath] = useState(null)
+  const {storageChanged, setStorageChanged} = useAsyncStorageContext()
   const {content, setContent, isChanged, setIsChanged} = useContentContext()
 
   const onPressTakePhoto = async () => {
@@ -96,18 +60,11 @@ export const CameraScreen = () => {
     }
   }
 
-  const resetPhoto = () => {
-    setPhotoPath(null)
-  }
-
-  const encodePhoto = async () => {
-    try {
-      const base64Image = await readFile(photoPath, 'base64')
-      return base64Image
-    } catch {
-      return null
-    } finally {
-      setPhotoPath(null)
+  const handleProcessing = async () => {
+    const boolValue = await fileProcessing(photoPath, setPhotoPath, setContent, setIsChanged, navigation)
+    if (boolValue) {
+      await setStorageChanged(true)
+      navigation.navigate('TextBox')
     }
   }
 
@@ -128,28 +85,12 @@ export const CameraScreen = () => {
             source={{uri: 'file://' + photoPath}} />
           <RowContainer>
             <StyledButton
-              onPress={async () => {
-                try{
-                  const encodedImage = await encodePhoto()
-                  const encodedText = await getTextFromImage(encodedImage)
-                  console.log("responsedData")
-                  console.log(encodedText)
-                  await setContent(encodedText.
-                    responses[0].
-                    textAnnotations[0].
-                    description)
-                  await setIsChanged(true)
-                  await DonePhoto(navigation)
-                }
-                catch (e) {
-                  console.log(e)
-                }
-              }}
+              onPress={handleProcessing}
             >
               <StyledText>Select</StyledText>
             </StyledButton>
             <StyledButton
-              onPress={resetPhoto}
+              onPress={() => resetPhoto(setPhotoPath)}
             >
               <StyledText>Cancel</StyledText>
             </StyledButton>

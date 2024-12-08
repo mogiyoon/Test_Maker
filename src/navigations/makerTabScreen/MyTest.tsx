@@ -1,52 +1,6 @@
 import React, { useEffect, useState } from "react"
-import styled from "styled-components/native"
 import { testRealm } from '../../context/MyTestContext'
-import { Dimensions } from "react-native"
-
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`
-const StyledText = styled.Text`
-  font-size: 10px;
-`
-
-const windowWidth = Dimensions.get('window').width
-const StyledFlatList = styled.FlatList`
-`
-const TouchableContainer = styled.TouchableOpacity`
-  margin: 5px;
-`
-const FlatListContainer = styled.View`
-  flex-direction: row;
-  background-color: #B4B4DC;
-  min-height: 40px;
-  width: ${windowWidth - 10}px;
-  padding: 4px;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
-`
-const WordContainer = styled.View`
-  background-color: #FFFFFF;
-  min-height: 30px;
-  width: 60px;
-  padding: 5px;
-  margin: 8px;
-  border-radius: 2px;
-  justify-content: center;
-  align-items: center;
-`
-const MeaningContainer = styled.View`
-  background-color: #FFFFFF;
-  flex: 1;
-  min-height: 30px;
-  padding: 8px;
-  margin: 4px;
-  border-radius: 2px;
-  justify-content: center;
-`
+import { Container, FlatListContainer, MeaningContainer, StyledFlatList, StyledText, TouchableContainer, WordContainer } from "../../components/makerTabScreen/MyTest"
 
 const FlatListComponent = ({id, category, word, meaning}) => {
   return (
@@ -74,7 +28,6 @@ const FlatListComponent = ({id, category, word, meaning}) => {
     </TouchableContainer>
   )
 }
-
 
 export const MyTest = () => {
   const [data, setData] = useState([]);
