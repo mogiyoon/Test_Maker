@@ -78,6 +78,7 @@ test-maker-443512-e481b6eb8d46.json
 
 # tsx
 src/services/GoogleVision.tsx
+src/services/AsyncStorage.tsx
 
 # .env
 .env
