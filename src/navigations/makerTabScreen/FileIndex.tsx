@@ -5,7 +5,6 @@ import { fileProcessing } from "../../services/FileProcessing"
 import { useNavigation } from "@react-navigation/native"
 import { useContentContext } from "../../context/Contents"
 import { Container, FlatListContainer, MeaningContainer, MeaningContainerText, RowContainer, StyledButton, StyledButtonText, StyledText, windowHeight, windowWidth, WordContainer, WordContainerText } from "../../components/makerTabScreen/FileIndex"
-import { useAsyncStorageContext } from "../../context/AsyncStorage"
 
 const FlatListComponent = ({name, path}) => {
   return (
@@ -24,13 +23,11 @@ const FlatListComponent = ({name, path}) => {
   )
 }
 
-
 export const FileIndex = () => {
   // const [files, setFiles] = useState([])
   const [imageUri, setImageUri] = useState(null)
   // const [documentUri, setDocumentUri] = useState(null)
-  const {storageChanged, setStorageChanged} = useAsyncStorageContext()
-  const {content, setContent, isChanged, setIsChanged} = useContentContext()
+  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
   const navigation = useNavigation()
 
   const handleSelectImage = () => {
@@ -47,14 +44,13 @@ export const FileIndex = () => {
   }
 
   const handleProcessing = async () => {
-    const boolValue = await fileProcessing(imageUri, setImageUri, setContent, setIsChanged, navigation)
+    const boolValue = await fileProcessing(imageUri, setImageUri, setContent, setIsChanged)
     if (boolValue) {
-      console.log("boolvalue")
-      console.log(boolValue)
-      setStorageChanged(true)
-      console.log("storageChanged")
-      console.log(storageChanged)
+      setIsUsingOCR(true)
       navigation.navigate('TextBox')
+    } else {
+      setIsUsingOCR(false)
+      navigation.navigate('Setting')
     }
   }
 

@@ -9,7 +9,7 @@ const WindowHeight = Dimensions.get('window').height
 export const TextBox = () => {
   const [testContext, setTestContext] = useState('') // TextBox의 값
 
-  const {content, setContent, isChanged, setIsChanged} = useContentContext() // Edit으로 가는 값
+  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext() // Edit으로 가는 값
 
   const updateContent = () => {
     setContent(testContext)
@@ -23,6 +23,14 @@ export const TextBox = () => {
   }
 
   useEffect(() => {
+    console.log('-----in textbox-----')
+    console.log('content')
+    console.log(content)
+    console.log('ischanged')
+    console.log(isChanged)
+    console.log('isusingocr')
+    console.log(isUsingOCR)
+
     if(isChanged === true) {
       setTestContext(content)
       setIsChanged(false)

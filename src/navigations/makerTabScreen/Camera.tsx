@@ -7,7 +7,6 @@ import { useContentContext } from "../../context/Contents"
 import { fileProcessing } from "../../services/FileProcessing"
 import { resetPhoto } from "../../services/ModifyPhoto"
 import { Container, RowContainer, StyledButton, StyledTakePhotoButton, StyledText, windowHeight, windowWidth } from "../../components/makerTabScreen/Camera"
-import { useAsyncStorageContext } from "../../context/AsyncStorage"
 
 async function CheckPermission (navigation) {
   const cameraPermission = await Camera.getCameraPermissionStatus()
@@ -46,8 +45,7 @@ export const CameraScreen = () => {
   const navigation = useNavigation()
   const device = useCameraDevice('back')
   const [photoPath, setPhotoPath] = useState(null)
-  const {storageChanged, setStorageChanged} = useAsyncStorageContext()
-  const {content, setContent, isChanged, setIsChanged} = useContentContext()
+  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
 
   const onPressTakePhoto = async () => {
     if (cameraRef.current) {
@@ -61,10 +59,13 @@ export const CameraScreen = () => {
   }
 
   const handleProcessing = async () => {
-    const boolValue = await fileProcessing(photoPath, setPhotoPath, setContent, setIsChanged, navigation)
+    const boolValue = await fileProcessing(photoPath, setPhotoPath, setContent, setIsChanged)
     if (boolValue) {
-      await setStorageChanged(true)
+      setIsUsingOCR(true)
       navigation.navigate('TextBox')
+    } else {
+      setIsUsingOCR(false)
+      navigation.navigate('Setting')
     }
   }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StackNavigation } from './navigations/Stack'
-import { initiateStorage } from './services/AsyncStorage'
+import { initiateStorage } from './db/TimeAsyncStorage'
 
 const App = () => {
   initiateStorage()

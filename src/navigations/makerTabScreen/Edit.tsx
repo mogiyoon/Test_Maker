@@ -3,7 +3,7 @@ import SettingContext from "../../context/Setting"
 import { useContentContext } from "../../context/Contents"
 import { Dimensions } from "react-native"
 import CheckBox from "@react-native-community/checkbox"
-import { testRealm } from '../../context/MyTestContext'
+import { testRealm } from '../../db/MyTestDB'
 import { ButtonContainer, CheckBoxContainer, Container, FlatListContainer, MeaningContainer, ScrollableContainer, StyledButton, StyledFlatList, StyledText, StyledTextInput, WindowContainer, WordContainer } from "../../components/makerTabScreen/Edit"
 
 let tempTestList = []
@@ -56,7 +56,7 @@ let problemDicList = []
 export const Edit = () => {
   const WindowWidth = Dimensions.get('window').width
 
-  const {content, setContent, isChanged, setIsChanged} = useContentContext()
+  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
   const [firstRender, setFirstRender] = useState(false)
   const [secondRender, setSecondRender] = useState(false)
 
