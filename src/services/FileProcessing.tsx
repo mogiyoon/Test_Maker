@@ -1,8 +1,8 @@
 import { encodePhoto } from "./ModifyPhoto"
 import { getTextFromImage } from "./GoogleVision"
-import { writeConvertTimeMinusOne } from "./AsyncStorage"
+import { writeConvertTimeMinusOne } from "../db/TimeAsyncStorage"
 
-export const fileProcessing = async (photoPath, setPhotoPath, setContent, setIsChanged, navigation) => {
+export const fileProcessing = async (photoPath, setPhotoPath, setContent, setIsChanged) => {
 
   const canProcess = await writeConvertTimeMinusOne()
   if (canProcess) {
@@ -16,7 +16,6 @@ export const fileProcessing = async (photoPath, setPhotoPath, setContent, setIsC
 
     return true
   } else {
-    navigation.navigate('Setting')
 
     return false
   }

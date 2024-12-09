@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components/native"
-import { readConvertTime, writeConvertTimeMinusOne, writeConvertTimePlusOne } from "../../services/AsyncStorage"
-import { useAsyncStorageContext } from "../../context/AsyncStorage"
+import { readConvertTime, writeConvertTimeMinusOne, writeConvertTimePlusOne } from "../../db/TimeAsyncStorage"
+import { useContentContext } from "../../context/Contents"
 
 const Container = styled.View`
   flex: 1;
@@ -21,13 +21,21 @@ const StyledButton = styled.TouchableOpacity`
 export const MakerSetting = () => {
   const timeValue = readConvertTime()
   const [appearingTime, setAppearingTime] = useState(timeValue)
-  const {storageChanged, setStorageChanged} = useAsyncStorageContext()
+  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
 
   useEffect(() => {
-    if (storageChanged) {
-      setStorageChanged(false)
+    const processingOCR = async () => {
+      const time = await readConvertTime()
+      setAppearingTime(time)
+      setIsUsingOCR(false)
     }
-  }, [storageChanged])
+
+    if (isChanged === false && isUsingOCR === true) {
+      processingOCR()
+    }
+  }, [isChanged])
+
+
 
   const handlePlusConvertTime = async () => {
     const value = await writeConvertTimePlusOne()

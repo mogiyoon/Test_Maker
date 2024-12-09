@@ -9,7 +9,7 @@ import { TextBox } from './makerTabScreen/TextBox'
 import { TestSpace } from './testTabScreen/TestSpace'
 import { WrongAnswer } from './testTabScreen/WrongAnswer'
 import { TestSetting } from './testTabScreen/TestSetting'
-import { Provider } from '../context/Provider'
+import { ContentsProvider } from '../context/Contents'
 
 
 const MakerTab = createBottomTabNavigator()
@@ -17,7 +17,7 @@ const TestTab = createBottomTabNavigator()
 
 export const MakerTabNavigation = ({navigation}) => {
   return (
-    <Provider>
+    <ContentsProvider>
       <MakerTab.Navigator
         initialRouteName="MyTest"
         screenOptions={{headerShown: false}}
@@ -29,7 +29,7 @@ export const MakerTabNavigation = ({navigation}) => {
         <MakerTab.Screen name="Edit" component={Edit} />
         <MakerTab.Screen name="Setting" component={MakerSetting} />
       </MakerTab.Navigator>
-    </Provider>
+    </ContentsProvider>
   )
 }
 

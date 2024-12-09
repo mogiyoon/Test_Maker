@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { testRealm } from '../../context/MyTestContext'
+import { testRealm } from '../../db/MyTestDB'
 import { Container, FlatListContainer, MeaningContainer, StyledFlatList, StyledText, TouchableContainer, WordContainer } from "../../components/makerTabScreen/MyTest"
 
 const FlatListComponent = ({id, category, word, meaning}) => {
