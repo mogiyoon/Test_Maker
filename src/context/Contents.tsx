@@ -7,14 +7,6 @@ export const ContentsProvider = ({children}) => {
   const [isChanged, setIsChanged] = useState(false)
   const [isUsingOCR, setIsUsingOCR] = useState(false)
 
-  console.log('-----in file-----')
-  console.log('content')
-  console.log(content)
-  console.log('ischanged')
-  console.log(isChanged)
-  console.log('isusingocr')
-  console.log(isUsingOCR)
-
   return (
     <ContentContext.Provider value={{content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR}}>
       {children}

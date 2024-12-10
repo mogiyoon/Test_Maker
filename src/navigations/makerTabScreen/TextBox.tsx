@@ -23,13 +23,6 @@ export const TextBox = () => {
   }
 
   useEffect(() => {
-    console.log('-----in textbox-----')
-    console.log('content')
-    console.log(content)
-    console.log('ischanged')
-    console.log(isChanged)
-    console.log('isusingocr')
-    console.log(isUsingOCR)
 
     if(isChanged === true) {
       setTestContext(content)
