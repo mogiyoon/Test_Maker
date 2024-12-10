@@ -1,21 +1,47 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components/native"
-import { readConvertTime, writeConvertTimeMinusOne, writeConvertTimePlusOne } from "../../db/TimeAsyncStorage"
+import { readConvertTime, writeConvertTimePlusOne } from "../../db/TimeAsyncStorage"
 import { useContentContext } from "../../context/Contents"
+import { Dimensions } from "react-native"
 
+const windowWidth = Dimensions.get('window').width
 const Container = styled.View`
   flex: 1;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 `
+const RowContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`
+
 const StyledText = styled.Text`
-  font-size: 30px;
+  font-size: 15px;
+`
+const StyledTextInput =styled.TextInput.attrs({
+  autoCapitalize: 'none',
+  autoCorrect: false,
+  textAlignVertical: 'top',
+  maxLength: 2,
+  multiline: false,
+})`
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  border: 1px;
+  padding: 10px;
+  margin: 10px 0px;
+  font-size: 20px;
+  width: 40px;
+  height: 15px;
 `
 const StyledButton = styled.TouchableOpacity`
-  background-color: #000000;
-  height: 50px;
-  width: 50px;
-  padding: 10px;
+  background-color: #FFFFFF;
+  height: 20px;
+  width: 60px;
+  margin: 10px;
+  justify-content: center;
+  align-items: center;
 `
 
 export const MakerSetting = () => {
@@ -47,11 +73,21 @@ export const MakerSetting = () => {
 
   return (
     <Container>
-      <StyledText>{appearingTime}</StyledText>
-      <StyledButton
-        onPress={handlePlusConvertTime}>
-        <StyledText>read</StyledText>
-      </StyledButton>
+      <RowContainer>
+        <StyledText>{appearingTime}</StyledText>
+        <StyledButton
+          onPress={handlePlusConvertTime}>
+          <StyledText>read</StyledText>
+        </StyledButton>
+      </RowContainer>
+      <RowContainer>
+        <StyledTextInput>
+
+        </StyledTextInput>
+        <StyledButton>
+          <StyledText>OK</StyledText>
+        </StyledButton>
+      </RowContainer>
     </Container>
   )
 }

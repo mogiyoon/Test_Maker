@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import SettingContext from "../../context/Setting"
+import MakerSettingContext from "../../context/MakerSetting"
 import { useContentContext } from "../../context/Contents"
 import { Dimensions } from "react-native"
 import CheckBox from "@react-native-community/checkbox"
@@ -48,7 +48,7 @@ const FlatListComponent = ({word, meaning}) => {
 
 
 let myTest = testRealm.objects('MyTest') // 내부 저장소
-const useSetting = () => useContext(SettingContext)
+const useSetting = () => useContext(MakerSettingContext)
 
 let problemDictionary = {}
 let problemDicList = []
