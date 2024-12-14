@@ -4,7 +4,7 @@ const ContentContext = createContext()
 
 export const ContentsProvider = ({children}) => {
   const [content, setContent] = useState('')
-  const [isChanged, setIsChanged] = useState(false)
+  const [isChanged, setIsChanged] = useState(false) // Contents, Ad, Setting
   const [isUsingOCR, setIsUsingOCR] = useState(false)
 
   return (

@@ -29,7 +29,7 @@ export const MakerTabNavigation = ({navigation}) => {
         <MakerTab.Screen name="Edit" component={Edit} />
         <MakerTab.Screen name="Setting" component={MakerSetting} />
       </MakerTab.Navigator>
-    </ContentsProvider>
+    </ContentsProvider> 
   )
 }
 

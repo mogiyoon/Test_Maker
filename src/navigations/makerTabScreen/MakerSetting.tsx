@@ -1,53 +1,33 @@
 import React, { useEffect, useState } from "react"
-import styled from "styled-components/native"
 import { readConvertTime, writeConvertTimePlusOne } from "../../db/TimeAsyncStorage"
 import { useContentContext } from "../../context/Contents"
-import { Dimensions } from "react-native"
-
-const windowWidth = Dimensions.get('window').width
-const Container = styled.View`
-  flex: 1;
-  justify-content: start;
-  align-items: center;
-`
-const RowContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-`
-
-const StyledText = styled.Text`
-  font-size: 15px;
-`
-const StyledTextInput =styled.TextInput.attrs({
-  autoCapitalize: 'none',
-  autoCorrect: false,
-  textAlignVertical: 'top',
-  maxLength: 2,
-  multiline: false,
-})`
-  background-color: #FFFFFF;
-  border-radius: 8px;
-  border: 1px;
-  padding: 10px;
-  margin: 10px 0px;
-  font-size: 20px;
-  width: 40px;
-  height: 15px;
-`
-const StyledButton = styled.TouchableOpacity`
-  background-color: #FFFFFF;
-  height: 20px;
-  width: 60px;
-  margin: 10px;
-  justify-content: center;
-  align-items: center;
-`
+import { Keyboard, TouchableWithoutFeedback } from "react-native"
+import { readMakerSetting, writeMakerSetting } from "../../db/MakerSettingAsyncStorage"
+import { Container, RowContainer, StyledButton, StyledText, StyledTextInput } from "../../components/makerTabScreen/MakerSetting"
 
 export const MakerSetting = () => {
   const timeValue = readConvertTime()
   const [appearingTime, setAppearingTime] = useState(timeValue)
+  const [settingName, setSettingName] = useState('')
+  const [settingMean, setSettingMean] = useState('')
   const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
+
+  const callSettings = async () => {
+    await callSetting(settingName, setSettingName, 'name')
+    await callSetting(settingMean, setSettingMean, 'mean')
+  }
+
+  const callSetting = async (nowValue, setFunction, settingParm: string) => {
+    console.log('callSetting')
+    console.log(settingParm)
+    const tempValue = await readMakerSetting(settingParm)
+    console.log(tempValue)
+    if (nowValue !== tempValue) {
+      console.log(nowValue)
+      setFunction(tempValue)
+      console.log(setFunction)
+    }
+  }
 
   useEffect(() => {
     const processingOCR = async () => {
@@ -59,9 +39,8 @@ export const MakerSetting = () => {
     if (isChanged === false && isUsingOCR === true) {
       processingOCR()
     }
+    callSettings()
   }, [isChanged])
-
-
 
   const handlePlusConvertTime = async () => {
     const value = await writeConvertTimePlusOne()
@@ -72,22 +51,43 @@ export const MakerSetting = () => {
   }
 
   return (
-    <Container>
-      <RowContainer>
-        <StyledText>{appearingTime}</StyledText>
-        <StyledButton
-          onPress={handlePlusConvertTime}>
-          <StyledText>read</StyledText>
-        </StyledButton>
-      </RowContainer>
-      <RowContainer>
-        <StyledTextInput>
-
-        </StyledTextInput>
-        <StyledButton>
-          <StyledText>OK</StyledText>
-        </StyledButton>
-      </RowContainer>
-    </Container>
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss()}}>
+      <Container>
+        <RowContainer>
+          <StyledText>{appearingTime}</StyledText>
+          <StyledButton
+            onPress={handlePlusConvertTime}>
+            <StyledText>read</StyledText>
+          </StyledButton>
+        </RowContainer>
+        <RowContainer>
+          <StyledTextInput
+            value={settingName}
+            onChangeText={(text) => setSettingName(text)}
+          />
+          <StyledButton
+            onPress={() => {
+              writeMakerSetting('name', settingName)
+              setIsChanged(true)
+            }}>
+            <StyledText>OK</StyledText>
+          </StyledButton>
+        </RowContainer>
+        <RowContainer>
+          <StyledTextInput
+            value={settingMean}
+            onChangeText={(text) => setSettingMean(text)}
+          />
+          <StyledButton
+            onPress={() => {
+              writeMakerSetting('mean', settingMean)
+              setIsChanged(true)
+            }}>
+            <StyledText>OK</StyledText>
+          </StyledButton>
+        </RowContainer>
+      </Container>
+    </TouchableWithoutFeedback>
   )
 }

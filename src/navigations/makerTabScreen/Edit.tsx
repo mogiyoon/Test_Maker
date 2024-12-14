@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react"
-import MakerSettingContext from "../../context/MakerSetting"
 import { useContentContext } from "../../context/Contents"
 import { Dimensions } from "react-native"
 import CheckBox from "@react-native-community/checkbox"
 import { testRealm } from '../../db/MyTestDB'
 import { ButtonContainer, CheckBoxContainer, Container, FlatListContainer, MeaningContainer, ScrollableContainer, StyledButton, StyledFlatList, StyledText, StyledTextInput, WindowContainer, WordContainer } from "../../components/makerTabScreen/Edit"
+import { readMakerSetting } from "../../db/MakerSettingAsyncStorage"
 
 let tempTestList = []
 let toggleCheckBoxFunctionList = []
@@ -48,23 +48,30 @@ const FlatListComponent = ({word, meaning}) => {
 
 
 let myTest = testRealm.objects('MyTest') // 내부 저장소
-const useSetting = () => useContext(MakerSettingContext)
-
 let problemDictionary = {}
 let problemDicList = []
+let name = ''
+let mean = ''
 
 export const Edit = () => {
   const WindowWidth = Dimensions.get('window').width
-
   const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
   const [firstRender, setFirstRender] = useState(false)
   const [secondRender, setSecondRender] = useState(false)
-
   const [category, setCategory] = useState('')
 
-  const setting = useSetting() // setting 참고하여 단어와 뜻 나눔
-  const name = setting.name
-  const mean = setting.mean
+  const makerSettingApply = async() => { 
+    const tempName = await readMakerSetting('name')
+    const tempMean = await readMakerSetting('mean')
+    if (
+      name !== tempName ||
+      mean !== tempMean
+    ) {
+      name = tempName
+      mean = tempMean
+      setIsChanged(true)
+    }
+  } // setting 참고하여 단어와 뜻 나눔
 
   useEffect(() => {
     if (isChanged && !firstRender) {
@@ -74,9 +81,8 @@ export const Edit = () => {
       problemDictionary = {}
       problemDicList = []
       setIsChanged(false)
-    }
-  }, [isChanged, firstRender])
-
+    } // 렌더링 시 모든 기능 초기화
+  }, [isChanged])
 
   useEffect(() => {
     if (firstRender) {
@@ -85,7 +91,8 @@ export const Edit = () => {
       problemDicList = result.problemDicList
       problemDictionary = result.problemDictionary
       setSecondRender(true)
-    }
+    } // 두 번째 렌더 시 문제 추출
+    makerSettingApply()
   }, [firstRender])
   
   return (
