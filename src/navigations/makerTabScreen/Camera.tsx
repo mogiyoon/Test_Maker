@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native"
 import React, { useEffect, useRef, useState } from "react"
-import { Alert, Dimensions, Image, Linking, Platform, StyleSheet } from "react-native"
+import { Alert, Image, Linking, Platform, StyleSheet } from "react-native"
 import { PERMISSIONS, request } from "react-native-permissions"
 import { Camera, useCameraDevice} from "react-native-vision-camera"
 import { useContentContext } from "../../context/Contents"
@@ -65,7 +65,10 @@ export const CameraScreen = () => {
       navigation.navigate('TextBox')
     } else {
       setIsUsingOCR(false)
-      navigation.navigate('Setting')
+      Alert.alert(
+        "Warning",
+        "Network Connection\nor\nToken Shortage"
+      )
     }
   }
 

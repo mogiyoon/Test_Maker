@@ -10,6 +10,7 @@ import { TestSpace } from './testTabScreen/TestSpace'
 import { WrongAnswer } from './testTabScreen/WrongAnswer'
 import { TestSetting } from './testTabScreen/TestSetting'
 import { ContentsProvider } from '../context/Contents'
+import { Testing } from './testTabScreen/Testing'
 
 
 const MakerTab = createBottomTabNavigator()
@@ -40,6 +41,7 @@ export const TestTabNavigation = ({navigation}) => {
       screenOptions={{headerShown: false}}
       backBehavior='order'>
       <TestTab.Screen name="Test Space" component={TestSpace} />
+      <TestTab.Screen name="Testing" component={Testing} />
       <TestTab.Screen name="Wrong Answer" component={WrongAnswer} />
       <TestTab.Screen name="Setting" component={TestSetting} />
     </TestTab.Navigator>
