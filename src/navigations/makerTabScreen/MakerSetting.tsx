@@ -18,14 +18,9 @@ export const MakerSetting = () => {
   }
 
   const callSetting = async (nowValue, setFunction, settingParm: string) => {
-    console.log('callSetting')
-    console.log(settingParm)
     const tempValue = await readMakerSetting(settingParm)
-    console.log(tempValue)
     if (nowValue !== tempValue) {
-      console.log(nowValue)
       setFunction(tempValue)
-      console.log(setFunction)
     }
   }
 

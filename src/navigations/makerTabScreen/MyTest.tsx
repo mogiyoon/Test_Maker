@@ -58,10 +58,10 @@ export const MyTest = () => {
       data={data}
       renderItem={({item}) => (
         <FlatListComponent
-          id={item["id"]}
-          category={item["category"]}
-          word={item["word"]}
-          meaning={item["meaning"]}
+          id={item.id}
+          category={item.category}
+          word={item.word}
+          meaning={item.meaning}
         />
       )}
     />}
