@@ -15,5 +15,4 @@ const MyTestSchema = {
 export const testRealm = new Realm({
   schema: [MyTestSchema],
   schemaVersion: 1,
-}
-);
+});

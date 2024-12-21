@@ -41,10 +41,6 @@ export const MyTest = () => {
     loadData()
 
     testRealm.objects('MyTest').addListener(loadData)
-
-    return () => {
-      testRealm.objects('MyTest').removeListener(loadData)
-    }
   }, [])
 
   return (
