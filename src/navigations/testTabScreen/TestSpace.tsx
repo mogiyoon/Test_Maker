@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components/native"
-import { testRealm } from "../../db/MyTestDB"
 import { Dimensions } from "react-native"
+import { useSelector } from "react-redux"
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -128,23 +128,13 @@ const categoryAlign = (category) => {
 } // category를 노드 리스트로 변환
 
 export const TestSpace = () => {
-  const [dataList, setDataList] = useState([])
+  const myTestRedux = useSelector((state) => state.realm.realmData)
+  const [dataList, setDataList] = useState(myTestRedux)
   const [nowCategory, setNowCategory] = useState() // 현재 카테고리
   const [inCategories, setInCategories] = useState([]) // 자식 카테고리를 보여줌(화면에 나오는 것)
-  let myTest = testRealm.objects('MyTest')
-  let myTestList = myTest.toJSON()
 
   useEffect(() => {
-    const loadData = () => {
-      myTest = testRealm.objects('MyTest')
-      myTestList = myTest.toJSON()
-      setDataList(Array.from(myTest))
-    }
-
-    testRealm.objects('MyTest').addListener(loadData)
-  }, [])
-
-  useEffect(() => {
+    console.log('data list changed')
     if (dataList.length > 0) {
       for (let i = 0; i < dataList.length; i++) {
         testTreeInsert(testTree, dataList[i])
@@ -152,7 +142,7 @@ export const TestSpace = () => {
       setNowCategory(testTree[0])
       setInCategories(testTree[0].childCategory)
     }
-  }, [dataList])
+  }, [])
 
   return (
     <Container>
@@ -189,7 +179,7 @@ export const TestSpace = () => {
           renderItem={({item}) => (
             <TextContainer>
               <StyledText>
-                word : {myTestList.find((value) => value.id === item).word}
+                word : {myTestRedux.find((value) => value.id === item).word}
               </StyledText>
             </TextContainer>
           )}/>) : (

@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react"
 import { Dimensions, Keyboard, TouchableWithoutFeedback } from "react-native"
-import { useContentContext } from "../../context/Contents"
 import { Container, RowContainer, StyledButton, StyledText, StyledTextInput } from "../../components/makerTabScreen/TextBox"
+import { useDispatch, useSelector } from "react-redux"
+import { setContentData, setIsChanged } from "../../redux/ContentsSlice"
 
 const WindowWidth = Dimensions.get('window').width
 const WindowHeight = Dimensions.get('window').height
 
 export const TextBox = () => {
   const [testContext, setTestContext] = useState('') // TextBox의 값
-
-  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext() // Edit으로 가는 값
+  const content = useSelector((state) => state.content.contentData)
+  const isChanged = useSelector((state) => state.contentChanged.isChanged)
+  const contentDispatch = useDispatch()
 
   const updateContent = () => {
-    setContent(testContext)
-    setIsChanged(true)
+    contentDispatch(setContentData(testContext))
+    contentDispatch(setIsChanged(true))
   }
 
   const deleteContent = () => {
     setTestContext('')
-    setContent('')
-    setIsChanged(true)
+    contentDispatch(setContentData(''))
+    contentDispatch(setIsChanged(true))
   }
 
   useEffect(() => {
-
     if(isChanged === true) {
+      console.log('useEffect')
+      console.log(content)
       setTestContext(content)
-      setIsChanged(false)
+      contentDispatch(setIsChanged(false))
     }
   }, [isChanged])
 
