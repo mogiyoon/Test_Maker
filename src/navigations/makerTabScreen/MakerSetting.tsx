@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react"
 import { readConvertTime, writeConvertTimePlusOne } from "../../db/TimeAsyncStorage"
-import { useContentContext } from "../../context/Contents"
 import { Keyboard, TouchableWithoutFeedback } from "react-native"
 import { readMakerSetting, writeMakerSetting } from "../../db/MakerSettingAsyncStorage"
 import { Container, RowContainer, StyledButton, StyledText, StyledTextInput } from "../../components/makerTabScreen/MakerSetting"
+import { useDispatch, useSelector } from "react-redux"
+import { setIsChanged, setIsUsedOCR } from "../../redux/ContentsSlice"
 
 export const MakerSetting = () => {
   const timeValue = readConvertTime()
   const [appearingTime, setAppearingTime] = useState(timeValue)
   const [settingName, setSettingName] = useState('')
   const [settingMean, setSettingMean] = useState('')
-  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
+
+  const isChanged = useSelector((state) => state.contentChanged.isChanged)
+  const isUsingOCR = useSelector((state) => state.usingOCR.setIsUsedOCR)
+  const dispatch = useDispatch()
 
   const callSettings = async () => {
     await callSetting(settingName, setSettingName, 'name')
@@ -28,7 +32,7 @@ export const MakerSetting = () => {
     const processingOCR = async () => {
       const time = await readConvertTime()
       setAppearingTime(time)
-      setIsUsingOCR(false)
+      dispatch(setIsUsedOCR(false))
     }
 
     if (isChanged === false && isUsingOCR === true) {
@@ -64,7 +68,7 @@ export const MakerSetting = () => {
           <StyledButton
             onPress={() => {
               writeMakerSetting('name', settingName)
-              setIsChanged(true)
+              dispatch(setIsChanged(true))
             }}>
             <StyledText>OK</StyledText>
           </StyledButton>
@@ -77,7 +81,7 @@ export const MakerSetting = () => {
           <StyledButton
             onPress={() => {
               writeMakerSetting('mean', settingMean)
-              setIsChanged(true)
+              dispatch(setIsChanged(true))
             }}>
             <StyledText>OK</StyledText>
           </StyledButton>

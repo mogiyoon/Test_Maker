@@ -3,10 +3,11 @@ import React, { useEffect, useRef, useState } from "react"
 import { Alert, Image, Linking, Platform, StyleSheet } from "react-native"
 import { PERMISSIONS, request } from "react-native-permissions"
 import { Camera, useCameraDevice} from "react-native-vision-camera"
-import { useContentContext } from "../../context/Contents"
 import { fileProcessing } from "../../services/FileProcessing"
 import { resetPhoto } from "../../services/ModifyPhoto"
 import { Container, RowContainer, StyledButton, StyledTakePhotoButton, StyledText, windowHeight, windowWidth } from "../../components/makerTabScreen/Camera"
+import { useDispatch } from "react-redux"
+import { setContentData, setIsUsedOCR } from "../../redux/ContentsSlice"
 
 async function CheckPermission (navigation) {
   const cameraPermission = await Camera.getCameraPermissionStatus()
@@ -45,7 +46,9 @@ export const CameraScreen = () => {
   const navigation = useNavigation()
   const device = useCameraDevice('back')
   const [photoPath, setPhotoPath] = useState(null)
-  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
+  const dispatch = useDispatch()
+  const setContent = (payload) => dispatch(setContentData(payload))
+  const setChanged = (payload) => dispatch(setIsChanged(payload))
 
   const onPressTakePhoto = async () => {
     if (cameraRef.current) {
@@ -59,12 +62,12 @@ export const CameraScreen = () => {
   }
 
   const handleProcessing = async () => {
-    const boolValue = await fileProcessing(photoPath, setPhotoPath, setContent, setIsChanged)
+    const boolValue = await fileProcessing(photoPath, setPhotoPath, setContent, setChanged)
     if (boolValue) {
-      setIsUsingOCR(true)
+      dispatch(setIsUsedOCR(true))
       navigation.navigate('TextBox')
     } else {
-      setIsUsingOCR(false)
+      dispatch(setIsUsedOCR(false))
       Alert.alert(
         "Warning",
         "Network Connection\nor\nToken Shortage"

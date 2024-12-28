@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react"
-import { testRealm } from '../../db/MyTestDB'
+import React from "react"
 import { Container, FlatListContainer, MeaningContainer, StyledFlatList, StyledText, TouchableContainer, WordContainer } from "../../components/makerTabScreen/MyTest"
+import { useDispatch, useSelector } from "react-redux"
+import { removeRealmData } from "../../redux/RealmSlice"
 
-const FlatListComponent = ({id, category, word, meaning}) => {
+const FlatListComponent = ({id, category, word, meaning, dispatch}) => {
   return (
     <TouchableContainer
       onLongPress={() => {
-        _deleteData(id, word)
+        dispatch(removeRealmData({id, word}))
       }}>
       <FlatListContainer>
         <WordContainer>
@@ -30,44 +31,28 @@ const FlatListComponent = ({id, category, word, meaning}) => {
 }
 
 export const MyTest = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const loadData = () => {
-      const myTest = testRealm.objects('MyTest')
-      setData(Array.from(myTest))
-    }
-
-    loadData()
-
-    testRealm.objects('MyTest').addListener(loadData)
-  }, [])
+  const myTestRedux = useSelector((state) => state.realm.realmData)
+  const dispatch = useDispatch()
 
   return (
   <Container>
-    {data.length === 0 ?
+    {myTestRedux.length === 0 ?
       <StyledText>
         No Data
       </StyledText>
       :
       <StyledFlatList 
-      data={data}
+      data={myTestRedux}
       renderItem={({item}) => (
         <FlatListComponent
           id={item.id}
           category={item.category}
           word={item.word}
           meaning={item.meaning}
+          dispatch={dispatch}
         />
       )}
     />}
   </Container>
   )
-}
-
-function _deleteData (id, inputWord) {
-  testRealm.write(() => {
-    const dataToDelete = testRealm.objects('MyTest').filtered(`word == "${inputWord}" AND id == "${id}"`)
-    testRealm.delete(dataToDelete)
-  });
 }

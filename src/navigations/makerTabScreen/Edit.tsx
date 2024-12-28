@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react"
-import { useContentContext } from "../../context/Contents"
+import React, { useEffect, useState } from "react"
 import { Dimensions } from "react-native"
 import CheckBox from "@react-native-community/checkbox"
-import { testRealm } from '../../db/MyTestDB'
 import { ButtonContainer, CheckBoxContainer, Container, FlatListContainer, MeaningContainer, ScrollableContainer, StyledButton, StyledFlatList, StyledText, StyledTextInput, WindowContainer, WordContainer } from "../../components/makerTabScreen/Edit"
 import { readMakerSetting } from "../../db/MakerSettingAsyncStorage"
+import { useDispatch, useSelector } from "react-redux"
+import { addRealmData } from "../../redux/RealmSlice"
+import { setIsChanged } from "../../redux/ContentsSlice"
 
 let tempTestList = []
 let toggleCheckBoxFunctionList = []
@@ -46,8 +47,6 @@ const FlatListComponent = ({word, meaning}) => {
   )
 }
 
-
-let myTest = testRealm.objects('MyTest') // 내부 저장소
 let problemDictionary = {}
 let problemDicList = []
 let name = ''
@@ -55,11 +54,14 @@ let mean = ''
 
 export const Edit = () => {
   const WindowWidth = Dimensions.get('window').width
-  const {content, setContent, isChanged, setIsChanged, isUsingOCR, setIsUsingOCR} = useContentContext()
-  const [firstRender, setFirstRender] = useState(false)
-  const [secondRender, setSecondRender] = useState(false)
-  const [category, setCategory] = useState('')
+  const content = useSelector((state) => state.content.contentData)
+  const isChanged = useSelector((state) => state.contentChanged.isChanged)
+  const myTestRedux = useSelector((state) => state.realm.realmData)
+  const dispatch = useDispatch()
 
+  const [firstRender, setFirstRender] = useState(false)
+  const [category, setCategory] = useState('')
+  
   const makerSettingApply = async() => { 
     const tempName = await readMakerSetting('name')
     const tempMean = await readMakerSetting('mean')
@@ -69,7 +71,7 @@ export const Edit = () => {
     ) {
       name = tempName
       mean = tempMean
-      setIsChanged(true)
+      dispatch(setIsChanged(true))
     }
   } // setting 참고하여 단어와 뜻 나눔
 
@@ -80,7 +82,7 @@ export const Edit = () => {
       toggleCheckBoxFunctionList = []
       problemDictionary = {}
       problemDicList = []
-      setIsChanged(false)
+      dispatch(setIsChanged(false))
     } // 렌더링 시 모든 기능 초기화
   }, [isChanged])
 
@@ -90,7 +92,6 @@ export const Edit = () => {
       const result = returnProblem(content, name, mean) // 문제 만들기 Auto 기능
       problemDicList = result.problemDicList
       problemDictionary = result.problemDictionary
-      setSecondRender(true)
     } // 두 번째 렌더 시 문제 추출
     makerSettingApply()
   }, [firstRender])
@@ -127,7 +128,7 @@ export const Edit = () => {
           <StyledText>Select All</StyledText>
         </StyledButton>
         <StyledButton
-          onPress={() => {saveToMyTest(category)}}>
+          onPress={() => {saveToMyTest(myTestRedux, dispatch, category)}}>
           <StyledText>Save</StyledText>
         </StyledButton>
       </ButtonContainer>
@@ -183,18 +184,21 @@ function insertWord (toggleCheckBox, word) {
   }
 }
 
-function saveToMyTest (categoryName) {
+function saveToMyTest (myTest: string[], myTestAction, categoryName) {
+  console.log('saveToMyTest')
   for (let i = 0; i < tempTestList.length; i++) {
 
     const word = tempTestList[i]
     const meaning = problemDictionary[tempTestList[i]]
     const inputTimeKey = Date.now().toString()
-    const dataToCheck = testRealm.objects('MyTest').filtered(`category == "${categoryName}" AND word == "${word}"`)
+    const dataToCheck = myTest.filter((item) => 
+      item.category === categoryName && item.word === word)
 
     if (dataToCheck.length === 0) {
-      testRealm.write(() => {
-        testRealm.create('MyTest', { id: inputTimeKey, category: categoryName, word: word, meaning: meaning})
-      })
+      const inputData = { id: inputTimeKey, category: categoryName, word: word, meaning: meaning}
+      console.log(inputData)
+      myTestAction(addRealmData(inputData))
+      console.log('added')
     }
   }
 }
