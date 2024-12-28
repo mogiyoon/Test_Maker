@@ -11,20 +11,18 @@ export const realmSlice = createSlice({
     },
     addRealmData: (state, action) => {
       state.realmData.push(action.payload)
-      console.log('addRealmData')
-      console.log(state)
-      console.log(action)
+      testRealm.write(() => {
+        testRealm.create('MyTest', action.payload)
+      })
     },
     removeRealmData: (state, action) => {
-      console.log('remove')
-      console.log(state)
-      console.log(action)
       const {id, word} = action.payload
-      console.log(id)
-      console.log(word)
-      state.realmData.filter((item) => 
-        item.id !== id && item.word !== word) // TODO 테스트 확인
-      console.log(state)
+      state.realmData = state.realmData.filter((item) => 
+        item.id !== id && item.word !== word)
+      testRealm.write(() => {
+        const dataToDelete = testRealm.objects('MyTest').filtered(`word == "${word}" AND id == "${id}"`)
+        testRealm.delete(dataToDelete)
+      });
     }
   }
 })
@@ -34,5 +32,5 @@ export const { setRealmData, addRealmData, removeRealmData } = realmSlice.action
 export const syncReduxWithRealm = () => {
   const myTest = testRealm.objects('MyTest')
   const refinedMyTest = myTest.toJSON()
-  store.dispatch(setRealmData(Array.from(refinedMyTest)))
+  store.dispatch(setRealmData(refinedMyTest))
 }

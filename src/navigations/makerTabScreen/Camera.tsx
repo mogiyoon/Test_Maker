@@ -7,7 +7,7 @@ import { fileProcessing } from "../../services/FileProcessing"
 import { resetPhoto } from "../../services/ModifyPhoto"
 import { Container, RowContainer, StyledButton, StyledTakePhotoButton, StyledText, windowHeight, windowWidth } from "../../components/makerTabScreen/Camera"
 import { useDispatch } from "react-redux"
-import { setContentData, setIsUsedOCR } from "../../redux/ContentsSlice"
+import { setContentData, setIsChanged, setIsUsedOCR } from "../../redux/ContentsSlice"
 
 async function CheckPermission (navigation) {
   const cameraPermission = await Camera.getCameraPermissionStatus()

@@ -185,7 +185,6 @@ function insertWord (toggleCheckBox, word) {
 }
 
 function saveToMyTest (myTest: string[], myTestAction, categoryName) {
-  console.log('saveToMyTest')
   for (let i = 0; i < tempTestList.length; i++) {
 
     const word = tempTestList[i]
@@ -196,9 +195,7 @@ function saveToMyTest (myTest: string[], myTestAction, categoryName) {
 
     if (dataToCheck.length === 0) {
       const inputData = { id: inputTimeKey, category: categoryName, word: word, meaning: meaning}
-      console.log(inputData)
       myTestAction(addRealmData(inputData))
-      console.log('added')
     }
   }
 }
