@@ -26,8 +26,6 @@ export const TextBox = () => {
 
   useEffect(() => {
     if(isChanged === true) {
-      console.log('useEffect')
-      console.log(content)
       setTestContext(content)
       contentDispatch(setIsChanged(false))
     }
