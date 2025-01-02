@@ -71,7 +71,7 @@ const categoryFinder = (parentNode, categoryList, levelNum, isWrite) => {
   for (const node of parentNode.childCategory) {
     if (node.categoryName === categoryList[levelNum]) { // 노드의 카테고리 이름과 리스트의 카테고리 이름이 일치
       if (categoryList.length > levelNum+1) { // 카테고리 리스트에 남은 카테고리가 있음
-        const result = categoryFinder(parentNode.childCategory, categoryList, levelNum+1, isWrite)
+        const result = categoryFinder(node, categoryList, levelNum+1, isWrite)
         if (result) {
           return result
         }
