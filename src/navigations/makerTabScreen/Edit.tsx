@@ -6,6 +6,7 @@ import { readMakerSetting } from "../../db/MakerSettingAsyncStorage"
 import { useDispatch, useSelector } from "react-redux"
 import { addRealmData } from "../../redux/RealmSlice"
 import { setIsChanged } from "../../redux/ContentsSlice"
+import { setIsTreeChanged, setTestTreeInsert } from "../../redux/TestTreeSlice"
 
 let tempTestList = []
 let toggleCheckBoxFunctionList = []
@@ -184,9 +185,8 @@ function insertWord (toggleCheckBox, word) {
   }
 }
 
-function saveToMyTest (myTest: string[], myTestAction, categoryName) {
+function saveToMyTest (myTest: string[], dispatch, categoryName) {
   for (let i = 0; i < tempTestList.length; i++) {
-
     const word = tempTestList[i]
     const meaning = problemDictionary[tempTestList[i]]
     const inputTimeKey = Date.now().toString()
@@ -194,8 +194,14 @@ function saveToMyTest (myTest: string[], myTestAction, categoryName) {
       item.category === categoryName && item.word === word)
 
     if (dataToCheck.length === 0) {
-      const inputData = { id: inputTimeKey, category: categoryName, word: word, meaning: meaning}
-      myTestAction(addRealmData(inputData))
+      const inputData = { 
+        id: inputTimeKey, 
+        category: categoryName, 
+        word: word, 
+        meaning: meaning}
+      dispatch(addRealmData(inputData))
+      setTestTreeInsert(inputData)
+      dispatch(setIsTreeChanged(true))
     }
   }
 }

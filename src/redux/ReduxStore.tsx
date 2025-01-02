@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { realmSlice } from "./RealmSlice";
 import { contentChangedSlice, contentSlice, usingOCRSlice } from "./ContentsSlice";
-import { treeSlice } from "./TestTreeSlice";
+import { treeChangedSlice } from "./TestTreeSlice";
 
 export const store = configureStore({
   reducer: {
@@ -9,6 +9,6 @@ export const store = configureStore({
     content: contentSlice.reducer,
     contentChanged: contentChangedSlice.reducer,
     usingOCR: usingOCRSlice.reducer,
-    testTree: treeSlice.reducer
-  }
+    treeChanged: treeChangedSlice.reducer,
+  },
 })
