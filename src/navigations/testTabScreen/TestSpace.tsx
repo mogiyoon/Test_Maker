@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import styled from "styled-components/native"
 import { Dimensions } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
+import { setIsTreeChanged, testTree } from "../../redux/TestTreeSlice"
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -58,17 +59,25 @@ background-color: #858585;
 `
 
 export const TestSpace = () => {
-  const myTestRedux = useSelector((state) => state.testTree.testTree)
   const myTestList = useSelector((state) => state.realm.realmData)
+  const treeChange = useSelector((state) => state.treeChanged.isTreeChanged)
   const dispatch = useDispatch()
 
-  const [nowCategory, setNowCategory] = useState(myTestRedux[0]) // 현재 카테고리
-  const [inCategories, setInCategories] = useState(myTestRedux[0].childCategory) // 자식 카테고리를 보여줌(화면에 나오는 것)
+  const [myTestTree, setMyTestTree] = useState(testTree)
+  const [nowCategory, setNowCategory] = useState(myTestTree[0]) // 현재 카테고리
+  const [inCategories, setInCategories] = useState(myTestTree[0].childCategory) // 자식 카테고리를 보여줌(화면에 나오는 것)
+
+  if (treeChange) {
+    setMyTestTree(testTree)
+    setNowCategory(myTestTree[0])
+    setInCategories(myTestTree[0].childCategory)
+    dispatch(setIsTreeChanged(false))
+  }
 
   useEffect(() => {
-     console.log(nowCategory)
-     console.log(inCategories)
-  })
+    setNowCategory(myTestTree[0])
+    setInCategories(myTestTree[0].childCategory)
+  }, [])
 
   return (
     <Container>
@@ -86,7 +95,6 @@ export const TestSpace = () => {
               onPress={() => {
                 setNowCategory(item)
                 setInCategories(item.childCategory)
-                console.log(item)
               }}>
               <StyledTitle>
                 {item.categoryName}

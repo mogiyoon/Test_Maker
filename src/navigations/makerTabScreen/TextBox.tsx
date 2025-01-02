@@ -8,10 +8,10 @@ const WindowWidth = Dimensions.get('window').width
 const WindowHeight = Dimensions.get('window').height
 
 export const TextBox = () => {
-  const [testContext, setTestContext] = useState('') // TextBox의 값
   const content = useSelector((state) => state.content.contentData)
   const isChanged = useSelector((state) => state.contentChanged.isChanged)
   const contentDispatch = useDispatch()
+  const [testContext, setTestContext] = useState(content) // TextBox의 값
 
   const updateContent = () => {
     contentDispatch(setContentData(testContext))

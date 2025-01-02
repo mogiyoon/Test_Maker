@@ -18,11 +18,11 @@ export const realmSlice = createSlice({
     removeRealmData: (state, action) => {
       const {id, word} = action.payload
       state.realmData = state.realmData.filter((item) => 
-        item.id !== id && item.word !== word)
+        !(item.id === id && item.word === word))
       testRealm.write(() => {
         const dataToDelete = testRealm.objects('MyTest').filtered(`word == "${word}" AND id == "${id}"`)
         testRealm.delete(dataToDelete)
-      });
+      })
     }
   }
 })

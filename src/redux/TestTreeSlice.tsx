@@ -1,70 +1,77 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { testRealm } from "../db/MyTestDB"
-import { store } from "./ReduxStore"
 
-export const treeSlice = createSlice({
-  name: 'testTree',
-  initialState: {testTree: [
-    {
-      categoryName: 'Main',
-      childId: [],
-      childCategory: [],
-      parentCategory: null,
-    }
-  ]},
+export const treeChangedSlice = createSlice({
+  name: 'treeChanged',
+  initialState: {isTreeChanged: false},
   reducers: {
-    setTestTreeInsertList: (state, action) => {
-      const data = action.payload
-      data.forEach((element) => {
-        const categoryList = categoryAlign(element.category)
-        const levelNum = 0
-        const node = categoryFinder(state.testTree, state.testTree[0], categoryList, levelNum, element, true)
-        dataWriter(node, element)
-      });
+    setIsTreeChanged: (state, action) => {
+      state.isTreeChanged = action.payload
     },
-    setTestTreeInsert: (state, action) => {
-      const data = action.payload
-      const categoryList = categoryAlign(data.category)
-      const levelNum = 0
-      const node = categoryFinder(state.testTree, state.testTree[0], categoryList, levelNum, data, true)
-      dataWriter(node, data)
-    },
-    setTestTreeRemove: (state, action) => {
-      const data = action.payload
-      const categoryList = categoryAlign(data.category)
-      const levelNum = 0
-      const node = categoryFinder(state.testTree, state.testTree[0], categoryList, levelNum, data, true)
-      dataRemover(node, data)
-    }
   }
 })
 
-export const { setTestTreeInsertList, setTestTreeInsert, setTestTreeRemove } = treeSlice.actions
+export const { setIsTreeChanged } = treeChangedSlice.actions
+
+export const testTree = [
+  {
+    categoryName: 'Main',
+    childId: [],
+    childCategory: [],
+    parentCategory: null,
+  }
+]
+
+export const setTestTreeInsertList = (inputData) => {
+  const data = inputData
+  data.forEach((element) => {
+    const categoryList = categoryAlign(element.category)
+    const levelNum = 0
+    const node = categoryFinder(testTree[0], categoryList, levelNum, true)
+    dataWriter(node, element)
+  });
+}
+
+export const setTestTreeInsert = (inputData) => {
+  const data = inputData
+  const categoryList = categoryAlign(data.category)
+  const levelNum = 0
+  const node = categoryFinder(testTree[0], categoryList, levelNum, true)
+  dataWriter(node, data)
+}
+
+export const setTestTreeRemove = (inputData) => {
+  const data = inputData
+  const categoryList = categoryAlign(data.category)
+  const levelNum = 0
+  const node = categoryFinder(state.testTree[0], categoryList, levelNum, true)
+  dataRemover(node, data.id)
+}
 
 const dataWriter = (node, data) => {
   node.childId.push(data.id)
 } // 데이터 추가
 
-const dataRemover = (node, data) => {
-  node.childId = node.childId.filter(((item) => 
-    item.id !== id && item.word !== word)) 
+const dataRemover = (node, id) => {
+  console.log(node.childId = node.childId.filter(((item) => 
+    item !== id)))
 }
 
-const categoryWriter = (node, parentNode, inputCategory) => {
+const categoryWriter = (parentNode, inputCategory) => {
   const category = {
     categoryName: inputCategory,
     childCategory: [],
     childId: [],
     parentCategory: parentNode,
   }
-  node.childCategory.push(category)
+  parentNode.childCategory.push(category)
 } // 카테고리 추가
 
-const categoryFinder = (testTree, parentNode, categoryList, levelNum, data, isWrite) => {
+const categoryFinder = (parentNode, categoryList, levelNum, isWrite) => {
   for (const node of parentNode.childCategory) {
     if (node.categoryName === categoryList[levelNum]) { // 노드의 카테고리 이름과 리스트의 카테고리 이름이 일치
       if (categoryList.length > levelNum+1) { // 카테고리 리스트에 남은 카테고리가 있음
-        const result = categoryFinder(testTree, parentNode.childCategory, categoryList, levelNum+1, data, isWrite)
+        const result = categoryFinder(parentNode.childCategory, categoryList, levelNum+1, isWrite)
         if (result) {
           return result
         }
@@ -74,12 +81,8 @@ const categoryFinder = (testTree, parentNode, categoryList, levelNum, data, isWr
     }
   }
   if (isWrite) { // Finder가 Read뿐만 아니라 Write도 할 경우
-    if (levelNum > 0) {
-      categoryWriter(parentNode, categoryList[levelNum-1], categoryList[levelNum]) // 없는 카테고리 추가
-    } else {
-      categoryWriter(parentNode, testTree[0], categoryList[levelNum]) // 없는 카테고리 추가 (부모가 메인)
-    }
-    const result = categoryFinder(testTree, parentNode, categoryList, levelNum, data, isWrite) // Finder 재실행
+    categoryWriter(parentNode, categoryList[levelNum]) // 없는 카테고리 추가
+    const result = categoryFinder(parentNode, categoryList, levelNum, isWrite) // Finder 재실행
     return result // 결과값은 항상 Node가 나옴
   } else {
     return null
@@ -104,5 +107,7 @@ const categoryAlign = (category) => {
 export const testTreeInitiate = () => {
   const myTest = testRealm.objects('MyTest')
   const refinedMyTest = myTest.toJSON()
-  store.dispatch(setTestTreeInsertList(refinedMyTest))
+  testTree[0].childId = []
+  testTree[0].childCategory = []
+  setTestTreeInsertList(refinedMyTest)
 }
