@@ -10,10 +10,20 @@ const MyTestSchema = {
     word: 'string',
     meaning: 'string',
   }
-};
+}
 
-export const testRealm = new Realm({
-  schema: [MyTestSchema],
+const WrongAnswerSchema = {
+  name: 'WrongAnswer',
+  properties: {
+    id: 'string',
+    category: 'string',
+    word: 'string',
+    meaning: 'string',
+    wrongNumber: 'int',
+  }
+}
+
+export const testMakerRealm = new Realm({
+  schema: [MyTestSchema, WrongAnswerSchema],
   schemaVersion: 1,
 });
-

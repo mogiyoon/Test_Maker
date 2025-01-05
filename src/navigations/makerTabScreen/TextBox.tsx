@@ -9,7 +9,6 @@ const WindowHeight = Dimensions.get('window').height
 
 export const TextBox = () => {
   const content = useSelector((state) => state.content.contentData)
-  const isChanged = useSelector((state) => state.contentChanged.isChanged)
   const contentDispatch = useDispatch()
   const [testContext, setTestContext] = useState(content) // TextBox의 값
 
@@ -23,13 +22,6 @@ export const TextBox = () => {
     contentDispatch(setContentData(''))
     contentDispatch(setIsChanged(true))
   }
-
-  useEffect(() => {
-    if(isChanged === true) {
-      setTestContext(content)
-      contentDispatch(setIsChanged(false))
-    }
-  }, [isChanged])
 
   return (
     <TouchableWithoutFeedback onPress={() => {

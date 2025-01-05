@@ -11,7 +11,7 @@ export const Container = styled.View`
 `
 export const RowContainer = styled.View`
   flex-direction: row;
-  width: ${windowWidth};
+  width: ${windowWidth*0.9}px;
   padding: 10px;
   justify-content: space-evenly;
   align-items: center;
@@ -24,7 +24,7 @@ export const FlatListContainer = styled.View`
   flex-direction: row;
   background-color: #B4B4DC;
   min-height: 40px;
-  width: ${windowWidth - 10}px;
+  width: ${windowWidth*0.88}px;
   padding: 4px;
   border-radius: 5px;
   align-items: center;

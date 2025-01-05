@@ -1,32 +1,27 @@
 import React, { useEffect, useState } from "react"
 import { readConvertTime, writeConvertTimePlusOne } from "../../db/TimeAsyncStorage"
-import { Keyboard, TouchableWithoutFeedback } from "react-native"
-import { readMakerSetting, writeMakerSetting } from "../../db/MakerSettingAsyncStorage"
+import { Keyboard, Switch, TouchableWithoutFeedback } from "react-native"
 import { Container, RowContainer, StyledButton, StyledText, StyledTextInput } from "../../components/makerTabScreen/MakerSetting"
 import { useDispatch, useSelector } from "react-redux"
 import { setIsChanged, setIsUsedOCR } from "../../redux/ContentsSlice"
+import { setMeanFind, setWordFind, setWordInsideMean } from "../../redux/MakerSettingSlice"
 
 export const MakerSetting = () => {
-  const timeValue = readConvertTime()
-  const [appearingTime, setAppearingTime] = useState(timeValue)
-  const [settingName, setSettingName] = useState('')
-  const [settingMean, setSettingMean] = useState('')
-
+  
   const isChanged = useSelector((state) => state.contentChanged.isChanged)
   const isUsingOCR = useSelector((state) => state.usingOCR.setIsUsedOCR)
+  
+  const wordInsideMean = useSelector((state) => state.wordInsideMean.wordInsideMean)
+  const wordFind = useSelector((state) => state.wordFind.wordFind)
+  const meanFind = useSelector((state) => state.meanFind.meanFind)
+  
   const dispatch = useDispatch()
 
-  const callSettings = async () => {
-    await callSetting(settingName, setSettingName, 'name')
-    await callSetting(settingMean, setSettingMean, 'mean')
-  }
-
-  const callSetting = async (nowValue, setFunction, settingParm: string) => {
-    const tempValue = await readMakerSetting(settingParm)
-    if (nowValue !== tempValue) {
-      setFunction(tempValue)
-    }
-  }
+  const timeValue = readConvertTime()
+  const [appearingTime, setAppearingTime] = useState(timeValue)
+  const [settingWordInsideMean, setSettingWordInsideMean] = useState(wordInsideMean)
+  const [settingName, setSettingName] = useState(wordFind)
+  const [settingMean, setSettingMean] = useState(meanFind)
 
   useEffect(() => {
     const processingOCR = async () => {
@@ -38,7 +33,6 @@ export const MakerSetting = () => {
     if (isChanged === false && isUsingOCR === true) {
       processingOCR()
     }
-    callSettings()
   }, [isChanged])
 
   const handlePlusConvertTime = async () => {
@@ -53,34 +47,50 @@ export const MakerSetting = () => {
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss()}}>
       <Container>
-        <RowContainer>
+        <RowContainer> 
+          {/* 광고 */}
           <StyledText>{appearingTime}</StyledText>
           <StyledButton
             onPress={handlePlusConvertTime}>
             <StyledText>read</StyledText>
           </StyledButton>
         </RowContainer>
+
         <RowContainer>
+          {/* Word Inside Mean */}
+          <Switch 
+            value = {settingWordInsideMean}
+            onValueChange = {(value) => {
+              setSettingWordInsideMean(value)
+              dispatch(setWordInsideMean(value))
+            }}
+          />
+        </RowContainer>
+
+        <RowContainer>
+          {/* Word Finder */}
           <StyledTextInput
             value={settingName}
             onChangeText={(text) => setSettingName(text)}
           />
           <StyledButton
             onPress={() => {
-              writeMakerSetting('name', settingName)
+              dispatch(setWordFind(settingName))
               dispatch(setIsChanged(true))
             }}>
             <StyledText>OK</StyledText>
           </StyledButton>
         </RowContainer>
+
         <RowContainer>
+          {/* Mean Finder */}
           <StyledTextInput
             value={settingMean}
             onChangeText={(text) => setSettingMean(text)}
           />
           <StyledButton
             onPress={() => {
-              writeMakerSetting('mean', settingMean)
+              dispatch(setMeanFind(settingMean))
               dispatch(setIsChanged(true))
             }}>
             <StyledText>OK</StyledText>

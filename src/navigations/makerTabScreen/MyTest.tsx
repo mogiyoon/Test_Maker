@@ -1,14 +1,14 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Container, FlatListContainer, MeaningContainer, StyledFlatList, StyledText, TouchableContainer, WordContainer } from "../../components/makerTabScreen/MyTest"
 import { useDispatch, useSelector } from "react-redux"
-import { removeRealmData } from "../../redux/RealmSlice"
+import { removeTestRealmData } from "../../redux/RealmSlice"
 import { testTreeInitiate, setIsTreeChanged } from "../../redux/TestTreeSlice"
 
 const FlatListComponent = ({id, category, word, meaning, dispatch}) => {
   return (
     <TouchableContainer
       onLongPress={() => {
-        dispatch(removeRealmData({id, word}))
+        dispatch(removeTestRealmData({id, word}))
         testTreeInitiate()
         dispatch(setIsTreeChanged(true))
       }}>
@@ -34,7 +34,7 @@ const FlatListComponent = ({id, category, word, meaning, dispatch}) => {
 }
 
 export const MyTest = () => {
-  const myTestList  = useSelector((state) => state.realm.realmData)
+  const myTestList  = useSelector((state) => state.testRealm.realmData)
   const dispatch = useDispatch()
 
   return (

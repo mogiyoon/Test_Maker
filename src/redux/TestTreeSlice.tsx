@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { testRealm } from "../db/MyTestDB"
+import { testMakerRealm } from "../db/TestMakerDB"
 
 export const treeChangedSlice = createSlice({
   name: 'treeChanged',
@@ -105,7 +105,7 @@ const categoryAlign = (category) => {
 } // category를 노드 리스트로 변환
 
 export const testTreeInitiate = () => {
-  const myTest = testRealm.objects('MyTest')
+  const myTest = testMakerRealm.objects('MyTest')
   const refinedMyTest = myTest.toJSON()
   testTree[0].childId = []
   testTree[0].childCategory = []
