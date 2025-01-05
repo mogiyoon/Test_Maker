@@ -10,10 +10,27 @@ import { TestSpace } from './testTabScreen/TestSpace'
 import { WrongAnswer } from './testTabScreen/WrongAnswer'
 import { TestSetting } from './testTabScreen/TestSetting'
 import { Testing } from './testTabScreen/Testing'
+import { ExportTab } from './testTabScreen/ExportTab'
 
 
 const MakerTab = createBottomTabNavigator()
 const TestTab = createBottomTabNavigator()
+
+
+export const TestTabNavigation = ({navigation}) => {
+  return (
+    <TestTab.Navigator
+    initialRouteName='Test Space'
+    screenOptions={{headerShown: false}}
+    backBehavior='order'>
+      <TestTab.Screen name="Test Space" component={TestSpace} />
+      <TestTab.Screen name="Testing" component={Testing} />
+      <TestTab.Screen name="Wrong Answer" component={WrongAnswer} />
+      <TestTab.Screen name="Export" component={ExportTab} />
+      <TestTab.Screen name="Setting" component={TestSetting} />
+    </TestTab.Navigator>
+  )
+}
 
 export const MakerTabNavigation = ({navigation}) => {
   return (
@@ -28,19 +45,5 @@ export const MakerTabNavigation = ({navigation}) => {
       <MakerTab.Screen name="Edit" component={Edit} />
       <MakerTab.Screen name="Setting" component={MakerSetting} />
     </MakerTab.Navigator>
-  )
-}
-
-export const TestTabNavigation = ({navigation}) => {
-  return (
-    <TestTab.Navigator
-      initialRouteName='Test Space'
-      screenOptions={{headerShown: false}}
-      backBehavior='order'>
-      <TestTab.Screen name="Test Space" component={TestSpace} />
-      <TestTab.Screen name="Testing" component={Testing} />
-      <TestTab.Screen name="Wrong Answer" component={WrongAnswer} />
-      <TestTab.Screen name="Setting" component={TestSetting} />
-    </TestTab.Navigator>
   )
 }

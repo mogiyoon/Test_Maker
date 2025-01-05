@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native"
 import React, { useEffect, useRef, useState } from "react"
 import { Alert, Image, Linking, Platform, StyleSheet } from "react-native"
-import { PERMISSIONS, request } from "react-native-permissions"
+import { check, PERMISSIONS, request } from "react-native-permissions"
 import { Camera, useCameraDevice} from "react-native-vision-camera"
 import { fileProcessing } from "../../services/FileProcessing"
 import { resetPhoto } from "../../services/ModifyPhoto"
@@ -13,7 +13,7 @@ async function CheckPermission (navigation) {
   const cameraPermission = await Camera.getCameraPermissionStatus()
   const requestPhotoPermission = await request(
       Platform.OS === 'ios'
-      ? PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY
+      ? PERMISSIONS.IOS.CAMERA
       : PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE
   )
   const state = navigation.getState()

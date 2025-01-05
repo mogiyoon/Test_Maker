@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react"
 import { Dimensions } from "react-native"
 import CheckBox from "@react-native-community/checkbox"
 import { ButtonContainer, CheckBoxContainer, Container, FlatListContainer, MeaningContainer, ScrollableContainer, StyledButton, StyledFlatList, StyledText, StyledTextInput, WindowContainer, WordContainer } from "../../components/makerTabScreen/Edit"
-import { readMakerSetting } from "../../db/MakerSettingAsyncStorage"
 import { useDispatch, useSelector } from "react-redux"
-import { addRealmData } from "../../redux/RealmSlice"
+import { addTestRealmData } from "../../redux/RealmSlice"
 import { setIsChanged } from "../../redux/ContentsSlice"
 import { setIsTreeChanged, setTestTreeInsert } from "../../redux/TestTreeSlice"
 
@@ -57,24 +56,15 @@ export const Edit = () => {
   const WindowWidth = Dimensions.get('window').width
   const content = useSelector((state) => state.content.contentData)
   const isChanged = useSelector((state) => state.contentChanged.isChanged)
-  const myTestRedux = useSelector((state) => state.realm.realmData)
+  const myTestRedux = useSelector((state) => state.testRealm.realmData)
+
+  name = useSelector((state) => state.wordFind.wordFind)
+  mean = useSelector((state) => state.meanFind.meanFind)
   const dispatch = useDispatch()
 
   const [firstRender, setFirstRender] = useState(false)
   const [category, setCategory] = useState('')
-  
-  const makerSettingApply = async() => { 
-    const tempName = await readMakerSetting('name')
-    const tempMean = await readMakerSetting('mean')
-    if (
-      name !== tempName ||
-      mean !== tempMean
-    ) {
-      name = tempName
-      mean = tempMean
-      dispatch(setIsChanged(true))
-    }
-  } // setting 참고하여 단어와 뜻 나눔
+ // setting 참고하여 단어와 뜻 나눔
 
   useEffect(() => {
     if (isChanged && !firstRender) {
@@ -94,7 +84,6 @@ export const Edit = () => {
       problemDicList = result.problemDicList
       problemDictionary = result.problemDictionary
     } // 두 번째 렌더 시 문제 추출
-    makerSettingApply()
   }, [firstRender])
   
   return (
@@ -139,33 +128,33 @@ export const Edit = () => {
 
 function returnProblem (paragraph: string, name: string, mean: string) {
   const paragraphLength = paragraph.length
-  let tempName = ''
-  let tempMean = ''
+  let tempNameOutput = ''
+  let tempMeanOutput = ''
 
   for (let i = 0; i < paragraphLength; i++) {
     if (paragraph[i] === name[0]) {
-      tempName = ''
+      tempNameOutput = ''
       for (let j = 1; j < paragraphLength - i; j++) {
         if (paragraph[i + j] === name[1]) {
           i += j
           break
         }
-        tempName += paragraph[i + j]
+        tempNameOutput += paragraph[i + j]
       }
     }
 
     if (paragraph[i] === mean[0]) {
-      tempMean = ''
+      tempMeanOutput = ''
       for (let j = 1; j < paragraphLength - i; j++) {
         if (paragraph[i + j] === mean[1]) {
-          if (!(tempName in problemDictionary)) {
-            problemDictionary[tempName] = tempMean
-            problemDicList.push(tempName)
+          if (!(tempNameOutput in problemDictionary)) {
+            problemDictionary[tempNameOutput] = tempMeanOutput
+            problemDicList.push(tempNameOutput)
           }
           i += j
           break
         }
-        tempMean += paragraph[i + j]
+        tempMeanOutput += paragraph[i + j]
       }
     }
   }
@@ -199,7 +188,7 @@ function saveToMyTest (myTest: string[], dispatch, categoryName) {
         category: categoryName, 
         word: word, 
         meaning: meaning}
-      dispatch(addRealmData(inputData))
+      dispatch(addTestRealmData(inputData))
       setTestTreeInsert(inputData)
       dispatch(setIsTreeChanged(true))
     }

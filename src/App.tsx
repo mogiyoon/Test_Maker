@@ -6,6 +6,7 @@ import { initiateTimeStorage } from './db/TimeAsyncStorage'
 import { initiateMakerSettingStorage } from './db/MakerSettingAsyncStorage'
 import { store } from './redux/ReduxStore'
 import { testTreeInitiate } from './redux/TestTreeSlice'
+import { makerSettingInit } from './redux/MakerSettingSlice'
 
 const App = () => {
   const initiateStorage = async () => {
@@ -16,6 +17,7 @@ const App = () => {
   initiateStorage()
   syncReduxWithRealm()
   testTreeInitiate()
+  makerSettingInit()
 
   return (
   <Provider store={store}>

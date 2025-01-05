@@ -3,6 +3,7 @@ import styled from "styled-components/native"
 import { Dimensions } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import { setIsTreeChanged, testTree } from "../../redux/TestTreeSlice"
+import { setIsTestChanged, testChooser } from "../../redux/TestChoiceSlice"
 
 const windowWidth = Dimensions.get('window').width
 const windowHeight = Dimensions.get('window').height
@@ -17,20 +18,21 @@ const FlexContainer = styled.View`
   flex: ${({flexSize}) => flexSize};
   width: 95%;
   height: 95%;
-  background-color: #ff0000;
+  background-color: #ffb0b0;
   justify-content: center;
   align-items: center;
-  margin: 10px 5px;
+  border-radius: 10px;
+  margin: 8px 6px;
   padding: 5px;
 `
 const RowContainer = styled.View`
   flex-direction: row;
-  width: ${windowWidth};
+  width: ${windowWidth * 0.8}px;
   justify-content: space-evenly;
   align-items: center;
 `
 const TextContainer = styled.View`
-  width: ${windowWidth}px;
+  width: ${windowWidth * 0.8}px;
   height: 100px;
   justify-content: center;
   align-items: center;
@@ -38,28 +40,37 @@ const TextContainer = styled.View`
 const StyledFlatList = styled.FlatList`
 `
 const StyledTitle = styled.Text`
+  background-color: #FFFFFF;
   font-size: 30px;
+  padding: 2px 40px;
+  border-radius: 20px;
+`
+const StyledCategory = styled.Text`
+  font-size: 25px;
 `
 const StyledText = styled.Text`
   font-size: 15px;
 `
 const StyledGrid = styled.TouchableOpacity`
   width: 100px;
-  height: 100px;
+  height: 70px;
   justify-content: center;
   align-items: center;
-  background-color: #858585;
+  background-color: #cecece;
+  border-radius: 4px;
+  margin: 5px;
 `
 const StyledButton = styled.TouchableOpacity`
 width: 100px;
 height: 50px;
 justify-content: center;
 align-items: center;
-background-color: #858585;
+background-color: #cecece;
+border-radius: 10px;
 `
 
 export const TestSpace = () => {
-  const myTestList = useSelector((state) => state.realm.realmData)
+  const myTestList = useSelector((state) => state.testRealm.realmData)
   const treeChange = useSelector((state) => state.treeChanged.isTreeChanged)
   const dispatch = useDispatch()
 
@@ -81,6 +92,7 @@ export const TestSpace = () => {
 
   return (
     <Container>
+      {/* 첫 번째 컨테이너 */}
       <FlexContainer
         flexSize={4}>
         {nowCategory ? (
@@ -96,16 +108,18 @@ export const TestSpace = () => {
                 setNowCategory(item)
                 setInCategories(item.childCategory)
               }}>
-              <StyledTitle>
+              <StyledCategory>
                 {item.categoryName}
-              </StyledTitle>
+              </StyledCategory>
             </StyledGrid>
           )}
         />
       </FlexContainer>
+
+      {/* 두 번째 컨테이너 */}
       <FlexContainer
         flexSize={3}
-      >
+      > 
         <StyledTitle>
           Contained Item
         </StyledTitle>
@@ -123,16 +137,16 @@ export const TestSpace = () => {
             </TextContainer>
           )}
       </FlexContainer>
+
+      {/* 세 번째 컨테이너 */}
       <FlexContainer
         flexSize={1}>
         <RowContainer>
           <StyledButton
             onPress={() => {
-              console.log('inCategories')
-              console.log(inCategories)
-              console.log('nowCategory')
-              console.log(nowCategory)
-              console.log(nowCategory.childId)}}
+              testChooser(nowCategory)
+              dispatch(setIsTestChanged(true))
+            }}
           />
           <StyledButton
             onPress={() => {
@@ -142,7 +156,7 @@ export const TestSpace = () => {
               }
             }}
           >
-            <StyledTitle>Back</StyledTitle>
+            <StyledText>Back</StyledText>
           </StyledButton>
         </RowContainer>
       </FlexContainer>
