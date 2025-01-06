@@ -24,7 +24,7 @@ export async function initiateMakerSettingStorage () {
   const initiateValue = await AsyncStorage.getItem('makerSetting')
   const makerSettingVersion = '1'
   const makerSettingList = ['wordInsideMean', 'name', 'mean']
-  const makerSettingInitiateValue = ['false', '[]', '{}']
+  const makerSettingInitiateValue = ['false', '[]', `''`]
 
   if (initiateValue === makerSettingVersion) {
   } else {

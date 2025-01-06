@@ -131,6 +131,9 @@ export const Edit = () => {
 
 function returnProblem (paragraph: string, name: string, mean: string) {
   const paragraphLength = paragraph.length
+  console.log('return problem')
+  console.log(name)
+  console.log(mean)
   let tempNameOutput = ''
   let tempMeanOutput = ''
 

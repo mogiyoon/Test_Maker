@@ -46,7 +46,7 @@ export const wrongAnswerRealmSlice = createSlice({
         existingItem.wrongNumber += 1
         testMakerRealm.write(() => {
           const testMakerValue = testMakerRealm.objects('WrongAnswer').filtered(`word == "${tempValue.word}" AND id == "${tempValue.id}"`)
-          testMakerValue.wrongNumber += 1
+          testMakerValue[0].wrongNumber += 1
         })
       } else {
         state.realmData.push(tempValue)

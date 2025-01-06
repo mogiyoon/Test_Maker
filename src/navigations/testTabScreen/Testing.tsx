@@ -7,8 +7,21 @@ import { Button, ChoiceBox, Container, FlexContainer, MeaningContainer, RowConta
 import _ from 'lodash'
 import { dequeue, enqueue } from '../../services/Queue'
 
+let tempQuizList = []
+let tempQuizQueue = []
+let tempQuizId = ''
+let testValue = {}
+
+let answerNumber = 0
+let choiceList = []
+let choiceNodeList = []
+let randomQuizQueue = []
+
+
+
 export const Testing = () => {
   const [isSubjective, setIsSubjective] = useState(false)
+  const [isRight, setIsRight] = useState('')
   const [nowNode, setNowNode] = useState({})
   const [answer, setAnswer] = useState('') // 주관식 답
   const [renderChoiceList, setRenderChoiceList] = useState([])
@@ -23,11 +36,6 @@ export const Testing = () => {
   const dispatch = useDispatch()
 
   //선택된 리스트 추출
-  let tempQuizList = []
-  let tempQuizQueue = []
-  let tempQuizId = ''
-  let testValue = {}
-
   const tempSetting = () => {
     tempQuizList = readItemIds()
     tempQuizQueue = _.cloneDeep(tempQuizList)
@@ -35,31 +43,28 @@ export const Testing = () => {
   }
 
   //랜덤 큐 생성
-  const randomQuizQueue = []
   const randomQuizQueueSetting = () => {
+    randomQuizQueue = []
     while (tempQuizQueue.length > 0) {
       const quizQueueLength = tempQuizQueue.length
       const tempRandomNum = Math.floor(Math.random() * quizQueueLength)
       const tempDequeValue = dequeue(tempQuizQueue, tempRandomNum)
       enqueue(randomQuizQueue, tempDequeValue)
     }
+    enqueue(randomQuizQueue, '00000000') //큐의 마지막
     tempQuizId = dequeue(randomQuizQueue)
     testValue = _makeIdToNode(tempQuizId)
     setNowNode(testValue)
   }
 
   //랜덤 선택지 생성
-  let answerNumber = 0
-  let choiceList = []
-  let choiceNodeList = []
-
   const _makeAnswerRandom = () => {
     answerNumber = Math.floor(Math.random() * 4)
   }
   const _makeChoiceRandom = () => {
     choiceList = []
     const quizLength = tempQuizList.length
-    while (true) {
+    while (quizLength > 0) {
       const choice = Math.floor(Math.random() * quizLength);
       if (
         tempQuizId !== tempQuizList[choice] &&
@@ -67,7 +72,7 @@ export const Testing = () => {
       ) {
         choiceList.push(tempQuizList[choice])
       }
-      if (choiceList.length >= 3 || choiceList.length >= quizLength) {
+      if (choiceList.length >= 3 || choiceList.length >= quizLength - 1) {
         choiceList.splice(answerNumber, 0, tempQuizId)
         break
       }
@@ -87,6 +92,18 @@ export const Testing = () => {
     setRenderChoiceList(choiceNodeList)
   }
 
+  const afterAnswering = () => {
+    tempQuizId = dequeue(randomQuizQueue)
+    if (tempQuizId === '00000000') {
+      tempSetting()
+      randomQuizQueueSetting()
+      tempQuizId = dequeue(randomQuizQueue)
+    }
+    testValue = _makeIdToNode(tempQuizId)
+    setNowNode(testValue)
+    choiceMaker()
+  }
+
   useEffect(() => {
     tempSetting()
     randomQuizQueueSetting()
@@ -104,57 +121,57 @@ export const Testing = () => {
     <Container>
       <RowContainerWithColor>
         <FlexContainer>
-          <TextBox>
-            Choice
-          </TextBox>
+          <TextBox>Choice</TextBox>
         </FlexContainer>
         <FlexContainer>
           <Switch
             value={isSubjective}
-            onValueChange={(value) => setIsSubjective(value)}
+            onValueChange={value => setIsSubjective(value)}
           />
-          </FlexContainer>
+        </FlexContainer>
         <FlexContainer>
-          <TextBox>
-            Short-answer
-          </TextBox>
+          <TextBox>Short-answer</TextBox>
         </FlexContainer>
       </RowContainerWithColor>
 
       <MeaningContainer>
         {nowNode !== undefined ? (
-          <TextBox>
-            {nowNode.meaning}
-          </TextBox>
+          <TextBox>{nowNode.meaning}</TextBox>
         ) : (
-          <TextBox>
-            No data Chosen
-          </TextBox>
+          <TextBox>No data Chosen</TextBox>
         )}
       </MeaningContainer>
-      
+
       {isSubjective ? (
         // 주관식
         <Container>
           {nowNode !== undefined ? (
             <Container>
-              <TextWriteBox 
+              <TextWriteBox
                 value={answer}
-                onChangeText={(text) => setAnswer(text)}
-                placeholder='Answer'  
+                onChangeText={text => setAnswer(text)}
+                placeholder="Answer"
               />
               <RowContainer>
                 <Button
                   onPress={() => {
-                    if((nowNode.word) === answer) {
-                      console.log('answer true')
+                    if (nowNode.word === answer) {
+                      setIsRight('True')
                     } else {
-                      // dispatch(addWrongAnswerRealmData(testValue))
+                      setIsRight('Wrong')
+                      dispatch(addWrongAnswerRealmData(testValue))
                     }
+                    setAnswer('')
+                    afterAnswering()
                   }}>
                   <TextBox>OK</TextBox>
                 </Button>
-                <Button>
+                <Button
+                  onPress={() => {
+                    setAnswer('')
+                    setIsRight('Pass')
+                    afterAnswering()
+                  }}>
                   <TextBox>Pass</TextBox>
                 </Button>
               </RowContainer>
@@ -162,77 +179,88 @@ export const Testing = () => {
           ) : (
             <Container />
           )}
-
         </Container>
       ) : (
-
         // 객관식
         <Container>
           {renderChoiceList.length > 0 ? (
             <Container>
               <RowContainer>
-                <ChoiceBox
-                  onPress={() => {
-                    if ((nowNode.word) === renderChoiceList[0].word) {
-                      console.log(true)
-                    } else {
-                      console.log(false)
-                    }
-                  }}
-                >
-                  <TextBox>
-                    {renderChoiceList[0].word}
-                  </TextBox>
-                </ChoiceBox>
-                <ChoiceBox
-                  onPress={() => {
-                    if ((nowNode.word) === renderChoiceList[1].word) {
-                      console.log(true)
-                    } else {
-                      console.log(false)
-                    }
-                  }}
-                
-                >
-                  <TextBox>
-                    {renderChoiceList[1].word}
-                  </TextBox>
-                </ChoiceBox>
+                {renderChoiceList.length >= 1 ? (
+                  <ChoiceBox
+                    onPress={() => {
+                      if (nowNode.word === renderChoiceList[0].word) {
+                        setIsRight('True')
+                      } else {
+                        setIsRight('Wrong')
+                        dispatch(addWrongAnswerRealmData(testValue))
+                      }
+                      afterAnswering()
+                    }}>
+                    <TextBox>{renderChoiceList[0].word}</TextBox>
+                  </ChoiceBox>
+                ) : (
+                  <Container />
+                )}
+
+                {renderChoiceList.length >= 2 ? (
+                  <ChoiceBox
+                    onPress={() => {
+                      if (nowNode.word === renderChoiceList[1].word) {
+                        setIsRight('True')
+                      } else {
+                        setIsRight('Wrong')
+                        dispatch(addWrongAnswerRealmData(testValue))
+                      }
+                      afterAnswering()
+                    }}>
+                    <TextBox>{renderChoiceList[1].word}</TextBox>
+                  </ChoiceBox>
+                ) : (
+                  <Container />
+                )}
               </RowContainer>
+
               <RowContainer>
-                <ChoiceBox
-                  onPress={() => {
-                    if ((nowNode.word) === renderChoiceList[2].word) {
-                      console.log(true)
-                    } else {
-                      console.log(false)
-                    }
-                  }}
-                >
-                  <TextBox>
-                    {renderChoiceList[2].word}
-                  </TextBox>
-                </ChoiceBox>
-                <ChoiceBox
-                  onPress={() => {
-                    if ((nowNode.word) === renderChoiceList[3].word) {
-                      console.log(true)
-                    } else {
-                      console.log(false)
-                    }
-                  }}
-                >
-                  <TextBox>
-                    {renderChoiceList[3].word}
-                  </TextBox>
-                </ChoiceBox>
+                {renderChoiceList.length >= 3 ? (
+                  <ChoiceBox
+                    onPress={() => {
+                      if (nowNode.word === renderChoiceList[2].word) {
+                        setIsRight('True')
+                      } else {
+                        setIsRight('Wrong')
+                        dispatch(addWrongAnswerRealmData(testValue))
+                      }
+                      afterAnswering()
+                    }}>
+                    <TextBox>{renderChoiceList[2].word}</TextBox>
+                  </ChoiceBox>
+                ) : (
+                  <Container />
+                )}
+                {renderChoiceList.length >= 4 ? (
+                  <ChoiceBox
+                    onPress={() => {
+                      if (nowNode.word === renderChoiceList[3].word) {
+                        setIsRight('True')
+                      } else {
+                        setIsRight('Wrong')
+                        dispatch(addWrongAnswerRealmData(testValue))
+                      }
+                      afterAnswering()
+                    }}>
+                    <TextBox>{renderChoiceList[3].word}</TextBox>
+                  </ChoiceBox>
+                ) : (
+                  <Container />
+                )}
               </RowContainer>
               <Button
                 onPress={() => {
+                  setIsRight('Pass')
+                  afterAnswering()
                 }}>
-                <TextBox>
-                  Pass
-                </TextBox>
+                <TextBox>Pass</TextBox>
               </Button>
             </Container>
           ) : (
@@ -240,9 +268,9 @@ export const Testing = () => {
           )}
         </Container>
       )}
-
-
-
+      <Container>
+        <TextBox>{isRight}</TextBox>
+      </Container>
     </Container>
   )
 }
