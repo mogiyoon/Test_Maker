@@ -13,6 +13,7 @@ export const TextBox = () => {
   const [testContext, setTestContext] = useState(content) // TextBox의 값
 
   const updateContent = () => {
+    console.log(testContext)
     contentDispatch(setContentData(testContext))
     contentDispatch(setIsChanged(true))
   }

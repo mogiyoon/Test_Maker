@@ -1,73 +1,8 @@
 import React, { useEffect, useState } from "react"
-import styled from "styled-components/native"
-import { Dimensions } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import { setIsTreeChanged, testTree } from "../../redux/TestTreeSlice"
 import { setIsTestChanged, testChooser } from "../../redux/TestChoiceSlice"
-
-const windowWidth = Dimensions.get('window').width
-const windowHeight = Dimensions.get('window').height
-
-const Container = styled.View`
-  width: ${windowWidth}px;
-  height: ${windowHeight * 0.8}px;
-  justify-content: center;
-  align-items: center;
-`
-const FlexContainer = styled.View`
-  flex: ${({flexSize}) => flexSize};
-  width: 95%;
-  height: 95%;
-  background-color: #ffb0b0;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  margin: 8px 6px;
-  padding: 5px;
-`
-const RowContainer = styled.View`
-  flex-direction: row;
-  width: ${windowWidth * 0.8}px;
-  justify-content: space-evenly;
-  align-items: center;
-`
-const TextContainer = styled.View`
-  width: ${windowWidth * 0.8}px;
-  height: 100px;
-  justify-content: center;
-  align-items: center;
-`
-const StyledFlatList = styled.FlatList`
-`
-const StyledTitle = styled.Text`
-  background-color: #FFFFFF;
-  font-size: 30px;
-  padding: 2px 40px;
-  border-radius: 20px;
-`
-const StyledCategory = styled.Text`
-  font-size: 25px;
-`
-const StyledText = styled.Text`
-  font-size: 15px;
-`
-const StyledGrid = styled.TouchableOpacity`
-  width: 100px;
-  height: 70px;
-  justify-content: center;
-  align-items: center;
-  background-color: #cecece;
-  border-radius: 4px;
-  margin: 5px;
-`
-const StyledButton = styled.TouchableOpacity`
-width: 100px;
-height: 50px;
-justify-content: center;
-align-items: center;
-background-color: #cecece;
-border-radius: 10px;
-`
+import { Container, FlexContainer, RowContainer, StyledButton, StyledCategory, StyledFlatList, StyledGrid, StyledText, StyledTitle, TextContainer } from "../../components/testTabScreen/TestSpace"
 
 export const TestSpace = () => {
   const myTestList = useSelector((state) => state.testRealm.realmData)
