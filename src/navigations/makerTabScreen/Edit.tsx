@@ -88,23 +88,8 @@ export const Edit = () => {
   
   return (
     <WindowContainer>
-      {/*화면 윗부분*/}
-      <ScrollableContainer width={WindowWidth}>
-        <StyledText>{content}</StyledText>
-      </ScrollableContainer>
-      {/*화면 아랫부분*/}
-      <Container width={WindowWidth}>
-        <StyledFlatList 
-          data={problemDicList}
-          renderItem={({item}) => (
-            <FlatListComponent
-              word={item}
-              meaning={problemDictionary[item]}
-            />
-          )}
-        />
-      </Container>
-      {/*화면 아래 버튼*/}
+
+      {/*추가 버튼*/}
       <ButtonContainer width={WindowWidth}>
         <StyledTextInput
           value = {category}
@@ -122,6 +107,24 @@ export const Edit = () => {
           <StyledText>Save</StyledText>
         </StyledButton>
       </ButtonContainer>
+
+            {/*추가할 컨텐츠*/}
+      <Container width={WindowWidth}>
+        <StyledFlatList 
+          data={problemDicList}
+          renderItem={({item}) => (
+            <FlatListComponent
+              word={item}
+              meaning={problemDictionary[item]}
+            />
+          )}
+        />
+      </Container>
+
+            {/*컨텐츠 미리보기*/}
+      <ScrollableContainer width={WindowWidth}>
+        <StyledText>{content}</StyledText>
+      </ScrollableContainer>
     </WindowContainer>
   )
 }

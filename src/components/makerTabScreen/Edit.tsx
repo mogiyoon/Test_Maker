@@ -1,4 +1,3 @@
-import { Dimensions } from "react-native"
 import styled from "styled-components/native"
 
 
@@ -11,7 +10,7 @@ export const WindowContainer = styled.View`
 export const ScrollableContainer = styled.ScrollView`
   background-color: #FFFFFF;
   flex: 1;
-  margin: 8px;
+  margin: 4px 8px;
   padding: 8px;
   border-radius: 15px;
   width: ${({width}) => width - 20}px;
@@ -19,7 +18,7 @@ export const ScrollableContainer = styled.ScrollView`
 export const Container = styled.View`
   background-color: #FFFFFF;
   flex: 1;
-  margin: 8px;
+  margin: 4px 8px;
   padding: 8px;
   border-radius: 15px;
   justify-content: start;
@@ -31,7 +30,7 @@ export const ButtonContainer = styled.View`
   justify-content: space-evenly;
   align-items: start;
   width: ${({width}) => width}px;
-  height: 50px;
+  height: 40px;
 `
 export const StyledButton = styled.TouchableOpacity`
   background-color: #FFFFFF;

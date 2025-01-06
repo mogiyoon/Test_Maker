@@ -21,7 +21,6 @@ export const wordInsideMeanSlice = createSlice({
       state.wordInsideMean = tempValue
       const tempStringValue = String(tempValue)
       writeMakerSetting('wordInsideMean', tempStringValue)
-      console.log(state.wordInsideMean)
     }
   }
 })

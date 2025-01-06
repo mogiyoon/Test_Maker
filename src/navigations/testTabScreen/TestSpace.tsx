@@ -147,7 +147,9 @@ export const TestSpace = () => {
               testChooser(nowCategory)
               dispatch(setIsTestChanged(true))
             }}
-          />
+          >
+            <StyledText>Choose</StyledText>
+          </StyledButton>
           <StyledButton
             onPress={() => {
               if (nowCategory.parentCategory) {
