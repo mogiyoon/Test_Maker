@@ -1,9 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { testRealmSlice, wrongAnswerRealmSlice } from "./RealmSlice";
-import { contentChangedSlice, contentSlice, usingOCRSlice } from "./ContentsSlice";
-import { treeChangedSlice } from "./TestTreeSlice";
-import { meanFindSlice, wordFindSlice, wordInsideMeanSlice } from "./MakerSettingSlice";
-import { testChangedSlice } from "./TestChoiceSlice";
+import {configureStore} from '@reduxjs/toolkit';
+import {testRealmSlice, wrongAnswerRealmSlice} from './RealmSlice';
+import {
+  contentChangedSlice,
+  contentSlice,
+  usingOCRSlice,
+} from './ContentsSlice';
+import {treeChangedSlice} from './TestTreeSlice';
+import {
+  meanFindSlice,
+  wordFindSlice,
+  wordInsideMeanSlice,
+} from './MakerSettingSlice';
+import {testChangedSlice} from './TestChoiceSlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,4 +28,4 @@ export const store = configureStore({
     wordFind: wordFindSlice.reducer,
     meanFind: meanFindSlice.reducer,
   },
-})
+});
