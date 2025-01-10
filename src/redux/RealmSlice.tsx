@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {testMakerRealm} from '../db/TestMakerDB';
 import {store} from './ReduxStore';
 import _ from 'lodash';
+import {Heap} from 'heap-js'
 
 export const testRealmSlice = createSlice({
   name: 'myTestRealmUpdate',
@@ -50,6 +51,8 @@ export const wrongAnswerRealmSlice = createSlice({
       );
       if (existingItem) {
         existingItem.wrongNumber += 1;
+        customHeapInit(state.realmData)
+        state.realmData = customHeapToList()
         testMakerRealm.write(() => {
           const testMakerValue = testMakerRealm
             .objects('WrongAnswer')
@@ -67,9 +70,11 @@ export const wrongAnswerRealmSlice = createSlice({
     },
     removeWrongAnswerRealmData: (state, action) => {
       const {id, word} = action.payload;
-      state.realmData = state.realmData.filter(
+      const tempData = state.realmData.filter(
         item => !(item.id === id && item.word === word),
       );
+      customHeapInit(tempData)
+      state.realmData = customHeapToList()
       testMakerRealm.write(() => {
         const dataToDelete = testMakerRealm
           .objects('WrongAnswer')
@@ -93,5 +98,23 @@ export const syncReduxWithRealm = () => {
 
   const wrongAnswer = testMakerRealm.objects('WrongAnswer');
   const refinedWrongAnswer = wrongAnswer.toJSON();
-  store.dispatch(setWrongAnswerRealmData(refinedWrongAnswer));
+  customHeapInit(refinedWrongAnswer)
+  const HeapedList = customHeapToList()
+  store.dispatch(setWrongAnswerRealmData(HeapedList));
 };
+
+const customWrongNumberComparator = (a, b) => b.wrongNumber - a.wrongNumber
+const customHeap = new Heap(customWrongNumberComparator)
+const customHeapInit = (inputList) => {
+  customHeap.init(inputList)
+}
+const customHeapPush = (inputData) => {
+  customHeap.push(inputData)
+}
+const customHeapToList = () => {
+  const tempList = []
+  for (const data of customHeap) {
+    tempList.push(data)
+  }
+  return tempList
+}

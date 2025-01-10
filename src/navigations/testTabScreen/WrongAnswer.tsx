@@ -1,39 +1,14 @@
 import React from 'react';
 import {
   Container,
-  FlatListContainer,
-  MeaningContainer,
-  StyledFlatList,
+  GridContainer,
+  GridInnerContainer,
   StyledText,
   TouchableContainer,
-  WordContainer,
-} from '../../components/makerTabScreen/MyTest';
+} from '../../components/testTabScreen/WrongAnswer';
 import {useDispatch, useSelector} from 'react-redux';
-import {removeTestRealmData} from '../../redux/RealmSlice';
-import {testTreeInitiate, setIsTreeChanged} from '../../redux/TestTreeSlice';
-
-const FlatListComponent = ({id, category, word, wrongNumber, dispatch}) => {
-  return (
-    <TouchableContainer
-      onLongPress={() => {
-        dispatch(removeTestRealmData({id, word}));
-        testTreeInitiate();
-        dispatch(setIsTreeChanged(true));
-      }}>
-      <FlatListContainer>
-        <WordContainer>
-          <StyledText>{category}</StyledText>
-        </WordContainer>
-        <WordContainer>
-          <StyledText>{word}</StyledText>
-        </WordContainer>
-        <MeaningContainer>
-          <StyledText>{wrongNumber}</StyledText>
-        </MeaningContainer>
-      </FlatListContainer>
-    </TouchableContainer>
-  );
-};
+import {removeWrongAnswerRealmData} from '../../redux/RealmSlice';
+import { GridComponent } from '../../components/GridComponent';
 
 export const WrongAnswer = () => {
   const wrongAnswerList = useSelector(
@@ -46,16 +21,23 @@ export const WrongAnswer = () => {
       {wrongAnswerList.length === 0 ? (
         <StyledText>No Data</StyledText>
       ) : (
-        <StyledFlatList
+        <GridComponent
+          isFull={true}
+          columnNumber={2}
           data={wrongAnswerList}
           renderItem={({item}) => (
-            <FlatListComponent
-              id={item.id}
-              category={item.category}
-              word={item.word}
-              wrongNumber={item.wrongNumber}
-              dispatch={dispatch}
-            />
+            <TouchableContainer
+            onLongPress={() => {
+              dispatch(removeWrongAnswerRealmData({id: item.id, word: item.word}));
+            }}>
+              <GridContainer>
+                <GridInnerContainer>
+                  <StyledText>Category : {item.category + '\n'}</StyledText>
+                  <StyledText>Word : {item.word + '\n'}</StyledText>
+                  <StyledText>Wrong Time : {item.wrongNumber}</StyledText>
+                </GridInnerContainer>
+              </GridContainer>
+          </TouchableContainer>
           )}
         />
       )}

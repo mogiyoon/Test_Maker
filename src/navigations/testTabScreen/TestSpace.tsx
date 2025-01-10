@@ -23,6 +23,7 @@ export const TestSpace = () => {
   const [myTestTree, setMyTestTree] = useState(testTree);
   const [nowCategory, setNowCategory] = useState(myTestTree[0]); // 현재 카테고리
   const [inCategories, setInCategories] = useState(myTestTree[0].childCategory); // 자식 카테고리를 보여줌(화면에 나오는 것)
+  const [chosenCategory, setChosenCategory] = useState(undefined)
 
   if (treeChange) {
     setMyTestTree(testTree);
@@ -38,7 +39,25 @@ export const TestSpace = () => {
 
   return (
     <ScrollContainer>
-      {/* 첫 번째 컨테이너 */}
+        {/* 선택된 카테고리 컨테이너 */}
+            <FlexContainer>
+        <TextContainer>
+            <StyledTitle>Chosen Category</StyledTitle>
+        </TextContainer>
+          {chosenCategory ? (
+            <TextContainer>
+              <StyledText>
+                {chosenCategory}
+              </StyledText>
+            </TextContainer>
+          ) : (
+            <TextContainer>
+              <StyledText>No data</StyledText>
+            </TextContainer>
+          )}
+      </FlexContainer>
+
+      {/* 카테고리 목록 컨테이너 */}
       <FlexContainer>
         <TextContainer>
           {nowCategory ? (
@@ -48,6 +67,7 @@ export const TestSpace = () => {
           )}
         </TextContainer>
         <GridComponent
+          maxHeight={330}
           columnNumber={2}
           isFull={true}
           data={inCategories}
@@ -63,20 +83,21 @@ export const TestSpace = () => {
         />
       </FlexContainer>
 
-      {/* 두 번째 컨테이너 */}
+      {/* 포함된 아이템 컨테이너 */}
       <FlexContainer>
         <TextContainer>
           <StyledTitle>Contained Item</StyledTitle>
         </TextContainer>
         {nowCategory ? (
           <GridComponent
-            columnNumber={2}
+            maxHeight={300}
+            columnNumber={3}
             isFull={true}
             data={nowCategory.childId}
             renderItem={({item}) => (
               <TextContainer>
                 <StyledText>
-                  word : {myTestList.find(value => value.id === item).word}
+                  {myTestList.find(value => value.id === item).word}
                 </StyledText>
               </TextContainer>
             )}
@@ -88,11 +109,12 @@ export const TestSpace = () => {
         )}
       </FlexContainer>
 
-      {/* 세 번째 컨테이너 */}
+      {/* 테스트 선택 컨테이너 */}
       <FlexContainer flexSize={1}>
         <RowContainer>
           <StyledButton
             onPress={() => {
+              setChosenCategory(nowCategory.categoryName)
               testChooser(nowCategory);
               dispatch(setIsTestChanged(true));
             }}>
