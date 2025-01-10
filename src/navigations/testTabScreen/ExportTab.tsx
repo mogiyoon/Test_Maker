@@ -98,7 +98,6 @@ export const ExportTab = () => {
   const makeProblem = () => {
     testProblem = '';
     testAnswer = '';
-    console.log(randomQuizQueue);
     if (randomQuizQueue.length === 1) {
       setExportTestContents('No Data');
       return;

@@ -3,17 +3,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setIsTreeChanged, testTree} from '../../redux/TestTreeSlice';
 import {setIsTestChanged, testChooser} from '../../redux/TestChoiceSlice';
 import {
-  Container,
+  ScrollContainer,
   FlexContainer,
   RowContainer,
   StyledButton,
   StyledCategory,
-  StyledFlatList,
   StyledGrid,
   StyledText,
   StyledTitle,
   TextContainer,
 } from '../../components/testTabScreen/TestSpace';
+import { GridComponent } from '../../components/GridComponent';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
@@ -37,15 +37,19 @@ export const TestSpace = () => {
   }, []);
 
   return (
-    <Container>
+    <ScrollContainer>
       {/* 첫 번째 컨테이너 */}
-      <FlexContainer flexSize={4}>
-        {nowCategory ? (
-          <StyledTitle>{nowCategory.categoryName} Category</StyledTitle>
-        ) : (
-          <StyledTitle />
-        )}
-        <StyledFlatList
+      <FlexContainer>
+        <TextContainer>
+          {nowCategory ? (
+            <StyledTitle>{nowCategory.categoryName} Category</StyledTitle>
+          ) : (
+            <StyledTitle />
+          )}
+        </TextContainer>
+        <GridComponent
+          columnNumber={2}
+          isFull={true}
           data={inCategories}
           renderItem={({item}) => (
             <StyledGrid
@@ -60,10 +64,14 @@ export const TestSpace = () => {
       </FlexContainer>
 
       {/* 두 번째 컨테이너 */}
-      <FlexContainer flexSize={3}>
-        <StyledTitle>Contained Item</StyledTitle>
+      <FlexContainer>
+        <TextContainer>
+          <StyledTitle>Contained Item</StyledTitle>
+        </TextContainer>
         {nowCategory ? (
-          <StyledFlatList
+          <GridComponent
+            columnNumber={2}
+            isFull={true}
             data={nowCategory.childId}
             renderItem={({item}) => (
               <TextContainer>
@@ -101,6 +109,6 @@ export const TestSpace = () => {
           </StyledButton>
         </RowContainer>
       </FlexContainer>
-    </Container>
+    </ScrollContainer>
   );
 };
