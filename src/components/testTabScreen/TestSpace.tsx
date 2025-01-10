@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export const Container = styled.ScrollView`
+export const ScrollContainer = styled.ScrollView`
   flex: 1;
 `;
 export const FlexContainer = styled.View`
@@ -12,8 +12,6 @@ export const FlexContainer = styled.View`
   width: 95%;
   height: 95%;
   background-color: #ffb0b0;
-  justify-content: center;
-  align-items: center;
   border-radius: 10px;
   margin: 8px 6px;
   padding: 5px;
@@ -42,8 +40,8 @@ export const StyledText = styled.Text`
   font-size: 15px;
 `;
 export const StyledGrid = styled.TouchableOpacity`
-  width: 100px;
-  height: 70px;
+  flex: 1;
+  height: 100px;
   justify-content: center;
   align-items: center;
   background-color: #cecece;
