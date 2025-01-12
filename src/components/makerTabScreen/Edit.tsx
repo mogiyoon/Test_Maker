@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components/native';
 
 export const WindowContainer = styled.View`
@@ -57,18 +58,7 @@ export const StyledTextInput = styled.TextInput.attrs({
   justify-content: center;
 `;
 
-export const StyledFlatList = styled.FlatList``;
-export const FlatListContainer = styled.View`
-  flex-direction: row;
-  background-color: #b4b4dc;
-  min-height: 40px;
-  width: ${({width}) => width}px;
-  margin: 2px;
-  padding: 4px;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
-`;
+export const StyledFlatList = styled.FlatList``
 export const CheckBoxContainer = styled.View`
   min-height: 10px;
   min-width: 10px;
@@ -79,11 +69,11 @@ export const CheckBoxContainer = styled.View`
 `;
 export const WordContainer = styled.View`
   background-color: #ffffff;
-  min-height: 30px;
   width: 60px;
+  min-height: 30px;
   padding: 5px;
-  margin: 8px;
-  border-radius: 2px;
+  margin: 6px;
+  border-radius: 4px;
   justify-content: center;
   align-items: center;
 `;
@@ -91,8 +81,23 @@ export const MeaningContainer = styled.View`
   background-color: #ffffff;
   flex: 1;
   min-height: 30px;
-  padding: 8px;
-  margin: 4px;
-  border-radius: 2px;
+  padding: 5px;
+  margin: 6px;
+  border-radius: 4px;
   justify-content: center;
 `;
+export const InnerTouchBoxContainer = styled.TouchableOpacity`
+  margin: 2px;
+  border-radius: 8px;
+  flex-direction: row;
+  background-color: ${({bgColor}) => bgColor};
+`
+export const TouchBoxContainer = ({value, onPress, children}) => {
+  const bgColor = value ? '#bfc8e2' : '#d7d7d7';
+
+  return (
+    <InnerTouchBoxContainer onPress={onPress} bgColor={bgColor}>
+      {children}
+    </InnerTouchBoxContainer>
+  );
+};
