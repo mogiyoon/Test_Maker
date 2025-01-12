@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import {
   ButtonContainer,
-  CheckBoxContainer,
   Container,
-  FlatListContainer,
   MeaningContainer,
   ScrollableContainer,
   StyledButton,
@@ -14,6 +11,7 @@ import {
   StyledTextInput,
   WindowContainer,
   WordContainer,
+  TouchBoxContainer,
 } from '../../components/makerTabScreen/Edit';
 import {useDispatch, useSelector} from 'react-redux';
 import {addTestRealmData} from '../../redux/RealmSlice';
@@ -36,23 +34,16 @@ const FlatListComponent = ({word, meaning}) => {
   });
 
   return (
-    <FlatListContainer>
-      <CheckBoxContainer>
-        <CheckBox
-          disabled={false}
-          value={toggleCheckBox}
-          onValueChange={newValue => {
-            setToggleCheckBox(newValue);
-          }}
-        />
-      </CheckBoxContainer>
+    <TouchBoxContainer
+      value={toggleCheckBox}
+      onPress={() => setToggleCheckBox(!toggleCheckBox)}>
       <WordContainer>
         <StyledText>{word}</StyledText>
       </WordContainer>
       <MeaningContainer>
         <StyledText>{meaning}</StyledText>
       </MeaningContainer>
-    </FlatListContainer>
+    </TouchBoxContainer>
   );
 };
 
