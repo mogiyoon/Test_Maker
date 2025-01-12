@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Container,
+  DataContainer,
   FlatListContainer,
   MeaningContainer,
   StyledFlatList,
@@ -44,7 +45,9 @@ export const MyTest = () => {
   return (
     <Container>
       {myTestList.length === 0 ? (
-        <StyledText>No Data</StyledText>
+        <DataContainer>
+          <StyledText>No Data</StyledText>
+        </DataContainer>
       ) : (
         <StyledFlatList
           data={myTestList}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Container,
+  DataContainer,
   GridContainer,
   GridInnerContainer,
   StyledText,
@@ -19,7 +20,9 @@ export const WrongAnswer = () => {
   return (
     <Container>
       {wrongAnswerList.length === 0 ? (
-        <StyledText>No Data</StyledText>
+        <DataContainer>
+          <StyledText>No Data</StyledText>
+        </DataContainer>
       ) : (
         <GridComponent
           isFull={true}
