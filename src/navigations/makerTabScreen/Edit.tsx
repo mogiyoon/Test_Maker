@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions} from 'react-native';
+import {Alert, Dimensions} from 'react-native';
 import {
   ButtonContainer,
   Container,
@@ -174,7 +174,14 @@ function insertWord(toggleCheckBox, word) {
   }
 }
 
-function saveToMyTest(myTest: string[], dispatch, categoryName) {
+function saveToMyTest(myTest: string[], dispatch, categoryName: string) {
+  if (tempTestList.length === 0) {
+    return
+  }
+  if (categoryName === '') {
+    Alert.alert('No Category Name \n -Hint- \n Category can be divided by -')
+    return
+  }
   for (let i = 0; i < tempTestList.length; i++) {
     const word = tempTestList[i];
     const meaning = problemDictionary[tempTestList[i]];

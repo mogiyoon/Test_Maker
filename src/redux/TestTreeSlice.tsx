@@ -3,15 +3,30 @@ import {testMakerRealm} from '../db/TestMakerDB';
 
 export const treeChangedSlice = createSlice({
   name: 'treeChanged',
-  initialState: {isTreeChanged: false},
+  initialState: {isTreeChanged: [false, false, false]}, // Tree, MyTest, TestSpace
   reducers: {
     setIsTreeChanged: (state, action) => {
-      state.isTreeChanged = action.payload;
+      state.isTreeChanged[0] = action.payload;
+      if (state.isTreeChanged[0] === true) {
+        state.isTreeChanged[0] = false
+        state.isTreeChanged[1] = true
+        state.isTreeChanged[2] = true
+       }
+    },
+    setIsTreeMyTestChanged: (state, action) => {
+      state.isTreeChanged[1] = action.payload
+    },
+    setIsTreeTestSpaceChanged: (state, action) => {
+      state.isTreeChanged[2] = action.payload
     },
   },
 });
 
-export const {setIsTreeChanged} = treeChangedSlice.actions;
+export const { 
+  setIsTreeChanged, 
+  setIsTreeTestSpaceChanged, 
+  setIsTreeMyTestChanged 
+} = treeChangedSlice.actions;
 
 export const testTree = [
   {

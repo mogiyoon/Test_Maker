@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 export const WindowContainer = styled.View`
-  background-color: #28a0ff;
+  background-color: #ff6868;
   flex: 1;
   justify-content: start;
   align-items: center;
@@ -10,7 +10,7 @@ export const WindowContainer = styled.View`
 export const ScrollableContainer = styled.ScrollView`
   background-color: #ffffff;
   flex: 1;
-  margin: 4px 8px;
+  margin: 4px 8px 8px 8px;
   padding: 8px;
   border-radius: 15px;
   width: ${({width}) => width - 20}px;
@@ -93,7 +93,7 @@ export const InnerTouchBoxContainer = styled.TouchableOpacity`
   background-color: ${({bgColor}) => bgColor};
 `
 export const TouchBoxContainer = ({value, onPress, children}) => {
-  const bgColor = value ? '#bfc8e2' : '#d7d7d7';
+  const bgColor = value ? '#e2bfbf' : '#d7d7d7';
 
   return (
     <InnerTouchBoxContainer onPress={onPress} bgColor={bgColor}>

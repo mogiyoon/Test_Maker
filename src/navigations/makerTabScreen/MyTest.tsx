@@ -1,37 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   DataContainer,
   FlatListContainer,
   MeaningContainer,
-  StyledFlatList,
+  RecursionTreeFlatList,
   StyledText,
   TouchableContainer,
   WordContainer,
 } from '../../components/makerTabScreen/MyTest';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeTestRealmData} from '../../redux/RealmSlice';
-import {testTreeInitiate, setIsTreeChanged} from '../../redux/TestTreeSlice';
+import {testTreeInitiate, setIsTreeChanged, testTree, setIsTreeMyTestChanged} from '../../redux/TestTreeSlice';
 import {itemIdReset} from '../../redux/TestChoiceSlice';
 
-const FlatListComponent = ({id, category, word, meaning, dispatch}) => {
+export const FlatListChild = ({inputItem, dispatch}) => {
   return (
     <TouchableContainer
       onLongPress={() => {
-        dispatch(removeTestRealmData({id, word}));
+        dispatch(removeTestRealmData({id: inputItem.id, word: inputItem.word}));
         testTreeInitiate();
         itemIdReset();
         dispatch(setIsTreeChanged(true));
       }}>
       <FlatListContainer>
         <WordContainer>
-          <StyledText>{category}</StyledText>
+          <StyledText>{inputItem.category}</StyledText>
         </WordContainer>
         <WordContainer>
-          <StyledText>{word}</StyledText>
+          <StyledText>{inputItem.word}</StyledText>
         </WordContainer>
         <MeaningContainer>
-          <StyledText>{meaning}</StyledText>
+          <StyledText>{inputItem.meaning}</StyledText>
         </MeaningContainer>
       </FlatListContainer>
     </TouchableContainer>
@@ -40,8 +40,24 @@ const FlatListComponent = ({id, category, word, meaning, dispatch}) => {
 
 export const MyTest = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
+  const treeChange = useSelector(state => state.treeChanged.isTreeChanged);
   const dispatch = useDispatch();
 
+  const [myTestTree, setMyTestTree] = useState(testTree);
+  const [nowCategory, setNowCategory] = useState(myTestTree[0]); // 현재 카테고리
+
+  if (treeChange[1]) {
+    setMyTestTree(testTree);
+    setNowCategory(myTestTree[0]);
+    dispatch(setIsTreeMyTestChanged(false));
+  }
+
+  useEffect(() => {
+    setNowCategory(myTestTree[0]);
+  }, []);
+
+  
+  console.log(nowCategory)
   return (
     <Container>
       {myTestList.length === 0 ? (
@@ -49,17 +65,10 @@ export const MyTest = () => {
           <StyledText>No Data</StyledText>
         </DataContainer>
       ) : (
-        <StyledFlatList
-          data={myTestList}
-          renderItem={({item}) => (
-            <FlatListComponent
-              id={item.id}
-              category={item.category}
-              word={item.word}
-              meaning={item.meaning}
-              dispatch={dispatch}
-            />
-          )}
+        <RecursionTreeFlatList
+          node={nowCategory}
+          beforeCategoryName={''}
+          testList={myTestList}
         />
       )}
     </Container>
