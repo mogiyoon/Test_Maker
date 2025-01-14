@@ -34,7 +34,7 @@ export const StyledTextInput = styled.TextInput.attrs({
   height: ${({height}) => height * 0.7}px;
 `;
 export const StyledButton = styled.TouchableOpacity`
-  background-color: #28a0ff;
+  background-color: #ff8888;
   border-radius: 10px;
   height: 30px;
   width: 80px;

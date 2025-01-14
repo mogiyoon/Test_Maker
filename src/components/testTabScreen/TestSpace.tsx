@@ -11,7 +11,7 @@ export const FlexContainer = styled.View`
   flex: ${({flexSize}) => flexSize};
   width: 95%;
   height: 95%;
-  background-color: #ffb0b0;
+  background-color: #bab0ff;
   border-radius: 10px;
   margin: 8px 6px;
   padding: 5px;
@@ -44,7 +44,7 @@ export const StyledGrid = styled.TouchableOpacity`
   height: 100px;
   justify-content: center;
   align-items: center;
-  background-color: #cecece;
+  background-color: #ffffe8;
   border-radius: 4px;
   margin: 5px;
 `;
@@ -53,6 +53,6 @@ export const StyledButton = styled.TouchableOpacity`
   height: 50px;
   justify-content: center;
   align-items: center;
-  background-color: #cecece;
+  background-color: #ffffe8;
   border-radius: 10px;
 `;

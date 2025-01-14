@@ -27,7 +27,7 @@ export const GridContainer = styled.View`
   flex: 1;
   height: 100px;
   padding: 10px;
-  background-color: #ffcdcd;
+  background-color: #d4cdff;
   border-radius: 5px;
 `
 
