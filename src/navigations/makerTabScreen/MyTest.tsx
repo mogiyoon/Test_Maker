@@ -6,7 +6,7 @@ import {
   MeaningContainer,
   RecursionTreeFlatList,
   StyledText,
-  TouchableContainer,
+  FlatListTouchableContainer,
   WordContainer,
 } from '../../components/makerTabScreen/MyTest';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,7 +16,7 @@ import {itemIdReset} from '../../redux/TestChoiceSlice';
 
 export const FlatListChild = ({inputItem, dispatch}) => {
   return (
-    <TouchableContainer
+    <FlatListTouchableContainer
       onLongPress={() => {
         dispatch(removeTestRealmData({id: inputItem.id, word: inputItem.word}));
         testTreeInitiate();
@@ -25,16 +25,13 @@ export const FlatListChild = ({inputItem, dispatch}) => {
       }}>
       <FlatListContainer>
         <WordContainer>
-          <StyledText>{inputItem.category}</StyledText>
-        </WordContainer>
-        <WordContainer>
           <StyledText>{inputItem.word}</StyledText>
         </WordContainer>
         <MeaningContainer>
           <StyledText>{inputItem.meaning}</StyledText>
         </MeaningContainer>
       </FlatListContainer>
-    </TouchableContainer>
+    </FlatListTouchableContainer>
   );
 };
 
@@ -55,6 +52,9 @@ export const MyTest = () => {
   useEffect(() => {
     setNowCategory(myTestTree[0]);
   }, []);
+
+  console.log('my test list')
+  console.log(myTestList)
 
   return (
     <Container>
