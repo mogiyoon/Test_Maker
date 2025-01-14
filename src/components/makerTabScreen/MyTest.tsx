@@ -2,10 +2,10 @@ import styled from 'styled-components/native';
 import React, { useState } from 'react';
 import { FlatListChild } from '../../navigations/makerTabScreen/MyTest';
 import { useDispatch } from 'react-redux';
+import { GridComponent } from '../GridComponent';
 
 export const Container = styled.View`
   width: 100%;
-  height: 100%;
   padding: 2px;
 `;
 export const DataContainer = styled.View`
@@ -17,17 +17,19 @@ export const DataContainer = styled.View`
 export const StyledText = styled.Text`
   font-size: 10px;
 `;
-export const OpenContainer = styled.TouchableOpacity``
-export const JustContainer = styled.View`
-  `
-export const CategoryContainer = styled.View`
+const OpenContainer = styled.TouchableOpacity`
+`
+const JustContainer = styled.View`
+`
+
+const CategoryContainer = styled.View`
   justify-content: center;
   align-items: center;
   padding: 10px;
   margin: 5px;
   background-color: ${({color}) => color};
 `
-export const CategoryText = styled.Text`
+const CategoryText = styled.Text`
   font-size: 20px;
 `
 
@@ -53,7 +55,7 @@ export const OpenCategoryContainer = ({title, children}) => {
 
 export const RecursionTreeFlatList = ({
   node, beforeCategoryName, testList
-}) => {
+  }) => {
   const dispatch = useDispatch()
   let nowCategoryName = ''
   if (node.categoryName === 'Main') {
@@ -67,19 +69,21 @@ export const RecursionTreeFlatList = ({
     <OpenCategoryContainer
       title={node.categoryName}
     >
-      <StyledFlatList
+      <GridComponent
         data={node.childCategory}
-        renderItem={({item : firstItem}) => (
-          <RecursionTreeFlatList
+        renderItem={({item : firstItem}) => {
+
+          return (<RecursionTreeFlatList
             node={firstItem}
             beforeCategoryName={nowCategoryName}
             testList={testList}
-          />
-        )}
+          />)
+        }}
       />
-      <StyledFlatList
+      <GridComponent
           data={testList}
-          renderItem={({item : secondItem}) =>{ 
+          maxHeight={400}
+          renderItem={({item : secondItem}) =>{
             return secondItem.category === nowCategoryName ?  (
             <FlatListChild
               inputItem={secondItem}
@@ -90,16 +94,17 @@ export const RecursionTreeFlatList = ({
     </OpenCategoryContainer>
   )
 }
-export const StyledFlatList = styled.FlatList``;
-export const TouchableContainer = styled.TouchableOpacity`
-  margin: 5px;
+export const StyledFlatList = styled.FlatList`
+`;
+export const FlatListTouchableContainer = styled.TouchableOpacity`
+  margin: 2px;
 `;
 export const FlatListContainer = styled.View`
   flex-direction: row;
-  background-color: #ffcdcd;
+  background-color: #ffbfbf;
   min-height: 40px;
   width: 100%;
-  padding: 4px;
+  padding: 2px;
   border-radius: 5px;
   align-items: center;
   justify-content: center;
@@ -109,7 +114,7 @@ export const WordContainer = styled.View`
   min-height: 30px;
   width: 60px;
   padding: 5px;
-  margin: 8px;
+  margin: 4px;
   border-radius: 2px;
   justify-content: center;
   align-items: center;
