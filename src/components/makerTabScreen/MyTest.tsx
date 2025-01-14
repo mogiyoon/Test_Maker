@@ -18,7 +18,8 @@ export const StyledText = styled.Text`
   font-size: 10px;
 `;
 export const OpenContainer = styled.TouchableOpacity``
-export const JustContainer = styled.View``
+export const JustContainer = styled.View`
+  `
 export const CategoryContainer = styled.View`
   justify-content: center;
   align-items: center;
@@ -33,25 +34,26 @@ export const CategoryText = styled.Text`
 export const OpenCategoryContainer = ({title, children}) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
-    <OpenContainer
-      onPress={() => setIsOpen(!isOpen)}>
-      <CategoryContainer
-        color = { isOpen ? '#ffcdcd' : '#ff9d9d' }>
-        <CategoryText>
-          {title}
-        </CategoryText>
-      </CategoryContainer>
-      {isOpen ? (<JustContainer>
-        {children}
-      </JustContainer>):(null)}
-    </OpenContainer>
+    <JustContainer>
+      <OpenContainer
+        onPress={() => setIsOpen(!isOpen)}>
+        <CategoryContainer
+          color = { isOpen ? '#ffcdcd' : '#ff9d9d' }>
+          <CategoryText>
+            {title}
+          </CategoryText>
+        </CategoryContainer>
+      </OpenContainer>
+        {isOpen ? (<JustContainer>
+          {children}
+        </JustContainer>):(null)}
+    </JustContainer>
   )
 }
 
 export const RecursionTreeFlatList = ({
   node, beforeCategoryName, testList
 }) => {
-  console.log('------rendered------')
   const dispatch = useDispatch()
   let nowCategoryName = ''
   if (node.categoryName === 'Main') {
@@ -78,9 +80,6 @@ export const RecursionTreeFlatList = ({
       <StyledFlatList
           data={testList}
           renderItem={({item : secondItem}) =>{ 
-            console.log('----------')
-            console.log(secondItem.category)
-            console.log(nowCategoryName)
             return secondItem.category === nowCategoryName ?  (
             <FlatListChild
               inputItem={secondItem}
