@@ -79,6 +79,7 @@ export const MakerSetting = () => {
             onValueChange={value => {
               setSettingWordInsideMean(value);
               dispatch(setWordInsideMean(value));
+              dispatch(setIsChanged(true));
             }}
           />
         </RowContainer>

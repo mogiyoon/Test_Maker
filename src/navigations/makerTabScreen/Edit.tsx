@@ -6,7 +6,6 @@ import {
   MeaningContainer,
   ScrollableContainer,
   StyledButton,
-  StyledFlatList,
   StyledText,
   StyledTextInput,
   WindowContainer,
@@ -17,6 +16,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addTestRealmData} from '../../redux/RealmSlice';
 import {setIsChanged} from '../../redux/ContentsSlice';
 import {setIsTreeChanged, setTestTreeInsert} from '../../redux/TestTreeSlice';
+import { GridComponent } from '../../components/GridComponent';
 
 let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
@@ -60,6 +60,7 @@ export const Edit = () => {
 
   name = useSelector(state => state.wordFind.wordFind);
   mean = useSelector(state => state.meanFind.meanFind);
+  const wordInsideMean = useSelector(state => state.wordInsideMean.wordInsideMean)
   const dispatch = useDispatch();
 
   const [firstRender, setFirstRender] = useState(false);
@@ -80,7 +81,12 @@ export const Edit = () => {
   useEffect(() => {
     if (firstRender) {
       setFirstRender(false);
-      const result = returnProblem(content, name, mean); // 문제 만들기 Auto 기능
+      let result = {}
+      if (wordInsideMean) {
+        result = returnProblemIn(content, name, mean);
+      } else {
+        result = returnProblemOut(content, name, mean); // 문제 만들기 Auto 기능
+      }
       problemDicList = result.problemDicList;
       problemDictionary = result.problemDictionary;
     } // 두 번째 렌더 시 문제 추출
@@ -110,7 +116,7 @@ export const Edit = () => {
 
       {/*추가할 컨텐츠*/}
       <Container width={WindowWidth}>
-        <StyledFlatList
+        <GridComponent
           data={problemDicList}
           renderItem={({item}) => (
             <FlatListComponent word={item} meaning={problemDictionary[item]} />
@@ -126,39 +132,85 @@ export const Edit = () => {
   );
 };
 
-function returnProblem(paragraph: string, name: string, mean: string) {
+function returnProblemOut (paragraph: string, name: string, mean: string) {
   const paragraphLength = paragraph.length;
+  let nameDone = false
   let tempNameOutput = '';
   let tempMeanOutput = '';
 
-  for (let i = 0; i < paragraphLength; i++) {
-    if (paragraph[i] === name[0]) {
+  for (let search = 0; search < paragraphLength; search++) {
+    if (paragraph[search] === name[0]) {
       tempNameOutput = '';
-      for (let j = 1; j < paragraphLength - i; j++) {
-        if (paragraph[i + j] === name[1]) {
-          i += j;
+      for (let namePosition = 1; namePosition < paragraphLength - search; namePosition++) {
+        if (paragraph[search + namePosition] === name[1]) {
+          search += namePosition;
+          nameDone = true // nameDone 관련 코드 작성하기
           break;
         }
-        tempNameOutput += paragraph[i + j];
+        tempNameOutput += paragraph[search + namePosition];
       }
     }
 
-    if (paragraph[i] === mean[0]) {
+    if (nameDone === true && paragraph[search] === mean[0]) {
       tempMeanOutput = '';
-      for (let j = 1; j < paragraphLength - i; j++) {
-        if (paragraph[i + j] === mean[1]) {
+      for (let meanPosition = 1; meanPosition < paragraphLength - search; meanPosition++) {
+        if (paragraph[search + meanPosition] === mean[1]) {
           if (!(tempNameOutput in problemDictionary)) {
             problemDictionary[tempNameOutput] = tempMeanOutput;
             problemDicList.push(tempNameOutput);
           }
-          i += j;
+          search += meanPosition;
           break;
         }
-        tempMeanOutput += paragraph[i + j];
+        tempMeanOutput += paragraph[search + meanPosition];
       }
     }
   }
 
+  return {problemDictionary, problemDicList};
+}
+
+function returnProblemIn (paragraph: string, name: string, mean: string) {
+  const paragraphLength = paragraph.length;
+  let nameDone = false;
+  let tempNameOutput = '';
+  let tempMeanOutput = '';
+
+  for (let search = 0; search < paragraphLength; search++) {
+    if (paragraph[search] === mean[0]) {
+      tempMeanOutput = '';
+      for (let meanPosition = 1; meanPosition < paragraphLength - search; meanPosition++) { 
+        if (paragraph[search + meanPosition] === name[0]) { //name이 발견되면
+          tempNameOutput = '';
+          for (let namePosition = 1; namePosition < paragraphLength - search - meanPosition; namePosition++) { //name 끝날 때까지 루프
+            if (paragraph[search + meanPosition + namePosition] === name[1]) {
+              meanPosition += namePosition + 1; //name out시 mean에 name 이동한만큼 더함
+              nameDone = true
+              tempMeanOutput += ' _____ '
+              break;
+            }
+            tempNameOutput += paragraph[search + meanPosition + namePosition];
+          }
+        }
+
+        if (paragraph[search + meanPosition] === mean[1]) {
+          if (nameDone) {
+            if (!(tempNameOutput in problemDictionary)) {
+              problemDictionary[tempNameOutput] = tempMeanOutput;
+              problemDicList.push(tempNameOutput);
+            }
+            search += meanPosition; // mean이 out된 이후에 search update
+            nameDone = false
+            break;
+          } else {
+            search += meanPosition;
+            break
+          }
+        }
+        tempMeanOutput += paragraph[search + meanPosition];
+      }
+    }
+  }
   return {problemDictionary, problemDicList};
 }
 

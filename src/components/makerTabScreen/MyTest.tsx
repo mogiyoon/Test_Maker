@@ -94,8 +94,6 @@ export const RecursionTreeFlatList = ({
     </OpenCategoryContainer>
   )
 }
-export const StyledFlatList = styled.FlatList`
-`;
 export const FlatListTouchableContainer = styled.TouchableOpacity`
   margin: 2px;
 `;

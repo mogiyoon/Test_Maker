@@ -2,7 +2,6 @@ import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 
 const WindowWidth = Dimensions.get('window').width;
-const WindowHeight = Dimensions.get('window').height;
 
 export const Container = styled.View`
   flex: 1;
@@ -29,7 +28,7 @@ export const StyledTextInput = styled.TextInput.attrs({
   border: 1px;
   padding: 10px;
   margin: 10px 0px;
-  font-size: 20px;
+  font-size: 15px;
   width: ${({width}) => width * 0.9}px;
   height: ${({height}) => height * 0.7}px;
 `;

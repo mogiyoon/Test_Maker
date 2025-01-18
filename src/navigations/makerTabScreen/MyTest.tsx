@@ -53,9 +53,6 @@ export const MyTest = () => {
     setNowCategory(myTestTree[0]);
   }, []);
 
-  console.log('my test list')
-  console.log(myTestList)
-
   return (
     <Container>
       {myTestList.length === 0 ? (

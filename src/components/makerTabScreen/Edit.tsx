@@ -54,6 +54,7 @@ export const StyledTextInput = styled.TextInput.attrs({
   width: 80px;
   margin: 8px;
   border-radius: 10px;
+  font-size: 12px;
   align-items: center;
   justify-content: center;
 `;
