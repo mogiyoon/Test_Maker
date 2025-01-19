@@ -3,11 +3,14 @@ import {
   readConvertTime,
   writeConvertTimePlusOne,
 } from '../../db/TimeAsyncStorage';
-import {Keyboard, Switch, TouchableWithoutFeedback} from 'react-native';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {
   Container,
+  ExampleContainer,
+  ExampleText,
   RowContainer,
   StyledButton,
+  StyledSwitch,
   StyledText,
   StyledTextInput,
 } from '../../components/makerTabScreen/MakerSetting';
@@ -71,10 +74,28 @@ export const MakerSetting = () => {
             <StyledText>read</StyledText>
           </StyledButton>
         </RowContainer>
-
+        
+        {wordInsideMean ? (
+          <ExampleContainer>
+            <ExampleText>
+              {settingMean[0]}this is{' '}
+              {settingName[0]}example{settingName[1]}
+              {' '}sentence {settingMean[1]} 
+            </ExampleText>
+        </ExampleContainer>) : (
+          <ExampleContainer>
+            <ExampleText>
+              {settingName[0]}example{settingName[1]}
+              {settingMean[0]}a person or way of behaving that is seen as a model that should be followed{settingMean[1]}
+            </ExampleText>
+          </ExampleContainer>
+        )}
         <RowContainer>
           {/* Word Inside Mean */}
-          <Switch
+          <StyledText>
+            Answer In Paragraph
+          </StyledText>
+          <StyledSwitch
             value={settingWordInsideMean}
             onValueChange={value => {
               setSettingWordInsideMean(value);
@@ -86,6 +107,9 @@ export const MakerSetting = () => {
 
         <RowContainer>
           {/* Word Finder */}
+          <StyledText>
+            Answer
+          </StyledText>
           <StyledTextInput
             value={settingName}
             onChangeText={text => setSettingName(text)}
@@ -101,6 +125,9 @@ export const MakerSetting = () => {
 
         <RowContainer>
           {/* Mean Finder */}
+          <StyledText>
+            Paragraph
+          </StyledText>
           <StyledTextInput
             value={settingMean}
             onChangeText={text => setSettingMean(text)}
