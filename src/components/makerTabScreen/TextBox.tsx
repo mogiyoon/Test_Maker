@@ -1,18 +1,11 @@
-import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 
-const WindowWidth = Dimensions.get('window').width;
-
-export const Container = styled.View`
-  flex: 1;
-  justify-content: start;
-  align-items: center;
+export const Container = styled.KeyboardAvoidingView`
 `;
 export const RowContainer = styled.View`
-  width: ${WindowWidth}px;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: stretch;
+  margin-top: 10px;
 `;
 export const StyledText = styled.Text`
   font-size: ${({fontSize}) => fontSize}px;
@@ -23,14 +16,13 @@ export const StyledTextInput = styled.TextInput.attrs({
   textAlignVertical: 'top',
   multiline: true,
 })`
+  height: 65%;
   background-color: #ffffff;
   border-radius: 8px;
   border: 1px;
   padding: 10px;
-  margin: 10px 0px;
+  margin: 10px;
   font-size: 15px;
-  width: ${({width}) => width * 0.9}px;
-  height: ${({height}) => height * 0.7}px;
 `;
 export const StyledButton = styled.TouchableOpacity`
   background-color: #ff8888;

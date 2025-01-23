@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {Dimensions, Keyboard, TouchableWithoutFeedback} from 'react-native';
+import {Keyboard, Platform, TouchableWithoutFeedback} from 'react-native';
 import {
   Container,
+  KeyboardContainer,
   RowContainer,
   StyledButton,
   StyledText,
@@ -9,9 +10,6 @@ import {
 } from '../../components/makerTabScreen/TextBox';
 import {useDispatch, useSelector} from 'react-redux';
 import {setContentData, setIsChanged} from '../../redux/ContentsSlice';
-
-const WindowWidth = Dimensions.get('window').width;
-const WindowHeight = Dimensions.get('window').height;
 
 export const TextBox = () => {
   const content = useSelector(state => state.content.contentData);
@@ -34,14 +32,9 @@ export const TextBox = () => {
       onPress={() => {
         Keyboard.dismiss();
       }}>
-      <Container>
-        <StyledTextInput
-          value={testContext}
-          onChangeText={text => setTestContext(text)}
-          placeholder="Input Contents"
-          width={WindowWidth}
-          height={WindowHeight * 0.65}
-        />
+      <Container
+       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <RowContainer>
           <StyledButton onPress={() => updateContent()}>
             <StyledText fontSize={14}>Confirm</StyledText>
@@ -50,6 +43,11 @@ export const TextBox = () => {
             <StyledText fontSize={14}>Delete</StyledText>
           </StyledButton>
         </RowContainer>
+        <StyledTextInput
+          value={testContext}
+          onChangeText={text => setTestContext(text)}
+          placeholder="Input Contents"
+        />
       </Container>
     </TouchableWithoutFeedback>
   );

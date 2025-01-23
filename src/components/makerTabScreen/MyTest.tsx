@@ -5,7 +5,7 @@ import { GridComponent } from '../GridComponent';
 import { useDispatch } from 'react-redux';
 import { removeTestRealmData } from '../../redux/RealmSlice';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   width: 100%;
   padding: 2px;
 `;

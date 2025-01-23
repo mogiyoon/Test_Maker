@@ -53,7 +53,6 @@ let name = '';
 let mean = '';
 
 export const Edit = () => {
-  const WindowWidth = Dimensions.get('window').width;
   const content = useSelector(state => state.content.contentData);
   const isChanged = useSelector(state => state.contentChanged.isChanged);
   const myTestRedux = useSelector(state => state.testRealm.realmData);
@@ -95,7 +94,7 @@ export const Edit = () => {
   return (
     <WindowContainer>
       {/*추가 버튼*/}
-      <ButtonContainer width={WindowWidth}>
+      <ButtonContainer>
         <StyledTextInput
           value={category}
           onChangeText={text => {
@@ -115,7 +114,7 @@ export const Edit = () => {
       </ButtonContainer>
 
       {/*추가할 컨텐츠*/}
-      <Container width={WindowWidth}>
+      <Container>
         <GridComponent
           data={problemDicList}
           renderItem={({item}) => (
@@ -125,7 +124,7 @@ export const Edit = () => {
       </Container>
 
       {/*컨텐츠 미리보기*/}
-      <ScrollableContainer width={WindowWidth}>
+      <ScrollableContainer>
         <StyledText>{content}</StyledText>
       </ScrollableContainer>
     </WindowContainer>

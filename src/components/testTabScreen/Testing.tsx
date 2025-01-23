@@ -26,7 +26,7 @@ export const RowContainer = styled.View`
 `;
 
 export const MeaningContainer = styled.View`
-  width: ${windowWidth * 0.95}px;
+  flex: 1;
   background-color: #c4c0f4;
   justify-content: center;
   align-items: center;
@@ -46,7 +46,7 @@ export const TextBox = styled.Text`
 
 export const ChoiceBox = styled.TouchableOpacity`
   height: 100px;
-  width: ${windowWidth * 0.45}px;
+  flex: 1;
   background-color: #ffffaf;
   margin: 2px 6px;
   justify-content: center;

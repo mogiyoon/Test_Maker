@@ -4,8 +4,6 @@ import styled from 'styled-components/native';
 export const WindowContainer = styled.View`
   background-color: #ff6868;
   flex: 1;
-  justify-content: start;
-  align-items: center;
 `;
 export const ScrollableContainer = styled.ScrollView`
   background-color: #ffffff;
@@ -13,7 +11,6 @@ export const ScrollableContainer = styled.ScrollView`
   margin: 4px 8px 8px 8px;
   padding: 8px;
   border-radius: 15px;
-  width: ${({width}) => width - 20}px;
 `;
 export const Container = styled.View`
   background-color: #ffffff;
@@ -23,13 +20,11 @@ export const Container = styled.View`
   border-radius: 15px;
   justify-content: start;
   align-items: start;
-  width: ${({width}) => width - 20}px;
 `;
 export const ButtonContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: start;
-  width: ${({width}) => width}px;
   height: 40px;
 `;
 export const StyledButton = styled.TouchableOpacity`
