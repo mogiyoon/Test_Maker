@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {setIsTreeTestSpaceChanged, testTree} from '../../redux/TestTreeSlice';
+import {testTree} from '../../redux/TestTreeSlice';
 import {setIsTestChanged, testChooser} from '../../redux/TestChoiceSlice';
 import {
   ScrollContainer,
@@ -17,20 +17,12 @@ import { GridComponent } from '../../components/GridComponent';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
-  const treeChange = useSelector(state => state.treeChanged.isTreeChanged);
   const dispatch = useDispatch();
 
   const [myTestTree, setMyTestTree] = useState(testTree);
   const [nowCategory, setNowCategory] = useState(myTestTree[0]); // 현재 카테고리
   const [inCategories, setInCategories] = useState(myTestTree[0].childCategory); // 자식 카테고리를 보여줌(화면에 나오는 것)
   const [chosenCategory, setChosenCategory] = useState(undefined)
-
-  if (treeChange[2]) {
-    setMyTestTree(testTree);
-    setNowCategory(myTestTree[0]);
-    setInCategories(myTestTree[0].childCategory);
-    dispatch(setIsTreeTestSpaceChanged(false));
-  }
 
   useEffect(() => {
     setNowCategory(myTestTree[0]);

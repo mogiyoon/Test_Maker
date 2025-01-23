@@ -15,7 +15,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {addTestRealmData} from '../../redux/RealmSlice';
 import {setIsChanged} from '../../redux/ContentsSlice';
-import {setIsTreeChanged, setTestTreeInsert} from '../../redux/TestTreeSlice';
+import {setTestTreeInsert} from '../../redux/TestTreeSlice';
 import { GridComponent } from '../../components/GridComponent';
 
 let tempTestList = [];
@@ -251,7 +251,6 @@ function saveToMyTest(myTest: string[], dispatch, categoryName: string) {
       };
       dispatch(addTestRealmData(inputData));
       setTestTreeInsert(inputData);
-      dispatch(setIsTreeChanged(true));
     }
   }
 }

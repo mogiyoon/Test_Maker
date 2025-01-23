@@ -71,7 +71,7 @@ export const MakerSetting = () => {
           {/* 광고 */}
           <StyledText>{appearingTime}</StyledText>
           <StyledButton onPress={handlePlusConvertTime}>
-            <StyledText>read</StyledText>
+            <StyledText>Read</StyledText>
           </StyledButton>
         </RowContainer>
         

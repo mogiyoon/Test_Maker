@@ -17,22 +17,54 @@ export const testRealmSlice = createSlice({
         testMakerRealm.create('MyTest', action.payload);
       });
     },
-    removeTestRealmData: (state, action) => {
+    modifyTestReamData: (state, action) => {
+      const {id, category, word, meaning} = action.payload
+      const tempList = state.realmData.filter(
+        item => (item.id === id),
+      );
+      const tempData = tempList[0]
+      tempData.category = category
+      tempData.word = word
+      tempData.meaning = meaning
+      testMakerRealm.write(() => {
+        const ListToModify = testMakerRealm
+          .objects('MyTest')
+          .filtered(`id == "${id}"`);
+
+        const dataToModify = ListToModify[0]
+        dataToModify.category = category
+        dataToModify.word = word
+        dataToModify.meaning = meaning
+      });
+    },
+    removeOneTestRealmData: (state, action) => {
       const {id, word} = action.payload;
       state.realmData = state.realmData.filter(
-        item => !(item.id === id && item.word === word),
+        item => !(item.id === id)
       );
       testMakerRealm.write(() => {
         const dataToDelete = testMakerRealm
           .objects('MyTest')
-          .filtered(`word == "${word}" AND id == "${id}"`);
+          .filtered(`id == "${id}"`);
         testMakerRealm.delete(dataToDelete);
       });
     },
+    removeTestRealmData: (state, action) => {
+      const category = action.payload;
+      state.realmData = state.realmData.filter(
+        item => !(item.category === category)
+      );
+      testMakerRealm.write(() => {
+        const listToDelete = testMakerRealm
+          .objects('MyTest')
+          .filtered(`category == "${category}"`);
+        testMakerRealm.delete(listToDelete)
+      })
+    }
   },
 });
 
-export const {setTestRealmData, addTestRealmData, removeTestRealmData} =
+export const {setTestRealmData, addTestRealmData, modifyTestReamData, removeOneTestRealmData, removeTestRealmData} =
   testRealmSlice.actions;
 
 export const wrongAnswerRealmSlice = createSlice({

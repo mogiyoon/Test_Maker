@@ -8,20 +8,32 @@ import {
   StyledText,
   FlatListTouchableContainer,
   WordContainer,
+  ModifyContainer,
+  ModifyText,
+  ModifyTextInput,
+  ModifyEvenRowContainer,
+  ModifyButton,
+  ModifyRowContainer,
+  RemoveButton,
 } from '../../components/makerTabScreen/MyTest';
 import {useDispatch, useSelector} from 'react-redux';
-import {removeTestRealmData} from '../../redux/RealmSlice';
-import {testTreeInitiate, setIsTreeChanged, testTree, setIsTreeMyTestChanged} from '../../redux/TestTreeSlice';
+import {modifyTestReamData, removeOneTestRealmData} from '../../redux/RealmSlice';
+import {testTreeInitiate, testTree} from '../../redux/TestTreeSlice';
 import {itemIdReset} from '../../redux/TestChoiceSlice';
 
-export const FlatListChild = ({inputItem, dispatch}) => {
+export const FlatListChild = ({inputItem}) => {
+  const [isModifyOpen, setIsModifyOpen] = useState(false)
+  const [textInputCategory, setTextInputCategory] = useState('')
+  const [textInputWord, setTextInputWord] = useState('')
+  const [textInputMeaning, setTextInputMeaning] = useState('')
+  const dispatch = useDispatch()
+
   return (
     <FlatListTouchableContainer
+      onPress={() => {
+        setIsModifyOpen(!isModifyOpen)
+      }}
       onLongPress={() => {
-        dispatch(removeTestRealmData({id: inputItem.id, word: inputItem.word}));
-        testTreeInitiate();
-        itemIdReset();
-        dispatch(setIsTreeChanged(true));
       }}>
       <FlatListContainer>
         <WordContainer>
@@ -31,23 +43,93 @@ export const FlatListChild = ({inputItem, dispatch}) => {
           <StyledText>{inputItem.meaning}</StyledText>
         </MeaningContainer>
       </FlatListContainer>
+      {isModifyOpen ? (
+        <ModifyContainer>
+          <ModifyRowContainer>
+            <ModifyText>
+              Category : 
+            </ModifyText>
+            <ModifyTextInput
+              placeholder={inputItem.category}
+              value={textInputCategory}
+              onChangeText={(value) => setTextInputCategory(value)}
+            />
+          </ModifyRowContainer>
+
+          <ModifyRowContainer>
+            <ModifyText>
+              Word :
+            </ModifyText>
+            <ModifyTextInput
+              placeholder={inputItem.word}
+              value={textInputWord}
+              onChangeText={(value) => setTextInputWord(value)}
+            />
+          </ModifyRowContainer>
+
+          <ModifyRowContainer>
+            <ModifyText>
+              Meaning :
+            </ModifyText>
+            <ModifyTextInput
+              placeholder={inputItem.meaning}
+              value={textInputMeaning}
+              onChangeText={(value) => setTextInputMeaning(value)}
+            />
+          </ModifyRowContainer>
+
+          <ModifyEvenRowContainer>
+            <ModifyButton // 수정 버튼
+              onPress={() => {
+                let newCategory = inputItem.category
+                let newWord = inputItem.word
+                let newMeaning = inputItem.meaning
+
+                if (textInputCategory !== '') {
+                  newCategory = textInputCategory
+                }
+                if (textInputWord !== '') {
+                  newWord = textInputWord
+                }
+                if (textInputMeaning !== '') {
+                  newMeaning = textInputMeaning
+                }
+                dispatch(modifyTestReamData({
+                  id: inputItem.id,
+                  category: newCategory,
+                  word: newWord,
+                  meaning: newMeaning,
+                }))
+                testTreeInitiate();
+                itemIdReset();
+              }}
+            >
+              <ModifyText>Modify</ModifyText>
+            </ModifyButton>
+
+            <RemoveButton // 삭제 버튼
+              onPress={() => {
+                dispatch(removeOneTestRealmData({id: inputItem.id, word: inputItem.word}));
+                testTreeInitiate();
+                itemIdReset();
+              }}
+            >
+              <ModifyText>Remove</ModifyText>
+            </RemoveButton>
+          </ModifyEvenRowContainer>
+        </ModifyContainer>
+      ) : (
+        null
+      )}
     </FlatListTouchableContainer>
   );
 };
 
 export const MyTest = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
-  const treeChange = useSelector(state => state.treeChanged.isTreeChanged);
-  const dispatch = useDispatch();
 
   const [myTestTree, setMyTestTree] = useState(testTree);
   const [nowCategory, setNowCategory] = useState(myTestTree[0]); // 현재 카테고리
-
-  if (treeChange[1]) {
-    setMyTestTree(testTree);
-    setNowCategory(myTestTree[0]);
-    dispatch(setIsTreeMyTestChanged(false));
-  }
 
   useEffect(() => {
     setNowCategory(myTestTree[0]);

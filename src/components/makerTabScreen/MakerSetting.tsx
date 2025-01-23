@@ -26,7 +26,8 @@ export const ExampleText = styled.Text`
 `
 
 export const StyledSwitch = styled.Switch`
-  margin-left: 10px
+  margin: 8px 0px;
+  margin-left: 10px;
 `
 
 export const StyledText = styled.Text`
@@ -52,9 +53,11 @@ export const StyledTextInput = styled.TextInput.attrs({
 `;
 export const StyledButton = styled.TouchableOpacity`
   background-color: #ffffff;
-  height: 20px;
   width: 60px;
   margin: 10px;
+  padding: 2px;
+  border-radius: 10px;
+  border: 1px;
   justify-content: center;
   align-items: center;
 `;

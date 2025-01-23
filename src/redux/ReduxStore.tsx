@@ -5,7 +5,6 @@ import {
   contentSlice,
   usingOCRSlice,
 } from './ContentsSlice';
-import {treeChangedSlice} from './TestTreeSlice';
 import {
   meanFindSlice,
   wordFindSlice,
@@ -21,7 +20,6 @@ export const store = configureStore({
     content: contentSlice.reducer,
     contentChanged: contentChangedSlice.reducer,
     usingOCR: usingOCRSlice.reducer,
-    treeChanged: treeChangedSlice.reducer,
 
     testChanged: testChangedSlice.reducer,
     wordInsideMean: wordInsideMeanSlice.reducer,

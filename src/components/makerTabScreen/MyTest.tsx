@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
 import React, { useState } from 'react';
 import { FlatListChild } from '../../navigations/makerTabScreen/MyTest';
-import { useDispatch } from 'react-redux';
 import { GridComponent } from '../GridComponent';
+import { useDispatch } from 'react-redux';
+import { removeTestRealmData } from '../../redux/RealmSlice';
 
 export const Container = styled.View`
   width: 100%;
@@ -17,8 +18,8 @@ export const DataContainer = styled.View`
 export const StyledText = styled.Text`
   font-size: 10px;
 `;
-const OpenContainer = styled.TouchableOpacity`
-`
+
+
 const JustContainer = styled.View`
 `
 
@@ -33,20 +34,53 @@ const CategoryText = styled.Text`
   font-size: 20px;
 `
 
+const RemoveContainer = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  margin: 0 5px;
+  padding: 5px;
+`
+export const RemoveCategoryContainer = ({category}) => {
+  const dispatch = useDispatch()
+
+  return (
+    <RemoveContainer
+      onPress={() => {
+        dispatch(removeTestRealmData(category))
+      }}
+    >
+      <CategoryText>
+        Remove This {category} Category
+      </CategoryText>
+    </RemoveContainer>
+  )
+}
+
+//OpenContainer를 상위 Container로 만들기 위한 컴포넌트
+const OpenContainer = styled.TouchableOpacity`
+`
 export const OpenCategoryContainer = ({title, children}) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenRemove, setIsOpenRemove] = useState(false)
+  const [isOpenCategory, setIsOpenCategory] = useState(false)
   return (
     <JustContainer>
       <OpenContainer
-        onPress={() => setIsOpen(!isOpen)}>
+        onLongPress={() => setIsOpenRemove(!isOpenRemove)}
+        onPress={() => setIsOpenCategory(!isOpenCategory)}>
         <CategoryContainer
-          color = { isOpen ? '#ffcdcd' : '#ff9d9d' }>
+          color = { isOpenCategory ? '#ffcdcd' : '#ff9d9d' }>
           <CategoryText>
             {title}
           </CategoryText>
         </CategoryContainer>
       </OpenContainer>
-        {isOpen ? (<JustContainer>
+        {isOpenRemove && (title !== 'Main') ? (
+          <RemoveCategoryContainer
+            category={title}
+          />
+        ):(null)}
+        {isOpenCategory ? (<JustContainer>
           {children}
         </JustContainer>):(null)}
     </JustContainer>
@@ -56,7 +90,6 @@ export const OpenCategoryContainer = ({title, children}) => {
 export const RecursionTreeFlatList = ({
   node, beforeCategoryName, testList
   }) => {
-  const dispatch = useDispatch()
   let nowCategoryName = ''
   if (node.categoryName === 'Main') {
   } else if (beforeCategoryName === '') {
@@ -66,34 +99,32 @@ export const RecursionTreeFlatList = ({
   }
 
   return (
-    <OpenCategoryContainer
-      title={node.categoryName}
-    >
-      <GridComponent
+    <OpenCategoryContainer title={node.categoryName}>
+      <GridComponent //Category용 그리드 컴포넌트
         data={node.childCategory}
-        renderItem={({item : firstItem}) => {
-
-          return (<RecursionTreeFlatList
-            node={firstItem}
-            beforeCategoryName={nowCategoryName}
-            testList={testList}
-          />)
+        renderItem={({item: firstItem}) => {
+          return (
+            <RecursionTreeFlatList
+              node={firstItem}
+              beforeCategoryName={nowCategoryName}
+              testList={testList}
+            />
+          );
         }}
       />
-      <GridComponent
-          data={testList}
-          maxHeight={400}
-          renderItem={({item : secondItem}) =>{
-            return secondItem.category === nowCategoryName ?  (
-            <FlatListChild
-              inputItem={secondItem}
-              dispatch={dispatch}
-            />) : (null
-          )}}
-        />   
+      <GridComponent //단어 컴포넌트
+        data={testList} // testList 데이터 활용
+        maxHeight={400}
+        renderItem={({item: secondItem}) => {
+          return secondItem.category === nowCategoryName ? (
+            <FlatListChild inputItem={secondItem} />
+          ) : null;
+        }}
+      />
     </OpenCategoryContainer>
-  )
+  );
 }
+
 export const FlatListTouchableContainer = styled.TouchableOpacity`
   margin: 2px;
 `;
@@ -126,3 +157,45 @@ export const MeaningContainer = styled.View`
   border-radius: 2px;
   justify-content: center;
 `;
+export const ModifyContainer = styled.View`
+  padding: 10px;
+  background-color: #ffbebe;
+`
+export const ModifyEvenRowContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 15px;
+`
+export const ModifyRowContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin: 5px;
+`
+export const ModifyText = styled.Text`
+`
+export const ModifyTextInput = styled.TextInput.attrs({
+  autoCapitalize: 'none',
+  autoCorrect: false,
+  textAlign: 'center',
+})`
+  background-color: #ffffff;
+  padding: 5px;
+  margin-left: 4px;
+  border-radius: 5px;
+`
+export const ModifyButton = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  padding: 4px;
+  border-radius: 5px;
+  background-color: #ff7878;
+`
+export const RemoveButton = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  padding: 4px;
+  border-radius: 5px;
+  background-color: #ff7878;
+`
