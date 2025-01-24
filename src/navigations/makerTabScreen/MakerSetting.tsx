@@ -30,9 +30,8 @@ export const MakerSetting = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
-  const wordInsideMean = useSelector(
-    state => state.wordInsideMean.wordInsideMean,
-  );
+  //저장된 설정 받아오기
+  const wordInsideMean = useSelector(state => state.wordInsideMean.wordInsideMean);
   const wordFind = useSelector(state => state.wordFind.wordFind);
   const meanFind = useSelector(state => state.meanFind.meanFind);
 
@@ -78,7 +77,7 @@ export const MakerSetting = () => {
             <StyledText>{languageSet.Read}</StyledText>
           </StyledButton>
         </RowContainer>
-        
+
         {wordInsideMean ? (
           <ExampleContainer>
             <ExampleText>

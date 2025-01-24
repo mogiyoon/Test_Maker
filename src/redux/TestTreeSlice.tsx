@@ -27,21 +27,9 @@ export const setTestTreeInsert = inputData => {
   dataWriter(node, data);
 };
 
-export const setTestTreeRemove = inputData => {
-  const data = inputData;
-  const categoryList = categoryAlign(data.category);
-  const levelNum = 0;
-  const node = categoryFinder(state.testTree[0], categoryList, levelNum, true);
-  dataRemover(node, data.id);
-};
-
 const dataWriter = (node, data) => {
   node.childId.push(data.id);
 }; // 데이터 추가
-
-const dataRemover = (node, id) => {
-  console.log((node.childId = node.childId.filter(item => item !== id)));
-};
 
 const categoryWriter = (parentNode, inputCategory) => {
   const category = {

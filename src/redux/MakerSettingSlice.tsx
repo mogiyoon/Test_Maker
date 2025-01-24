@@ -5,16 +5,6 @@ import {
 } from '../db/MakerSettingAsyncStorage';
 import {store} from './ReduxStore';
 
-export const makerSettingChangeSlice = createSlice({
-  name: 'makerSettingChange',
-  initialState: {isMakerSettingChanged: false},
-  reducers: {
-    setIsMakerSettingChanged: (state, action) => {
-      state.isMakerSettingChanged = action.payload;
-    },
-  },
-});
-
 export const wordInsideMeanSlice = createSlice({
   name: 'wordInsideMean',
   initialState: {wordInsideMean: false},

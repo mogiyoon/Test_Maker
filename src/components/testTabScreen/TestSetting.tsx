@@ -2,34 +2,14 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  align-items: center;
 `;
 export const RowContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-`;
-
-export const ExampleContainer = styled.View`
-  width: 90%;
-  padding: 5px;
-  margin: 10px;
-  border: 1px;
-  border-radius: 5px;
-  justify-content: center;
-  align-items: center;
-  background-color: #d6ffd8;
 `
-export const ExampleText = styled.Text`
-  font-size: 15px;
-`
-
-export const StyledSwitch = styled.Switch`
-  margin: 8px 0px;
-  margin-left: 10px;
-`
-
 export const StyledText = styled.Text`
+  margin: 10px;
   font-size: 15px;
 `;
 export const StyledTextInput = styled.TextInput.attrs({
@@ -37,15 +17,13 @@ export const StyledTextInput = styled.TextInput.attrs({
   autoCorrect: false,
   textAlign: 'center',
   textAlignVertical: 'top',
-  maxLength: 2,
   multiline: false,
 })`
   background-color: #ffffff;
   border-radius: 8px;
   border: 1px;
   padding: 2px;
-  margin: 8px 0px;
-  margin-left: 10px;
+  margin: 10px;
   font-size: 15px;
   width: 70px;
   height: 30px;
@@ -59,4 +37,8 @@ export const StyledButton = styled.TouchableOpacity`
   border: 1px;
   justify-content: center;
   align-items: center;
+`;
+export const StyledSwitch = styled.Switch`
+  margin: 8px 0px;
+  margin-left: 10px;
 `;

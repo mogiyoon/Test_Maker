@@ -6,10 +6,8 @@ import {
   GridInnerContainer,
   OpenWordContainer,
   StyledText,
-  TouchableContainer,
 } from '../../components/testTabScreen/WrongAnswer';
 import {useDispatch, useSelector} from 'react-redux';
-import {removeWrongAnswerRealmData} from '../../redux/RealmSlice';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 

@@ -10,8 +10,9 @@ import {
   wordFindSlice,
   wordInsideMeanSlice,
 } from './MakerSettingSlice';
-import {testChangedSlice} from './TestChoiceSlice';
 import { languageSlice } from './LanguageSlice';
+import { exportNumSlice, showExportNumSlice } from './TestSettingSlice';
+import { testChangedSlice } from './TestChoiceSlice';
 
 export const store = configureStore({
   reducer: {
@@ -25,8 +26,14 @@ export const store = configureStore({
     usingOCR: usingOCRSlice.reducer,
 
     testChanged: testChangedSlice.reducer,
+
+    //Maker Setting
     wordInsideMean: wordInsideMeanSlice.reducer,
     wordFind: wordFindSlice.reducer,
     meanFind: meanFindSlice.reducer,
+
+    //Test Setting
+    exportNum: exportNumSlice.reducer,
+    showExportNum: showExportNumSlice.reducer,
   },
 });

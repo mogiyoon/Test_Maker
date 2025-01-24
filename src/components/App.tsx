@@ -9,8 +9,8 @@ export const ImageContainer =styled.View`
   align-items: center;
 `
 export const InitiateImg = styled.Image`
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
   padding: 10px;
 `
 export const InitiateText = styled.Text`

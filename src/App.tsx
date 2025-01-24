@@ -9,6 +9,8 @@ import {testTreeInitiate} from './redux/TestTreeSlice';
 import {makerSettingInit} from './redux/MakerSettingSlice';
 import { HomeView, ImageContainer, InitiateImg, InitiateText } from './components/App';
 import { initiateLanguageStorage, languageSettingInit } from './db/LanguageAsyncStorage';
+import { initiateTestSettingStorage } from './db/TestSettingAsyncStorage';
+import { testSettingInit } from './redux/TestSettingSlice';
 
 
 
@@ -17,6 +19,7 @@ const App = () => {
   const initiateStorage = async () => {
     await initiateTimeStorage();
     await initiateMakerSettingStorage();
+    await initiateTestSettingStorage();
     await initiateLanguageStorage();
   };
 
@@ -27,6 +30,7 @@ const App = () => {
         syncReduxWithRealm();
         testTreeInitiate();
         makerSettingInit();
+        testSettingInit();
         languageSettingInit();
         setLoading((preVal) => preVal + 1)
       } catch (e) {

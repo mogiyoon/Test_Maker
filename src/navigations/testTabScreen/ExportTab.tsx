@@ -32,12 +32,15 @@ export const ExportTab = () => {
   const [exportTestContents, setExportTestContents] = useState('');
   const [exportAnswerContents, setExportAnswerContents] = useState('');
 
+  const exportNum = useSelector(state => state.exportNum.exportNum)
+  const showExportNum = useSelector(state => state.showExportNum.showExportNum)
+
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
   const copyToClipboard = text => {
     Clipboard.setString(text);
-    Alert.alert('copied to clipboard');
+    Alert.alert(languageSet.CopiedToClipBoard);
   };
 
   const myTestList = useSelector(state => state.testRealm.realmData);
@@ -56,11 +59,18 @@ export const ExportTab = () => {
   //랜덤 큐 생성
   const randomQuizQueueSetting = () => {
     randomQuizQueue = [];
-    while (tempQuizQueue.length > 0) {
+    let quizNumber = tempQuizQueue.length
+    if (exportNum !== 0) {
+      if (quizNumber > exportNum) {
+        quizNumber = exportNum
+      }
+    }
+    while (quizNumber > 0) {
       const quizQueueLength = tempQuizQueue.length;
       const tempRandomNum = Math.floor(Math.random() * quizQueueLength);
       const tempDequeValue = dequeue(tempQuizQueue, tempRandomNum);
       enqueue(randomQuizQueue, tempDequeValue);
+      quizNumber -= 1;
     }
     enqueue(randomQuizQueue, '00000000'); //큐의 마지막
   };
@@ -103,9 +113,12 @@ export const ExportTab = () => {
     testProblem = '';
     testAnswer = '';
     if (randomQuizQueue.length === 1) {
-      setExportTestContents('No Data');
+      setExportTestContents(languageSet.NoData);
       return;
     }
+
+    let num = 1
+    let testNumber = '';
     while (randomQuizQueue.length > 0) {
       tempQuizId = dequeue(randomQuizQueue);
       if (tempQuizId === '00000000') {
@@ -119,8 +132,13 @@ export const ExportTab = () => {
       let secondChoice = '';
       let thirdChoice = '';
       let fourthChoice = '';
-      testProblem = testProblem + mean;
-      testAnswer = testAnswer + mean;
+      if (showExportNum === true) {
+        testNumber = String(num) + '. '
+      }
+
+      testProblem =  testProblem + testNumber + mean;
+      testAnswer = testAnswer +testNumber + mean;
+      num += 1
 
       if (choiceNodeList.length > 0) {
         firstChoice = '\t' + choiceNodeList[0].word;
@@ -161,12 +179,12 @@ export const ExportTab = () => {
           onPress={() => {
             makeExportableTest();
           }}>
-          <Text>{languageSet.Export}</Text>
+          <Text>{languageSet.Extract}</Text>
         </Button>
         <Button
           onPress={() => {
             copyToClipboard(
-              'Problem\n' + testProblem + 'Answer\n' + testAnswer,
+              languageSet.Problem + '\n' + testProblem + languageSet.Answer + '\n' + testAnswer,
             );
           }}>
           <Text>{languageSet.Copy}</Text>
