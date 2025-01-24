@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //Setting은 기능이 자주 변경되지만 많은 데이터를 사용하지 않으므로 async storage 사용
-
 export async function toggleMakerSetting(makerSettingParm: string) {
   const stringBoolValue = await readMakerSetting(makerSettingParm);
   const boolValue = stringBoolValue === 'true';
@@ -38,6 +37,7 @@ export async function initiateMakerSettingStorage() {
           makerSettingInitiateValue[i],
         );
       }
+      readMakerSetting(makerSettingList[i])
     }
   }
 }
