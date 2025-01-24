@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { languageIndex, writeLanguageSetting } from '../db/LanguageAsyncStorage';
+import { languageIndex, readLanguageSetting, writeLanguageSetting } from '../db/LanguageAsyncStorage';
+import { store } from './ReduxStore';
 
 export const languageSlice = createSlice({
   name: 'LanguageUpdate',
@@ -13,3 +14,9 @@ export const languageSlice = createSlice({
 });
 
 export const { setLanguageData } = languageSlice.actions
+
+export const languageSettingInit = async () => {
+  const savedLanguage = await readLanguageSetting();
+
+  store.dispatch(setLanguageData(savedLanguage));
+};

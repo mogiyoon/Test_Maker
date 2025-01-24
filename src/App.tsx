@@ -8,9 +8,10 @@ import {store} from './redux/ReduxStore';
 import {testTreeInitiate} from './redux/TestTreeSlice';
 import {makerSettingInit} from './redux/MakerSettingSlice';
 import { HomeView, ImageContainer, InitiateImg, InitiateText } from './components/App';
-import { initiateLanguageStorage, languageSettingInit } from './db/LanguageAsyncStorage';
+import { initiateLanguageStorage } from './db/LanguageAsyncStorage';
 import { initiateTestSettingStorage } from './db/TestSettingAsyncStorage';
 import { testSettingInit } from './redux/TestSettingSlice';
+import { languageSettingInit } from './redux/LanguageSlice';
 
 
 
@@ -24,18 +25,19 @@ const App = () => {
   };
 
   useEffect(() => {
-    initiateStorage().then(() => {
-      setLoading((preVal) => preVal + 1)
-      try {
+    try {
+      initiateStorage().then(() => {
+        setLoading((preVal) => preVal + 1)
+        languageSettingInit();
         syncReduxWithRealm();
         testTreeInitiate();
         makerSettingInit();
         testSettingInit();
-        languageSettingInit();
         setLoading((preVal) => preVal + 1)
-      } catch (e) {
-      }
-    })
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }, [])
 
   const loadingMax = 2

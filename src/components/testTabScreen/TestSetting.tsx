@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
+  align-items: center;
 `;
 export const RowContainer = styled.View`
   flex-direction: row;
@@ -9,7 +10,6 @@ export const RowContainer = styled.View`
   align-items: center;
 `
 export const StyledText = styled.Text`
-  margin: 10px;
   font-size: 15px;
 `;
 export const StyledTextInput = styled.TextInput.attrs({

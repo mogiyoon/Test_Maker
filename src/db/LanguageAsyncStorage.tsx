@@ -29,9 +29,3 @@ export async function initiateLanguageStorage() {
     await AsyncStorage.setItem( language, languageIndex.English)
   }
 }
-
-export const languageSettingInit = async () => {
-  const savedLanguage = await readLanguageSetting();
-
-  store.dispatch(setLanguageData(savedLanguage));
-};
