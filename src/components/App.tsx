@@ -13,3 +13,7 @@ export const InitiateImg = styled.Image`
   height: 200px;
   padding: 10px;
 `
+export const InitiateText = styled.Text`
+  font-size: 30px;
+  margin-top: 50px;
+`

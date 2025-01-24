@@ -77,9 +77,13 @@ yarn-error.log
 test-maker-443512-e481b6eb8d46.json
 
 # tsx
+src/services/*
 src/services/GoogleVision.tsx
 src/db/TimeAsyncStorage.tsx
 
 # .env
 .env
 env.d.ts
+
+# assets
+src/assets/gitgnore_assets/*

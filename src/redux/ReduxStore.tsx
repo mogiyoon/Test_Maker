@@ -11,9 +11,12 @@ import {
   wordInsideMeanSlice,
 } from './MakerSettingSlice';
 import {testChangedSlice} from './TestChoiceSlice';
+import { languageSlice } from './LanguageSlice';
 
 export const store = configureStore({
   reducer: {
+    language: languageSlice.reducer,
+
     testRealm: testRealmSlice.reducer,
     wrongAnswerRealm: wrongAnswerRealmSlice.reducer,
 

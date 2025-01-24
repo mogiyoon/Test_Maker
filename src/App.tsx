@@ -7,7 +7,8 @@ import {initiateMakerSettingStorage} from './db/MakerSettingAsyncStorage';
 import {store} from './redux/ReduxStore';
 import {testTreeInitiate} from './redux/TestTreeSlice';
 import {makerSettingInit} from './redux/MakerSettingSlice';
-import { HomeView, ImageContainer, InitiateImg } from './components/App';
+import { HomeView, ImageContainer, InitiateImg, InitiateText } from './components/App';
+import { initiateLanguageStorage, languageSettingInit } from './db/LanguageAsyncStorage';
 
 
 
@@ -16,6 +17,7 @@ const App = () => {
   const initiateStorage = async () => {
     await initiateTimeStorage();
     await initiateMakerSettingStorage();
+    await initiateLanguageStorage();
   };
 
   useEffect(() => {
@@ -25,6 +27,7 @@ const App = () => {
         syncReduxWithRealm();
         testTreeInitiate();
         makerSettingInit();
+        languageSettingInit();
         setLoading((preVal) => preVal + 1)
       } catch (e) {
       }
@@ -46,7 +49,11 @@ const App = () => {
         <ImageContainer>
           <InitiateImg
             source={require('./assets/images/TestMaker.png')}
+            resizeMode={'contain'}
           />
+          <InitiateText>
+            Test Maker
+          </InitiateText>
         </ImageContainer>
       )}
     </HomeView>

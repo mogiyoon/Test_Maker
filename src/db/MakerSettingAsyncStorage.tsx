@@ -37,7 +37,6 @@ export async function initiateMakerSettingStorage() {
           makerSettingInitiateValue[i],
         );
       }
-      readMakerSetting(makerSettingList[i])
     }
   }
 }
