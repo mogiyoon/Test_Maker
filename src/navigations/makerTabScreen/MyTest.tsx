@@ -20,8 +20,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {modifyTestReamData, removeOneTestRealmData} from '../../redux/RealmSlice';
 import {testTreeInitiate, testTree} from '../../redux/TestTreeSlice';
 import {itemIdReset} from '../../redux/TestChoiceSlice';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const FlatListChild = ({inputItem}) => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
   const [isModifyOpen, setIsModifyOpen] = useState(false)
   const [textInputCategory, setTextInputCategory] = useState('')
   const [textInputWord, setTextInputWord] = useState('')
@@ -47,7 +51,7 @@ export const FlatListChild = ({inputItem}) => {
         <ModifyContainer>
           <ModifyRowContainer>
             <ModifyText>
-              Category : 
+              {languageSet.Category} : 
             </ModifyText>
             <ModifyTextInput
               placeholder={inputItem.category}
@@ -58,7 +62,7 @@ export const FlatListChild = ({inputItem}) => {
 
           <ModifyRowContainer>
             <ModifyText>
-              Word :
+              {languageSet.Word} :
             </ModifyText>
             <ModifyTextInput
               placeholder={inputItem.word}
@@ -69,7 +73,7 @@ export const FlatListChild = ({inputItem}) => {
 
           <ModifyRowContainer>
             <ModifyText>
-              Meaning :
+              {languageSet.Meaning} :
             </ModifyText>
             <ModifyTextInput
               placeholder={inputItem.meaning}
@@ -104,7 +108,7 @@ export const FlatListChild = ({inputItem}) => {
                 itemIdReset();
               }}
             >
-              <ModifyText>Modify</ModifyText>
+              <ModifyText>{languageSet.Modify}</ModifyText>
             </ModifyButton>
 
             <RemoveButton // 삭제 버튼
@@ -114,7 +118,7 @@ export const FlatListChild = ({inputItem}) => {
                 itemIdReset();
               }}
             >
-              <ModifyText>Remove</ModifyText>
+              <ModifyText>{languageSet.Remove}</ModifyText>
             </RemoveButton>
           </ModifyEvenRowContainer>
         </ModifyContainer>
@@ -126,6 +130,9 @@ export const FlatListChild = ({inputItem}) => {
 };
 
 export const MyTest = () => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
   const myTestList = useSelector(state => state.testRealm.realmData);
 
   const [myTestTree, setMyTestTree] = useState(testTree);
@@ -139,7 +146,7 @@ export const MyTest = () => {
     <Container>
       {myTestList.length === 0 ? (
         <DataContainer>
-          <StyledText>No Data</StyledText>
+          <StyledText>{languageSet.NoData}</StyledText>
         </DataContainer>
       ) : (
         <RecursionTreeFlatList

@@ -5,39 +5,25 @@ import {fileProcessing} from '../../services/FileProcessing';
 import {useNavigation} from '@react-navigation/native';
 import {
   Container,
-  FlatListContainer,
-  MeaningContainer,
-  MeaningContainerText,
   RowContainer,
   StyledButton,
   StyledButtonText,
   StyledText,
   windowHeight,
   windowWidth,
-  WordContainer,
-  WordContainerText,
 } from '../../components/makerTabScreen/FileIndex';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   setContentData,
   setIsChanged,
   setIsUsedOCR,
 } from '../../redux/ContentsSlice';
-
-const FlatListComponent = ({name, path}) => {
-  return (
-    <FlatListContainer>
-      <WordContainer>
-        <WordContainerText>{name}</WordContainerText>
-      </WordContainer>
-      <MeaningContainer>
-        <MeaningContainerText>{path}</MeaningContainerText>
-      </MeaningContainer>
-    </FlatListContainer>
-  );
-};
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const FileIndex = () => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
   // const [files, setFiles] = useState([])
   const [imageUri, setImageUri] = useState(null);
   // const [documentUri, setDocumentUri] = useState(null)
@@ -65,24 +51,24 @@ export const FileIndex = () => {
     );
     if (boolValue) {
       dispatch(setIsUsedOCR(true));
-      navigation.navigate('TextBox');
+      navigation.navigate(languageSet.TextBox);
     } else {
       dispatch(setIsUsedOCR(false));
-      navigation.navigate('Setting');
+      navigation.navigate(languageSet.Setting);
     }
   };
 
   return (
     <Container>
       <Container>
-        <StyledText>Image</StyledText>
+        <StyledText>{languageSet.Image}</StyledText>
         <RowContainer>
           <StyledButton onPress={handleSelectImage}>
-            <StyledButtonText>Choose</StyledButtonText>
+            <StyledButtonText>{languageSet.Choose}</StyledButtonText>
           </StyledButton>
           {imageUri && (
             <StyledButton onPress={handleProcessing}>
-              <StyledButtonText>Select</StyledButtonText>
+              <StyledButtonText>{languageSet.Select}</StyledButtonText>
             </StyledButton>
           )}
         </RowContainer>

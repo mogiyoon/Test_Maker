@@ -17,6 +17,7 @@ import {
 } from '../../components/testTabScreen/Testing';
 import _ from 'lodash';
 import {dequeue, enqueue} from '../../services/Queue';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -34,6 +35,9 @@ export const Testing = () => {
   const [nowNode, setNowNode] = useState({});
   const [answer, setAnswer] = useState(''); // 주관식 답
   const [renderChoiceList, setRenderChoiceList] = useState([]);
+
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
 
   const myTestList = useSelector(state => state.testRealm.realmData);
   const _makeIdToNode = InputId => {
@@ -130,7 +134,7 @@ export const Testing = () => {
     <ScrollView>
       <RowContainerWithColor>
         <FlexContainer>
-          <TextBox>Choice</TextBox>
+          <TextBox>{languageSet.Choice}</TextBox>
         </FlexContainer>
         <FlexContainer>
           <Switch
@@ -139,7 +143,7 @@ export const Testing = () => {
           />
         </FlexContainer>
         <FlexContainer>
-          <TextBox>Short-answer</TextBox>
+          <TextBox>{languageSet.ShortAnswer}</TextBox>
         </FlexContainer>
       </RowContainerWithColor>
 
@@ -147,7 +151,7 @@ export const Testing = () => {
         {nowNode !== undefined ? (
           <TextBox>{nowNode.meaning}</TextBox>
         ) : (
-          <TextBox>No data Chosen</TextBox>
+          <TextBox>{languageSet.NoDataChosen}</TextBox>
         )}
       </MeaningContainer>
 
@@ -173,7 +177,7 @@ export const Testing = () => {
                     setAnswer('');
                     afterAnswering();
                   }}>
-                  <TextBox>OK</TextBox>
+                  <TextBox>{languageSet.Ok}</TextBox>
                 </Button>
                 <Button
                   onPress={() => {
@@ -181,7 +185,7 @@ export const Testing = () => {
                     setIsRight('Pass');
                     afterAnswering();
                   }}>
-                  <TextBox>Pass</TextBox>
+                  <TextBox>{languageSet.Pass}</TextBox>
                 </Button>
               </RowContainer>
             </Container>
@@ -269,7 +273,7 @@ export const Testing = () => {
                   setIsRight('Pass');
                   afterAnswering();
                 }}>
-                <TextBox>Pass</TextBox>
+                <TextBox>{languageSet.Pass}</TextBox>
               </Button>
             </Container>
           ) : (

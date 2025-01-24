@@ -4,13 +4,16 @@ import { Container, LangButton, LangRowContainer, LangText, SelectionButton, Sty
 import { useDispatch, useSelector } from 'react-redux';
 import { languageIndex } from '../db/LanguageAsyncStorage';
 import { setLanguageData } from '../redux/LanguageSlice';
+import { getLanguageSet } from '../services/LanguageSet';
 
 export const HomeScreen = ({navigation}) => {
   const [windowSize, setWindowSize] = useState({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   });
+
   const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -20,18 +23,17 @@ export const HomeScreen = ({navigation}) => {
         height: Dimensions.get('window').height,
       });
     };
-
     const subscription = Dimensions.addEventListener('change', handleSize);
-
     return () => subscription.remove();
   }, []);
+
 
   return (
     <Container inputWidth={windowSize.width} inputHeight={windowSize.height}>
       <SelectionButton
         color={'#7c7cff'}
-        onPress={() => navigation.navigate('Test')}>
-        <StyledText>Test</StyledText>
+        onPress={() => navigation.navigate(languageSet.Test)}>
+        <StyledText>{languageSet.Test}</StyledText>
       </SelectionButton>
       <LangRowContainer>
 
@@ -60,8 +62,8 @@ export const HomeScreen = ({navigation}) => {
       </LangRowContainer>
       <SelectionButton
         color={'#ff7c7c'}
-        onPress={() => navigation.navigate('Maker')}>
-        <StyledText>Maker</StyledText>
+        onPress={() => navigation.navigate(languageSet.Maker)}>
+        <StyledText>{languageSet.Maker}</StyledText>
       </SelectionButton>
     </Container>
   );

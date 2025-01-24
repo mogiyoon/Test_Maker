@@ -13,6 +13,7 @@ import {
   RowContainer,
   Text,
 } from '../../components/testTabScreen/ExportTab';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -30,6 +31,9 @@ let testAnswer = '';
 export const ExportTab = () => {
   const [exportTestContents, setExportTestContents] = useState('');
   const [exportAnswerContents, setExportAnswerContents] = useState('');
+
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
 
   const copyToClipboard = text => {
     Clipboard.setString(text);
@@ -157,7 +161,7 @@ export const ExportTab = () => {
           onPress={() => {
             makeExportableTest();
           }}>
-          <Text>Export</Text>
+          <Text>{languageSet.Export}</Text>
         </Button>
         <Button
           onPress={() => {
@@ -165,13 +169,13 @@ export const ExportTab = () => {
               'Problem\n' + testProblem + 'Answer\n' + testAnswer,
             );
           }}>
-          <Text>Copy</Text>
+          <Text>{languageSet.Copy}</Text>
         </Button>
       </RowContainer>
 
       <LeftContainer>
         <CenterTextContainer>
-          <Text>-Problem-</Text>
+          <Text>-{languageSet.Problem}-</Text>
         </CenterTextContainer>
         <Text>
           {'\n'}
@@ -179,7 +183,7 @@ export const ExportTab = () => {
           {'\n'}
         </Text>
         <CenterTextContainer>
-          <Text>-Answer-</Text>
+          <Text>-{languageSet.Answer}-</Text>
         </CenterTextContainer>
         <Text>
           {'\n'}

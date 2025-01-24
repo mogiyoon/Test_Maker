@@ -14,10 +14,14 @@ import {
   TextContainer,
 } from '../../components/testTabScreen/TestSpace';
 import { GridComponent } from '../../components/GridComponent';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
   const dispatch = useDispatch();
+
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
 
   const [myTestTree, setMyTestTree] = useState(testTree);
   const [nowCategory, setNowCategory] = useState(myTestTree[0]); // 현재 카테고리
@@ -34,7 +38,7 @@ export const TestSpace = () => {
         {/* 선택된 카테고리 컨테이너 */}
             <FlexContainer>
         <TextContainer>
-            <StyledTitle>Chosen Category</StyledTitle>
+            <StyledTitle>{languageSet.ChosenCategory}</StyledTitle>
         </TextContainer>
           {chosenCategory ? (
             <TextContainer>
@@ -44,7 +48,7 @@ export const TestSpace = () => {
             </TextContainer>
           ) : (
             <TextContainer>
-              <StyledText>No data</StyledText>
+              <StyledText>{languageSet.NoData}</StyledText>
             </TextContainer>
           )}
       </FlexContainer>
@@ -53,7 +57,7 @@ export const TestSpace = () => {
       <FlexContainer>
         <TextContainer>
           {nowCategory ? (
-            <StyledTitle>{nowCategory.categoryName} Category</StyledTitle>
+            <StyledTitle>{nowCategory.categoryName} {languageSet.Category}</StyledTitle>
           ) : (
             <StyledTitle />
           )}
@@ -78,7 +82,7 @@ export const TestSpace = () => {
       {/* 포함된 아이템 컨테이너 */}
       <FlexContainer>
         <TextContainer>
-          <StyledTitle>Contained Item</StyledTitle>
+          <StyledTitle>{languageSet.ContainedItem}</StyledTitle>
         </TextContainer>
         {nowCategory ? (
           <GridComponent
@@ -96,7 +100,7 @@ export const TestSpace = () => {
           />
         ) : (
           <TextContainer>
-            <StyledText>No data</StyledText>
+            <StyledText>{languageSet.NoData}</StyledText>
           </TextContainer>
         )}
       </FlexContainer>
@@ -110,7 +114,7 @@ export const TestSpace = () => {
               testChooser(nowCategory);
               dispatch(setIsTestChanged(true));
             }}>
-            <StyledText>Choose</StyledText>
+            <StyledText>{languageSet.Choose}</StyledText>
           </StyledButton>
           <StyledButton
             onPress={() => {
@@ -119,7 +123,7 @@ export const TestSpace = () => {
                 setInCategories(nowCategory.parentCategory.childCategory);
               }
             }}>
-            <StyledText>Back</StyledText>
+            <StyledText>{languageSet.Back}</StyledText>
           </StyledButton>
         </RowContainer>
       </FlexContainer>

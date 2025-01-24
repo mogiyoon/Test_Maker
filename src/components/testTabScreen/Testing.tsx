@@ -67,8 +67,8 @@ export const TextWriteBox = styled.TextInput.attrs({
   font-size: 20px;
 `;
 export const Button = styled.TouchableOpacity`
-  height: 25px;
-  width: 60px;
+  height: 30px;
+  width: 70px;
   border-radius: 15px;
   background-color: #cacdff;
   justify-content: center;

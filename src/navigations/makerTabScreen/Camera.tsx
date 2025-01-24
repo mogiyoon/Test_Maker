@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
 import {Alert, Image, Linking, Platform, StyleSheet} from 'react-native';
-import {check, PERMISSIONS, request} from 'react-native-permissions';
+import {PERMISSIONS, request} from 'react-native-permissions';
 import {Camera, useCameraDevice} from 'react-native-vision-camera';
 import {fileProcessing} from '../../services/FileProcessing';
 import {resetPhoto} from '../../services/ModifyPhoto';
@@ -14,14 +14,15 @@ import {
   windowHeight,
   windowWidth,
 } from '../../components/makerTabScreen/Camera';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   setContentData,
   setIsChanged,
   setIsUsedOCR,
 } from '../../redux/ContentsSlice';
+import { getLanguageSet } from '../../services/LanguageSet';
 
-async function CheckPermission(navigation) {
+async function CheckPermission(navigation, languageSet) {
   const cameraPermission = await Camera.getCameraPermissionStatus();
   const requestPhotoPermission = await request(
     Platform.OS === 'ios'
@@ -36,15 +37,15 @@ async function CheckPermission(navigation) {
 
     if (newCameraPermission === 'granted') {
     } else {
-      Alert.alert('경고', '카메라 권한을 허용해야합니다.', [
+      Alert.alert(languageSet.Alert, languageSet.CameraPermission, [
         {
-          text: 'OK',
+          text: languageSet.Ok,
           onPress: () => {
             Linking.openSettings();
           },
         },
         {
-          text: 'Cancel',
+          text: languageSet.Cancel,
           onPress: () => {
             navigation.goBack();
           },
@@ -55,6 +56,9 @@ async function CheckPermission(navigation) {
 }
 
 export const CameraScreen = () => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
   const cameraRef = useRef<Camera>(null);
   const navigation = useNavigation();
   const device = useCameraDevice('back');
@@ -81,7 +85,7 @@ export const CameraScreen = () => {
     );
     if (boolValue) {
       dispatch(setIsUsedOCR(true));
-      navigation.navigate('TextBox');
+      navigation.navigate(languageSet.TextBox);
     } else {
       dispatch(setIsUsedOCR(false));
       Alert.alert('Warning', 'Network Connection\nor\nToken Shortage');
@@ -90,7 +94,7 @@ export const CameraScreen = () => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      CheckPermission(navigation);
+      CheckPermission(navigation, languageSet);
     });
 
     return () => unsubscribe();
@@ -106,10 +110,10 @@ export const CameraScreen = () => {
           />
           <RowContainer>
             <StyledButton onPress={handleProcessing}>
-              <StyledText>Select</StyledText>
+              <StyledText>{languageSet.Select}</StyledText>
             </StyledButton>
             <StyledButton onPress={() => resetPhoto(setPhotoPath)}>
-              <StyledText>Cancel</StyledText>
+              <StyledText>{languageSet.Cancel}</StyledText>
             </StyledButton>
           </RowContainer>
         </Container>
@@ -124,7 +128,7 @@ export const CameraScreen = () => {
               photo={true}
             />
           ) : (
-            <StyledText>No Camera</StyledText>
+            <StyledText>{languageSet.NoCamera}</StyledText>
           )}
           <StyledTakePhotoButton onPress={onPressTakePhoto}>
             <StyledText />

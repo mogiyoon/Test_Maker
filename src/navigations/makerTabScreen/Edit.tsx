@@ -17,6 +17,7 @@ import {addTestRealmData} from '../../redux/RealmSlice';
 import {setIsChanged} from '../../redux/ContentsSlice';
 import {setTestTreeInsert} from '../../redux/TestTreeSlice';
 import { GridComponent } from '../../components/GridComponent';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
@@ -56,6 +57,9 @@ export const Edit = () => {
   const content = useSelector(state => state.content.contentData);
   const isChanged = useSelector(state => state.contentChanged.isChanged);
   const myTestRedux = useSelector(state => state.testRealm.realmData);
+
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
 
   name = useSelector(state => state.wordFind.wordFind);
   mean = useSelector(state => state.meanFind.meanFind);
@@ -100,16 +104,16 @@ export const Edit = () => {
           onChangeText={text => {
             setCategory(text);
           }}
-          placeholder="Category"
+          placeholder={languageSet.Category}
         />
         <StyledButton onPress={() => selectAll(toggleCheckBoxFunctionList)}>
-          <StyledText>Select All</StyledText>
+          <StyledText>{languageSet.SelectAll}</StyledText>
         </StyledButton>
         <StyledButton
           onPress={() => {
             saveToMyTest(myTestRedux, dispatch, category);
           }}>
-          <StyledText>Save</StyledText>
+          <StyledText>{languageSet.Save}</StyledText>
         </StyledButton>
       </ButtonContainer>
 

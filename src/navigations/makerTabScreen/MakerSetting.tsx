@@ -21,10 +21,14 @@ import {
   setWordFind,
   setWordInsideMean,
 } from '../../redux/MakerSettingSlice';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const MakerSetting = () => {
   const isChanged = useSelector(state => state.contentChanged.isChanged);
   const isUsingOCR = useSelector(state => state.usingOCR.setIsUsedOCR);
+
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
 
   const wordInsideMean = useSelector(
     state => state.wordInsideMean.wordInsideMean,
@@ -71,29 +75,29 @@ export const MakerSetting = () => {
           {/* 광고 */}
           <StyledText>{appearingTime}</StyledText>
           <StyledButton onPress={handlePlusConvertTime}>
-            <StyledText>Read</StyledText>
+            <StyledText>{languageSet.Read}</StyledText>
           </StyledButton>
         </RowContainer>
         
         {wordInsideMean ? (
           <ExampleContainer>
             <ExampleText>
-              {settingMean[0]}this is{' '}
-              {settingName[0]}example{settingName[1]}
-              {' '}sentence {settingMean[1]} 
+              {settingMean[0]}{languageSet.ThisIs}{' '}
+              {settingName[0]}{languageSet.Example}{settingName[1]}
+              {' '}{languageSet.Sentence} {settingMean[1]} 
             </ExampleText>
         </ExampleContainer>) : (
           <ExampleContainer>
             <ExampleText>
-              {settingName[0]}example{settingName[1]}
-              {settingMean[0]}a person or way of behaving that is seen as a model that should be followed{settingMean[1]}
+              {settingName[0]}{languageSet.Example}{settingName[1]}{' '}
+              {settingMean[0]}{languageSet.ExampleMean}{settingMean[1]}
             </ExampleText>
           </ExampleContainer>
         )}
         <RowContainer>
           {/* Word Inside Mean */}
           <StyledText>
-            Answer In Paragraph
+            {languageSet.AnswerInParagraph}
           </StyledText>
           <StyledSwitch
             value={settingWordInsideMean}
@@ -108,7 +112,7 @@ export const MakerSetting = () => {
         <RowContainer>
           {/* Word Finder */}
           <StyledText>
-            Answer
+            {languageSet.Answer}
           </StyledText>
           <StyledTextInput
             value={settingName}
@@ -119,14 +123,14 @@ export const MakerSetting = () => {
               dispatch(setWordFind(settingName));
               dispatch(setIsChanged(true));
             }}>
-            <StyledText>OK</StyledText>
+            <StyledText>{languageSet.Ok}</StyledText>
           </StyledButton>
         </RowContainer>
 
         <RowContainer>
           {/* Mean Finder */}
           <StyledText>
-            Paragraph
+            {languageSet.Paragraph}
           </StyledText>
           <StyledTextInput
             value={settingMean}
@@ -137,7 +141,7 @@ export const MakerSetting = () => {
               dispatch(setMeanFind(settingMean));
               dispatch(setIsChanged(true));
             }}>
-            <StyledText>OK</StyledText>
+            <StyledText>{languageSet.Ok}</StyledText>
           </StyledButton>
         </RowContainer>
       </Container>

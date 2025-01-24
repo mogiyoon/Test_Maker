@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Keyboard, Platform, TouchableWithoutFeedback} from 'react-native';
 import {
   Container,
-  KeyboardContainer,
   RowContainer,
   StyledButton,
   StyledText,
@@ -10,8 +9,12 @@ import {
 } from '../../components/makerTabScreen/TextBox';
 import {useDispatch, useSelector} from 'react-redux';
 import {setContentData, setIsChanged} from '../../redux/ContentsSlice';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const TextBox = () => {
+    const languageSetting = useSelector((state) => state.language.language)
+    const languageSet = getLanguageSet(languageSetting)
+
   const content = useSelector(state => state.content.contentData);
   const contentDispatch = useDispatch();
   const [testContext, setTestContext] = useState(content); // TextBox의 값
@@ -37,10 +40,10 @@ export const TextBox = () => {
       >
         <RowContainer>
           <StyledButton onPress={() => updateContent()}>
-            <StyledText fontSize={14}>Confirm</StyledText>
+            <StyledText fontSize={14}>{languageSet.Confirm}</StyledText>
           </StyledButton>
           <StyledButton onPress={() => deleteContent()}>
-            <StyledText fontSize={14}>Delete</StyledText>
+            <StyledText fontSize={14}>{languageSet.Delete}</StyledText>
           </StyledButton>
         </RowContainer>
         <StyledTextInput
