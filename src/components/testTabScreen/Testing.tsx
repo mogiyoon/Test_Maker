@@ -1,4 +1,3 @@
-import React from 'react';
 import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
 
@@ -11,6 +10,33 @@ export const Container = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+export const ResultContainer = styled.View`
+  height: 60px;
+  width: 120px;
+  margin: 5px;
+  border-radius: 20px;
+  background-color: ${({color}) => color};
+  justify-content: center;
+  align-items: center;
+`
+export const ResultText = styled.Text`
+  font-size: 30px;
+`
+
+export const AnswerContainer = styled.View`
+  width: 180px;
+  height: 40px;
+  margin: 10px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  background-color: #78ffc4;
+`
+export const AnswerText = styled.Text`
+  font-size: 20px;
+`
+
 export const RowContainerWithColor = styled.View`
   flex-direction: row;
   align-items: center;
@@ -52,6 +78,9 @@ export const ChoiceBox = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
+export const ChoiceText = styled.Text`
+  font-size: 20px;
+`
 
 export const TextWriteBox = styled.TextInput.attrs({
   autoCapitalize: 'none',

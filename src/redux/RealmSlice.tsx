@@ -38,7 +38,7 @@ export const testRealmSlice = createSlice({
       });
     },
     removeOneTestRealmData: (state, action) => {
-      const {id, word} = action.payload;
+      const id = action.payload;
       state.realmData = state.realmData.filter(
         item => !(item.id === id)
       );
@@ -101,16 +101,16 @@ export const wrongAnswerRealmSlice = createSlice({
       }
     },
     removeWrongAnswerRealmData: (state, action) => {
-      const {id, word} = action.payload;
+      const id = action.payload;
       const tempData = state.realmData.filter(
-        item => !(item.id === id && item.word === word),
+        item => item.id !== id,
       );
       customHeapInit(tempData)
       state.realmData = customHeapToList()
       testMakerRealm.write(() => {
         const dataToDelete = testMakerRealm
           .objects('WrongAnswer')
-          .filtered(`word == "${word}" AND id == "${id}"`);
+          .filtered(`id == "${id}"`);
         testMakerRealm.delete(dataToDelete);
       });
     },

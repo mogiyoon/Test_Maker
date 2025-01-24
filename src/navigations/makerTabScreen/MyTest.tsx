@@ -113,7 +113,7 @@ export const FlatListChild = ({inputItem}) => {
 
             <RemoveButton // 삭제 버튼
               onPress={() => {
-                dispatch(removeOneTestRealmData({id: inputItem.id, word: inputItem.word}));
+                dispatch(removeOneTestRealmData(inputItem.id));
                 testTreeInitiate();
                 itemIdReset();
               }}

@@ -4,6 +4,7 @@ import {
   DataContainer,
   GridContainer,
   GridInnerContainer,
+  OpenWordContainer,
   StyledText,
   TouchableContainer,
 } from '../../components/testTabScreen/WrongAnswer';
@@ -33,10 +34,9 @@ export const WrongAnswer = () => {
           columnNumber={2}
           data={wrongAnswerList}
           renderItem={({item}) => (
-            <TouchableContainer
-            onLongPress={() => {
-              dispatch(removeWrongAnswerRealmData({id: item.id, word: item.word}));
-            }}>
+            <OpenWordContainer
+              inputId={item.id}
+            >
               <GridContainer>
                 <GridInnerContainer>
                   <StyledText>{languageSet.Category} : {item.category + '\n'}</StyledText>
@@ -44,7 +44,7 @@ export const WrongAnswer = () => {
                   <StyledText>{languageSet.WrongTime} : {item.wrongNumber}</StyledText>
                 </GridInnerContainer>
               </GridContainer>
-          </TouchableContainer>
+            </OpenWordContainer>
           )}
         />
       )}

@@ -14,6 +14,11 @@ import {
   TextBox,
   TextWriteBox,
   Container,
+  ResultContainer,
+  AnswerContainer,
+  ResultText,
+  AnswerText,
+  ChoiceText,
 } from '../../components/testTabScreen/Testing';
 import _ from 'lodash';
 import {dequeue, enqueue} from '../../services/Queue';
@@ -32,6 +37,7 @@ let randomQuizQueue = [];
 export const Testing = () => {
   const [isSubjective, setIsSubjective] = useState(false);
   const [isRight, setIsRight] = useState('');
+  const [wasAnswer, setWasAnswer] = useState('');
   const [nowNode, setNowNode] = useState({});
   const [answer, setAnswer] = useState(''); // 주관식 답
   const [renderChoiceList, setRenderChoiceList] = useState([]);
@@ -182,7 +188,7 @@ export const Testing = () => {
                 <Button
                   onPress={() => {
                     setAnswer('');
-                    setIsRight('Pass');
+                    setIsRight(languageSet.Pass);
                     afterAnswering();
                   }}>
                   <TextBox>{languageSet.Pass}</TextBox>
@@ -203,14 +209,16 @@ export const Testing = () => {
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[0].word) {
-                        setIsRight('True');
+                        setIsRight(languageSet.True);
+                        setWasAnswer('')
                       } else {
-                        setIsRight('Wrong');
+                        setIsRight(languageSet.Wrong);
+                        setWasAnswer(nowNode.word)
                         dispatch(addWrongAnswerRealmData(testValue));
                       }
                       afterAnswering();
                     }}>
-                    <TextBox>{renderChoiceList[0].word}</TextBox>
+                    <ChoiceText>{renderChoiceList[0].word}</ChoiceText>
                   </ChoiceBox>
                 ) : (
                   <Container />
@@ -220,14 +228,16 @@ export const Testing = () => {
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[1].word) {
-                        setIsRight('True');
+                        setIsRight(languageSet.True);
+                        setWasAnswer('')
                       } else {
-                        setIsRight('Wrong');
+                        setIsRight(languageSet.Wrong);
+                        setWasAnswer(nowNode.word)
                         dispatch(addWrongAnswerRealmData(testValue));
                       }
                       afterAnswering();
                     }}>
-                    <TextBox>{renderChoiceList[1].word}</TextBox>
+                    <ChoiceText>{renderChoiceList[1].word}</ChoiceText>
                   </ChoiceBox>
                 ) : (
                   <Container />
@@ -239,14 +249,16 @@ export const Testing = () => {
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[2].word) {
-                        setIsRight('True');
+                        setIsRight(languageSet.True);
+                        setWasAnswer('')
                       } else {
-                        setIsRight('Wrong');
+                        setIsRight(languageSet.Wrong);
+                        setWasAnswer(nowNode.word)
                         dispatch(addWrongAnswerRealmData(testValue));
                       }
                       afterAnswering();
                     }}>
-                    <TextBox>{renderChoiceList[2].word}</TextBox>
+                    <ChoiceText>{renderChoiceList[2].word}</ChoiceText>
                   </ChoiceBox>
                 ) : (
                   <Container />
@@ -255,14 +267,16 @@ export const Testing = () => {
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[3].word) {
-                        setIsRight('True');
+                        setIsRight(languageSet.True);
+                        setWasAnswer('')
                       } else {
-                        setIsRight('Wrong');
+                        setIsRight(languageSet.Wrong);
+                        setWasAnswer(nowNode.word)
                         dispatch(addWrongAnswerRealmData(testValue));
                       }
                       afterAnswering();
                     }}>
-                    <TextBox>{renderChoiceList[3].word}</TextBox>
+                    <ChoiceText>{renderChoiceList[3].word}</ChoiceText>
                   </ChoiceBox>
                 ) : (
                   <Container />
@@ -270,7 +284,7 @@ export const Testing = () => {
               </RowContainer>
               <Button
                 onPress={() => {
-                  setIsRight('Pass');
+                  setIsRight(languageSet.Pass);
                   afterAnswering();
                 }}>
                 <TextBox>{languageSet.Pass}</TextBox>
@@ -282,7 +296,24 @@ export const Testing = () => {
         </Container>
       )}
       <Container>
-        <TextBox>{isRight}</TextBox>
+        {isRight !== '' ? (
+          <ResultContainer
+            color={
+              isRight === languageSet.True ? 
+            '#00ff37' : '#ff4444'
+          }>
+            <ResultText>{isRight}</ResultText>
+          </ResultContainer>
+        ) : (
+          null
+        )}
+        {isRight === languageSet.Wrong ? (
+          <AnswerContainer>
+            <AnswerText>{languageSet.Answer} : {wasAnswer}</AnswerText>
+          </AnswerContainer>
+        ) : (
+          null
+        )}
       </Container>
     </ScrollView>
   );

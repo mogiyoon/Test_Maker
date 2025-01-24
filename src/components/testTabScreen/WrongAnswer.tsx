@@ -1,5 +1,10 @@
+import React from 'react';
+import { useState } from 'react';
 import {Dimensions} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { removeWrongAnswerRealmData } from '../../redux/RealmSlice';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const Container = styled.View`
   flex: 1;
@@ -18,10 +23,46 @@ export const StyledText = styled.Text`
 `;
 
 export const windowWidth = Dimensions.get('window').width;
-export const StyledFlatList = styled.FlatList``;
+
 export const TouchableContainer = styled.TouchableOpacity`
   margin: 5px;
 `;
+export const DeleteContainer = styled.TouchableOpacity`
+  height: 30px;
+  border-radius: 5px;
+  margin: 4px;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff0000;
+`
+export const DeleteText = styled.Text`
+  font-size: 15px;
+`
+export const OpenWordContainer = ({children, inputId}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const dispatch = useDispatch()
+
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
+  return (
+    <TouchableContainer
+      onPress={() => {setIsOpen(!isOpen)}}
+    >
+      {children}
+      {isOpen ? 
+        <DeleteContainer
+          onPress={() => {
+            dispatch(removeWrongAnswerRealmData(inputId))
+          }}
+        >
+          <DeleteText>
+            {languageSet.Delete}
+          </DeleteText>
+        </DeleteContainer> : null}
+    </TouchableContainer>
+  )
+}
 
 export const GridContainer = styled.View`
   flex: 1;
