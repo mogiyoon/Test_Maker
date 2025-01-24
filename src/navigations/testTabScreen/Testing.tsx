@@ -176,8 +176,10 @@ export const Testing = () => {
                   onPress={() => {
                     if (nowNode.word === answer) {
                       setIsRight('True');
+                      setWasAnswer('')
                     } else {
                       setIsRight('Wrong');
+                      setWasAnswer(nowNode.word)
                       dispatch(addWrongAnswerRealmData(testValue));
                     }
                     setAnswer('');
