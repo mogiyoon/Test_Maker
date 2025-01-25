@@ -3,12 +3,20 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
 `;
-export const LeftContainer = styled.ScrollView`
+export const ExportContainer = styled.View`
   flex: 10;
   margin: 20px;
   padding: 10px;
+  border-radius: 5px;
   background-color: #e9e9e9;
 `;
+export const ExportInnerContainer = styled.ScrollView`
+  height: 50%;
+  margin: 2px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #dddddd;
+`
 export const RowContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;

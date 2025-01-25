@@ -9,7 +9,8 @@ import {
   Button,
   CenterTextContainer,
   Container,
-  LeftContainer,
+  ExportContainer,
+  ExportInnerContainer,
   RowContainer,
   Text,
 } from '../../components/testTabScreen/ExportTab';
@@ -193,23 +194,24 @@ export const ExportTab = () => {
         </Button>
       </RowContainer>
 
-      <LeftContainer>
+      <ExportContainer>
         <CenterTextContainer>
           <Text>-{languageSet.Problem}-</Text>
         </CenterTextContainer>
-        <Text>
-          {'\n'}
-          {exportTestContents}
-          {'\n'}
-        </Text>
+        <ExportInnerContainer>
+          <Text>
+            {exportTestContents}
+          </Text>
+        </ExportInnerContainer>
         <CenterTextContainer>
           <Text>-{languageSet.Answer}-</Text>
         </CenterTextContainer>
-        <Text>
-          {'\n'}
-          {exportAnswerContents}
-        </Text>
-      </LeftContainer>
+        <ExportInnerContainer>
+          <Text>
+            {exportAnswerContents}
+          </Text>
+        </ExportInnerContainer>
+      </ExportContainer>
     </Container>
   );
 };
