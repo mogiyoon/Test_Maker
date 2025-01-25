@@ -16,13 +16,12 @@ export const StyledTextInput = styled.TextInput.attrs({
   autoCapitalize: 'none',
   autoCorrect: false,
   textAlign: 'center',
-  textAlignVertical: 'top',
   multiline: false,
 })`
   background-color: #ffffff;
   border-radius: 8px;
   border: 1px;
-  padding: 2px;
+  padding: 0px;
   margin: 10px;
   font-size: 15px;
   width: 70px;

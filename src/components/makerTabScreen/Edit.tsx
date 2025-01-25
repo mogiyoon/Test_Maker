@@ -50,8 +50,7 @@ export const StyledTextInput = styled.TextInput.attrs({
   margin: 8px;
   border-radius: 10px;
   font-size: 12px;
-  align-items: center;
-  justify-content: center;
+  padding: 0px;
 `;
 
 export const StyledFlatList = styled.FlatList``

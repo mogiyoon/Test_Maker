@@ -36,19 +36,18 @@ export const StyledTextInput = styled.TextInput.attrs({
   autoCapitalize: 'none',
   autoCorrect: false,
   textAlign: 'center',
-  textAlignVertical: 'top',
   maxLength: 2,
   multiline: false,
 })`
+  width: 70px;
+  height: 30px;
   background-color: #ffffff;
-  border-radius: 8px;
   border: 1px;
-  padding: 2px;
+  border-radius: 8px;
+  padding: 0px;
   margin: 8px 0px;
   margin-left: 10px;
   font-size: 15px;
-  width: 70px;
-  height: 30px;
 `;
 export const StyledButton = styled.TouchableOpacity`
   background-color: #ffffff;

@@ -103,6 +103,7 @@ export const ExportTab = () => {
       choiceNodeList.push(tempNode);
     }
   };
+
   const choiceMaker = () => {
     _makeAnswerRandom();
     _makeChoiceRandom();
@@ -124,6 +125,10 @@ export const ExportTab = () => {
       if (tempQuizId === '00000000') {
         break;
       }
+      if (showExportNum === true) {
+        testNumber = String(num) + '. '
+      }
+      
       testValue = _makeIdToNode(tempQuizId);
       choiceMaker();
       const mean = testValue.meaning;
@@ -132,12 +137,9 @@ export const ExportTab = () => {
       let secondChoice = '';
       let thirdChoice = '';
       let fourthChoice = '';
-      if (showExportNum === true) {
-        testNumber = String(num) + '. '
-      }
 
       testProblem =  testProblem + testNumber + mean;
-      testAnswer = testAnswer +testNumber + mean;
+      testAnswer = testAnswer + testNumber + mean;
       num += 1
 
       if (choiceNodeList.length > 0) {
