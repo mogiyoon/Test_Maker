@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
-import { Container, LangButton, LangRowContainer, LangText, SelectionButton, StyledText } from '../components/HomeScreen';
+import { Container, JustContainer, LangButton, LangRowContainer, LangText, OpenSourceLicenseButton, OpenSourceLicenseText, SelectionButton, StyledText } from '../components/HomeScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { languageIndex } from '../db/LanguageAsyncStorage';
 import { setLanguageData } from '../redux/LanguageSlice';
@@ -29,42 +29,50 @@ export const HomeScreen = ({navigation}) => {
 
 
   return (
-    <Container inputWidth={windowSize.width} inputHeight={windowSize.height}>
-      <SelectionButton
-        color={'#7c7cff'}
-        onPress={() => navigation.navigate(languageSet.Test)}>
-        <StyledText>{languageSet.Test}</StyledText>
-      </SelectionButton>
-      <LangRowContainer>
+    <JustContainer>
+      <Container inputWidth={windowSize.width} inputHeight={windowSize.height}>
+        <SelectionButton
+          color={'#7c7cff'}
+          onPress={() => navigation.navigate(languageSet.Test)}>
+          <StyledText>{languageSet.Test}</StyledText>
+        </SelectionButton>
+        <LangRowContainer>
+          <LangButton
+            onPress={() => {
+              dispatch(setLanguageData(languageIndex.English));
+            }}
+            color={
+              languageSetting === languageIndex.English ? '#b7b7b7' : '#FFFFFF'
+            }>
+            <LangText>English</LangText>
+          </LangButton>
 
-        <LangButton
-          onPress={() => {
-            dispatch(setLanguageData(languageIndex.English))
-          }}
-          color={languageSetting === languageIndex.English ? '#b7b7b7' : '#FFFFFF'}
-        >
-          <LangText>
-            English
-          </LangText>
-        </LangButton>
+          <LangButton
+            onPress={() => {
+              dispatch(setLanguageData(languageIndex.Korean));
+            }}
+            color={
+              languageSetting === languageIndex.Korean ? '#b7b7b7' : '#FFFFFF'
+            }>
+            <LangText>한국어</LangText>
+          </LangButton>
+        </LangRowContainer>
 
-        <LangButton
-          onPress={() => {
-            dispatch(setLanguageData(languageIndex.Korean))
-          }}
-          color={languageSetting === languageIndex.Korean ? '#b7b7b7' : '#FFFFFF'}
-        >
-          <LangText>
-            한국어
-          </LangText>
-        </LangButton>
+        <SelectionButton
+          color={'#ff7c7c'}
+          onPress={() => navigation.navigate(languageSet.Maker)}>
+          <StyledText>{languageSet.Maker}</StyledText>
+        </SelectionButton>
+      </Container>
 
-      </LangRowContainer>
-      <SelectionButton
-        color={'#ff7c7c'}
-        onPress={() => navigation.navigate(languageSet.Maker)}>
-        <StyledText>{languageSet.Maker}</StyledText>
-      </SelectionButton>
-    </Container>
+      <OpenSourceLicenseButton
+        onPress={() => {
+          navigation.navigate(languageSet.OpenSourceLicenses);
+        }}>
+        <OpenSourceLicenseText>
+          {languageSet.OpenSourceLicenses}
+        </OpenSourceLicenseText>
+      </OpenSourceLicenseButton>
+    </JustContainer>
   );
 };

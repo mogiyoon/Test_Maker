@@ -5,6 +5,9 @@ export const Container = styled.SafeAreaView`
     inputWidth > inputHeight ? 'row' : 'column'};
   flex: 1;
 `;
+export const JustContainer = styled.SafeAreaView`
+  flex: 1;
+`
 export const SelectionButton = styled.TouchableOpacity`
   flex: 1;
   width: 95%;
@@ -40,3 +43,13 @@ export const StyledText = styled.Text`
   font-size: 30px;
   color: #000000;
 `;
+export const OpenSourceLicenseButton = styled.TouchableOpacity`
+  height: 30px;
+  width: 200px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+`
+export const OpenSourceLicenseText = styled.Text`
+  font-size: 15px;
+`
