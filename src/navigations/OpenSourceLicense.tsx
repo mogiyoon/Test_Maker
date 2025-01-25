@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, LicenseButton } from '../components/OpenSourceLicense'
 import { GridComponent } from '../components/GridComponent'
-import { openSourceLicenseJsonList } from '../../licenses/openSourceLicensesJson'
+import { openSourceLicenseJsonList } from '../../licenses/OpenSourceLicensesJson'
 
 export const OpenSourceLicense = () => {
   return (

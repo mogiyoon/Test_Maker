@@ -110,7 +110,7 @@ export const TestSpace = () => {
         <RowContainer>
           <StyledButton
             onPress={() => {
-              setChosenCategory(nowCategory.categoryName)
+              setChosenCategory(nowCategory.categoryName + ' ' + languageSet.Category)
               testChooser(nowCategory);
               dispatch(setIsTestChanged(true));
             }}>

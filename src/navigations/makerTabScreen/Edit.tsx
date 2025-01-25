@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Dimensions} from 'react-native';
+import {Alert} from 'react-native';
 import {
   ButtonContainer,
   Container,

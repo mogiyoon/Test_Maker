@@ -2,8 +2,9 @@ import styled from 'styled-components/native';
 import React, { useState } from 'react';
 import { FlatListChild } from '../../navigations/makerTabScreen/MyTest';
 import { GridComponent } from '../GridComponent';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeTestRealmData } from '../../redux/RealmSlice';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const Container = styled.ScrollView`
   width: 100%;
@@ -16,8 +17,11 @@ export const DataContainer = styled.View`
   align-items: center;
 `
 export const StyledText = styled.Text`
-  font-size: 10px;
+  font-size: 12px;
 `;
+export const NoDataText = styled.Text`
+  font-size: 20px;
+`
 
 
 const JustContainer = styled.View`
@@ -42,6 +46,8 @@ const RemoveContainer = styled.TouchableOpacity`
   padding: 5px;
 `
 export const RemoveCategoryContainer = ({category}) => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
   const dispatch = useDispatch()
 
   return (
@@ -51,7 +57,7 @@ export const RemoveCategoryContainer = ({category}) => {
       }}
     >
       <CategoryText>
-        Remove This {category} Category
+        {languageSet.RemoveThis} {category} {languageSet.CategoryAfterRemove}
       </CategoryText>
     </RemoveContainer>
   )
@@ -61,6 +67,9 @@ export const RemoveCategoryContainer = ({category}) => {
 const OpenContainer = styled.TouchableOpacity`
 `
 export const OpenCategoryContainer = ({title, children}) => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
   const [isOpenRemove, setIsOpenRemove] = useState(false)
   const [isOpenCategory, setIsOpenCategory] = useState(false)
   return (
@@ -75,7 +84,7 @@ export const OpenCategoryContainer = ({title, children}) => {
           </CategoryText>
         </CategoryContainer>
       </OpenContainer>
-        {isOpenRemove && (title !== 'Main') ? (
+        {isOpenRemove && (title !== languageSet.Main) ? (
           <RemoveCategoryContainer
             category={title}
           />
@@ -90,8 +99,11 @@ export const OpenCategoryContainer = ({title, children}) => {
 export const RecursionTreeFlatList = ({
   node, beforeCategoryName, testList
   }) => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
   let nowCategoryName = ''
-  if (node.categoryName === 'Main') {
+  if (node.categoryName === languageSet.Main) {
   } else if (beforeCategoryName === '') {
     nowCategoryName = node.categoryName
   } else {

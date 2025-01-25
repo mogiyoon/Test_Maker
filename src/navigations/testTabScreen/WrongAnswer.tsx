@@ -4,10 +4,11 @@ import {
   DataContainer,
   GridContainer,
   GridInnerContainer,
+  NoDataText,
   OpenWordContainer,
   StyledText,
 } from '../../components/testTabScreen/WrongAnswer';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 
@@ -18,13 +19,12 @@ export const WrongAnswer = () => {
   const wrongAnswerList = useSelector(
     state => state.wrongAnswerRealm.realmData,
   );
-  const dispatch = useDispatch();
 
   return (
     <Container>
       {wrongAnswerList.length === 0 ? (
         <DataContainer>
-          <StyledText>No Data</StyledText>
+          <NoDataText>No Data</NoDataText>
         </DataContainer>
       ) : (
         <GridComponent

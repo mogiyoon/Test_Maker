@@ -24,6 +24,9 @@ export const StyledText = styled.Text`
 
 export const windowWidth = Dimensions.get('window').width;
 
+export const NoDataText = styled.Text`
+  font-size: 20px;
+`
 export const TouchableContainer = styled.TouchableOpacity`
   margin: 5px;
 `;

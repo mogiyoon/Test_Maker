@@ -1,4 +1,6 @@
 import {testMakerRealm} from '../db/TestMakerDB';
+import { getLanguageSet } from '../services/LanguageSet';
+
 
 export const testTree = [
   {
@@ -8,6 +10,10 @@ export const testTree = [
     parentCategory: null,
   },
 ];
+
+export const setMainLanguage = (inputData) => {
+  testTree[0].categoryName = getLanguageSet(inputData).Main
+}
 
 export const setTestTreeInsertList = inputData => {
   const data = inputData;

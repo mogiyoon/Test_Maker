@@ -15,6 +15,7 @@ import {
   ModifyButton,
   ModifyRowContainer,
   RemoveButton,
+  NoDataText,
 } from '../../components/makerTabScreen/MyTest';
 import {useDispatch, useSelector} from 'react-redux';
 import {modifyTestReamData, removeOneTestRealmData} from '../../redux/RealmSlice';
@@ -146,7 +147,7 @@ export const MyTest = () => {
     <Container>
       {myTestList.length === 0 ? (
         <DataContainer>
-          <StyledText>{languageSet.NoData}</StyledText>
+          <NoDataText>{languageSet.NoData}</NoDataText>
         </DataContainer>
       ) : (
         <RecursionTreeFlatList
