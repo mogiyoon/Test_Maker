@@ -15,6 +15,7 @@ import {
   Text,
 } from '../../components/testTabScreen/ExportTab';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { returnContentPlusBlank } from '../../services/ChoreFunction';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -200,7 +201,7 @@ export const ExportTab = () => {
         </CenterTextContainer>
         <ExportInnerContainer>
           <Text>
-            {exportTestContents}
+            {returnContentPlusBlank(exportTestContents)}
           </Text>
         </ExportInnerContainer>
         <CenterTextContainer>
@@ -208,7 +209,7 @@ export const ExportTab = () => {
         </CenterTextContainer>
         <ExportInnerContainer>
           <Text>
-            {exportAnswerContents}
+            {returnContentPlusBlank(exportAnswerContents)}
           </Text>
         </ExportInnerContainer>
       </ExportContainer>

@@ -18,7 +18,7 @@ import {setIsChanged} from '../../redux/ContentsSlice';
 import {setTestTreeInsert} from '../../redux/TestTreeSlice';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
-import { placeHolerColor } from '../../services/ChoreFunction';
+import { returnContentPlusBlank, placeHolerColor } from '../../services/ChoreFunction';
 
 let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
@@ -71,6 +71,8 @@ export const Edit = () => {
   const [category, setCategory] = useState('');
   // setting 참고하여 단어와 뜻 나눔
 
+  const [allContent, setAllContent] = useState('');
+
   useEffect(() => {
     if (isChanged && !firstRender) {
       setFirstRender(true);
@@ -95,6 +97,11 @@ export const Edit = () => {
       problemDictionary = result.problemDictionary;
     } // 두 번째 렌더 시 문제 추출
   }, [firstRender]);
+
+  useEffect(() => {
+    const tempAllContent = returnContentPlusBlank(content)
+    setAllContent(tempAllContent)
+  }, [content])
 
   return (
     <WindowContainer>
@@ -131,7 +138,7 @@ export const Edit = () => {
 
       {/*컨텐츠 미리보기*/}
       <ScrollableContainer>
-        <StyledText>{content}</StyledText>
+        <StyledText>{allContent}</StyledText>
       </ScrollableContainer>
     </WindowContainer>
   );

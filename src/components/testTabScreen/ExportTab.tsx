@@ -14,7 +14,7 @@ export const ExportInnerContainer = styled.ScrollView`
   height: 50%;
   margin: 2px;
   padding: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 100px;
   border-radius: 5px;
   background-color: #e1e1e1;
   flex-grow: 1;
