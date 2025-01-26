@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {testTree} from '../../redux/TestTreeSlice';
+import {testTree} from '../../redux/TestTree';
 import {setIsTestChanged, testChooser} from '../../redux/TestChoiceSlice';
 import {
   ScrollContainer,
@@ -90,13 +90,16 @@ export const TestSpace = () => {
             columnNumber={3}
             isFull={true}
             data={nowCategory.childId}
-            renderItem={({item}) => (
+            renderItem={({item}) => {
+              console.log(nowCategory.childId)
+              console.log(nowCategory.childId.length)
+              return (
               <TextContainer>
                 <StyledText>
-                  {myTestList.find(value => value.id === item).word}
+                  {item ? myTestList.find(value => value.id === item).word : null}
                 </StyledText>
-              </TextContainer>
-            )}
+              </TextContainer>)}
+            }
           />
         ) : (
           <TextContainer>

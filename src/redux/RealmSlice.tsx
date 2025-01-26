@@ -3,7 +3,7 @@ import {testMakerRealm} from '../db/TestMakerDB';
 import {store} from './ReduxStore';
 import _ from 'lodash';
 import {Heap} from 'heap-js'
-import { testTreeInitiate } from './TestTreeSlice';
+import { testTreeInitiate } from './TestTree';
 
 export const testRealmSlice = createSlice({
   name: 'myTestRealmUpdate',
@@ -18,7 +18,6 @@ export const testRealmSlice = createSlice({
       testMakerRealm.write(() => {
         testMakerRealm.create('MyTest', action.payload);
       });
-      testTreeInitiate()
     },
     modifyTestReamData: (state, action) => {
       const {id, category, word, meaning} = action.payload

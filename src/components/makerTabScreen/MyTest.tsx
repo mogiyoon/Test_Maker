@@ -5,6 +5,7 @@ import { GridComponent } from '../GridComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCategoryTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { itemIdReset } from '../../redux/TestChoiceSlice';
 
 export const Container = styled.ScrollView`
   width: 100%;
@@ -53,7 +54,8 @@ export const RemoveCategoryContainer = ({category}) => {
   return (
     <RemoveContainer
       onPress={() => {
-        dispatch(removeCategoryTestRealmData(category))
+        dispatch(removeCategoryTestRealmData(category)) 
+        itemIdReset();
       }}
     >
       <CategoryText>

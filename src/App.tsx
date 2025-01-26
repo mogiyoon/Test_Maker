@@ -5,7 +5,7 @@ import {StackNavigation} from './navigations/Stack';
 import {initiateTimeStorage} from './db/TimeAsyncStorage';
 import {initiateMakerSettingStorage} from './db/MakerSettingAsyncStorage';
 import {store} from './redux/ReduxStore';
-import {testTreeInitiate} from './redux/TestTreeSlice';
+import {testTreeInitiate} from './redux/TestTree';
 import {makerSettingInit} from './redux/MakerSettingSlice';
 import { HomeView, ImageContainer, InitiateImg, InitiateText } from './components/App';
 import { initiateLanguageStorage } from './db/LanguageAsyncStorage';
