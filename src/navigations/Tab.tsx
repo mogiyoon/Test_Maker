@@ -1,5 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import {MyTest} from './makerTabScreen/MyTest';
 import {CameraScreen} from './makerTabScreen/Camera';
 import {FileIndex} from './makerTabScreen/FileIndex';
@@ -24,13 +25,54 @@ export const TestTabNavigation = ({navigation}) => {
   return (
     <TestTab.Navigator
       initialRouteName={languageSet.TestSpace}
-      screenOptions={{headerShown: false}}
-      backBehavior="order">
-      <TestTab.Screen name={languageSet.TestSpace} component={TestSpace} />
-      <TestTab.Screen name={languageSet.Testing} component={Testing} />
-      <TestTab.Screen name={languageSet.WrongAnswer} component={WrongAnswer} />
-      <TestTab.Screen name={languageSet.Export} component={ExportTab} />
-      <TestTab.Screen name={languageSet.Setting} component={TestSetting} />
+      screenOptions={({route}) => ({
+        tabBarIcon: ({ focused, color, size}) => {
+          let iconName
+
+          switch (route.name) {
+            case languageSet.TestSpace:
+              iconName = focused ? 'checkmark-outline' : 'checkmark-outline'
+              break
+            case languageSet.Testing:
+              iconName = focused ? 'document-text-outline' : 'document-text-outline'
+              break
+            case languageSet.WrongAnswer:
+              iconName = focused ? 'star' : 'star-outline'
+              break
+            case languageSet.Export:
+              iconName = focused ? 'log-out-outline' : 'log-out-outline'
+              break
+            case languageSet.Setting:
+              iconName = focused ? 'settings-outline' : 'settings-outline'
+              break
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />
+          },
+        headerShown: false
+      })}
+      backBehavior="order"
+    >
+      <TestTab.Screen 
+        name={languageSet.TestSpace} 
+        component={TestSpace}
+      />
+      <TestTab.Screen 
+        name={languageSet.Testing} 
+        component={Testing}
+      />
+      <TestTab.Screen 
+        name={languageSet.WrongAnswer} 
+        component={WrongAnswer}
+      />
+      <TestTab.Screen 
+        name={languageSet.Export} 
+        component={ExportTab}
+      />
+      <TestTab.Screen 
+        name={languageSet.Setting} 
+        component={TestSetting}
+      />
     </TestTab.Navigator>
   );
 };
@@ -42,14 +84,60 @@ export const MakerTabNavigation = ({navigation}) => {
   return (
     <MakerTab.Navigator
       initialRouteName={languageSet.MyTest}
-      screenOptions={{headerShown: false}}
+      screenOptions={({route}) => ({
+        tabBarIcon: ({ focused, color, size}) => {
+          let iconName
+
+          switch (route.name) {
+            case languageSet.MyTest:
+              iconName = focused ? 'heart-outline' : 'heart-outline'
+              break
+            case languageSet.Camera:
+              iconName = focused ? 'camera-outline' : 'camera-outline'
+              break
+            case languageSet.File:
+              iconName = focused ? 'folder-outline' : 'folder-outline'
+              break
+            case languageSet.TextBox:
+              iconName = focused ? 'clipboard-outline' : 'clipboard-outline'
+              break
+            case languageSet.Edit:
+              iconName = focused ? 'create-outline' : 'create-outline'
+              break
+            case languageSet.Setting:
+              iconName = focused ? 'settings-outline' : 'settings-outline'
+              break
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />
+          },
+        headerShown: false
+      })}
       backBehavior="order">
-      <MakerTab.Screen name={languageSet.MyTest} component={MyTest} />
-      <MakerTab.Screen name={languageSet.Camera} component={CameraScreen} />
-      <MakerTab.Screen name={languageSet.File} component={FileIndex} />
-      <MakerTab.Screen name={languageSet.TextBox} component={TextBox} />
-      <MakerTab.Screen name={languageSet.Edit} component={Edit} />
-      <MakerTab.Screen name={languageSet.Setting} component={MakerSetting} />
+      <MakerTab.Screen 
+        name={languageSet.MyTest} 
+        component={MyTest}
+      />
+      <MakerTab.Screen 
+        name={languageSet.Camera} 
+        component={CameraScreen}
+      />
+      <MakerTab.Screen 
+        name={languageSet.File} 
+        component={FileIndex}
+      />
+      <MakerTab.Screen 
+        name={languageSet.TextBox} 
+        component={TextBox}
+      />
+      <MakerTab.Screen
+        name={languageSet.Edit}
+        component={Edit}
+      />
+      <MakerTab.Screen
+        name={languageSet.Setting}
+        component={MakerSetting}
+      />
     </MakerTab.Navigator>
   );
 };

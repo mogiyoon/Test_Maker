@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import {Dimensions} from 'react-native';
 import { Container, JustContainer, LangButton, LangRowContainer, LangText, OpenSourceLicenseButton, OpenSourceLicenseText, SelectionButton, StyledText } from '../components/HomeScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { languageIndex } from '../db/LanguageAsyncStorage';
 import { setLanguageData } from '../redux/LanguageSlice';
 import { getLanguageSet } from '../services/LanguageSet';
+
+Ionicons.loadFont()
 
 export const HomeScreen = ({navigation}) => {
   const [windowSize, setWindowSize] = useState({
@@ -36,6 +39,7 @@ export const HomeScreen = ({navigation}) => {
           onPress={() => navigation.navigate(languageSet.Test)}>
           <StyledText>{languageSet.Test}</StyledText>
         </SelectionButton>
+
         <LangRowContainer>
           <LangButton
             onPress={() => {
@@ -46,7 +50,7 @@ export const HomeScreen = ({navigation}) => {
             }>
             <LangText>English</LangText>
           </LangButton>
-
+          
           <LangButton
             onPress={() => {
               dispatch(setLanguageData(languageIndex.Korean));
