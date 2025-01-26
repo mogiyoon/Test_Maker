@@ -7,6 +7,7 @@ export const ImageContainer =styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  background-color: #FFFFFF;
 `
 export const InitiateImg = styled.Image`
   width: 300px;

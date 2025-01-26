@@ -67,7 +67,7 @@ const App = () => {
             resizeMode={'contain'}
           />
           <InitiateText>
-            Test Maker
+            {loadingImg === false ? 'Test' : 'Maker'}
           </InitiateText>
         </ImageContainer>
       )}
