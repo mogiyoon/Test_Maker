@@ -22,6 +22,7 @@ import {modifyTestReamData, removeOneTestRealmData} from '../../redux/RealmSlice
 import {testTreeInitiate, testTree} from '../../redux/TestTreeSlice';
 import {itemIdReset, readItemIds} from '../../redux/TestChoiceSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { placeHolerColor } from '../../services/ChoreFunction';
 
 export const FlatListChild = ({inputItem}) => {
   const languageSetting = useSelector((state) => state.language.language)
@@ -55,6 +56,7 @@ export const FlatListChild = ({inputItem}) => {
             </ModifyText>
             <ModifyTextInput
               placeholder={inputItem.category}
+              placeholderTextColor={placeHolerColor}
               value={textInputCategory}
               onChangeText={(value) => setTextInputCategory(value)}
             />
@@ -77,6 +79,7 @@ export const FlatListChild = ({inputItem}) => {
             </ModifyText>
             <ModifyTextInput
               placeholder={inputItem.meaning}
+              placeholderTextColor={placeHolerColor}
               value={textInputMeaning}
               onChangeText={(value) => setTextInputMeaning(value)}
             />

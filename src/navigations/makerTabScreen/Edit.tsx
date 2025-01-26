@@ -18,6 +18,7 @@ import {setIsChanged} from '../../redux/ContentsSlice';
 import {setTestTreeInsert} from '../../redux/TestTreeSlice';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { placeHolerColor } from '../../services/ChoreFunction';
 
 let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
@@ -105,6 +106,7 @@ export const Edit = () => {
             setCategory(text);
           }}
           placeholder={languageSet.Category}
+          placeholderTextColor={placeHolerColor}
         />
         <StyledButton onPress={() => selectAll(toggleCheckBoxFunctionList)}>
           <StyledText>{languageSet.SelectAll}</StyledText>

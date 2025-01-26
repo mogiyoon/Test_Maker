@@ -159,7 +159,7 @@ export const ExportTab = () => {
         fourthChoice = '\t' + choiceNodeList[3].word;
         testProblem = testProblem + '\n' + fourthChoice;
       }
-      testAnswer = testAnswer + '\n' + '\n' + word;
+      testAnswer = testAnswer + '\n' + '\n' + '\t' + word;
 
       testProblem = testProblem + '\n' + '\n' + '\n';
       testAnswer = testAnswer + '\n' + '\n' + '\n';

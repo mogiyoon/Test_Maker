@@ -28,5 +28,5 @@ export const StyledButton = styled.TouchableOpacity`
   align-items: center;
 `;
 export const StyledButtonText = styled.Text`
-  font-size: 10px;
+  font-size: 15px;
 `;

@@ -10,6 +10,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setContentData, setIsChanged} from '../../redux/ContentsSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { placeHolerColor } from '../../services/ChoreFunction';
 
 export const TextBox = () => {
     const languageSetting = useSelector((state) => state.language.language)
@@ -49,7 +50,8 @@ export const TextBox = () => {
         <StyledTextInput
           value={testContext}
           onChangeText={text => setTestContext(text)}
-          placeholder="Input Contents"
+          placeholder={languageSet.InputContent}
+          placeholderTextColor={placeHolerColor}
         />
       </Container>
     </TouchableWithoutFeedback>

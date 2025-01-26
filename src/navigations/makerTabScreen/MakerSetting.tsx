@@ -129,7 +129,7 @@ export const MakerSetting = () => {
         <RowContainer>
           {/* Mean Finder */}
           <StyledText>
-            {languageSet.Paragraph}
+            {languageSet.Explanation}
           </StyledText>
           <StyledTextInput
             value={settingMean}
