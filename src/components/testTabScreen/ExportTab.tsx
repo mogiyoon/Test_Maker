@@ -13,8 +13,11 @@ export const ExportContainer = styled.View`
 export const ExportInnerContainer = styled.ScrollView`
   height: 50%;
   margin: 2px;
+  padding: 10px;
+  padding-bottom: 10px;
   border-radius: 5px;
-  background-color: #dddddd;
+  background-color: #e1e1e1;
+  flex-grow: 1;
 `
 export const RowContainer = styled.View`
   flex-direction: row;
