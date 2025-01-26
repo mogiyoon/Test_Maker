@@ -12,17 +12,23 @@ import { initiateLanguageStorage } from './db/LanguageAsyncStorage';
 import { initiateTestSettingStorage } from './db/TestSettingAsyncStorage';
 import { testSettingInit } from './redux/TestSettingSlice';
 import { languageSettingInit } from './redux/LanguageSlice';
-
-
+import { wait } from './services/ChoreFunction';
 
 const App = () => {
   const [loading, setLoading] = useState(0)
+  const [loadingImg, setLoadingImg] = useState(false)
   const initiateStorage = async () => {
     await initiateTimeStorage();
     await initiateMakerSettingStorage();
     await initiateTestSettingStorage();
     await initiateLanguageStorage();
   };
+
+  const initiateWait = async () => {
+    await wait(666)
+    setLoadingImg(true)
+    await wait(333)
+  }
 
   useEffect(() => {
     try {
@@ -33,6 +39,8 @@ const App = () => {
         testTreeInitiate();
         makerSettingInit();
         testSettingInit();
+      })
+      initiateWait().then(() => {
         setLoading((preVal) => preVal + 1)
       })
     } catch (e) {
@@ -45,6 +53,7 @@ const App = () => {
     //overLoad
     setLoading(loadingMax)
   }
+
   return (
     <HomeView>
       { loading === loadingMax ? (
@@ -54,7 +63,7 @@ const App = () => {
       ) : (
         <ImageContainer>
           <InitiateImg
-            source={require('./assets/images/TestMaker.png')}
+            source={loadingImg === false ? require('./assets/images/loading1.png') : require('./assets/images/loading2.png')}
             resizeMode={'contain'}
           />
           <InitiateText>

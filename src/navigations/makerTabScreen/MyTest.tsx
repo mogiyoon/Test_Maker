@@ -20,7 +20,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {modifyTestReamData, removeOneTestRealmData} from '../../redux/RealmSlice';
 import {testTreeInitiate, testTree} from '../../redux/TestTreeSlice';
-import {itemIdReset} from '../../redux/TestChoiceSlice';
+import {itemIdReset, readItemIds} from '../../redux/TestChoiceSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 
 export const FlatListChild = ({inputItem}) => {
@@ -38,8 +38,7 @@ export const FlatListChild = ({inputItem}) => {
       onPress={() => {
         setIsModifyOpen(!isModifyOpen)
       }}
-      onLongPress={() => {
-      }}>
+    >
       <FlatListContainer>
         <WordContainer>
           <StyledText>{inputItem.word}</StyledText>

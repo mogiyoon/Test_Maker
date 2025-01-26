@@ -198,7 +198,9 @@ export const ExportTab = () => {
         <CenterTextContainer>
           <Text>-{languageSet.Problem}-</Text>
         </CenterTextContainer>
-        <ExportInnerContainer>
+        <ExportInnerContainer
+          contentContainerStyle={{padding: 10}}
+        >
           <Text>
             {exportTestContents}
           </Text>
@@ -206,7 +208,9 @@ export const ExportTab = () => {
         <CenterTextContainer>
           <Text>-{languageSet.Answer}-</Text>
         </CenterTextContainer>
-        <ExportInnerContainer>
+        <ExportInnerContainer
+          contentContainerStyle={{padding: 10}}
+        >
           <Text>
             {exportAnswerContents}
           </Text>

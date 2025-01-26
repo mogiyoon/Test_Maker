@@ -3,6 +3,7 @@ import {testMakerRealm} from '../db/TestMakerDB';
 import {store} from './ReduxStore';
 import _ from 'lodash';
 import {Heap} from 'heap-js'
+import { testTreeInitiate } from './TestTreeSlice';
 
 export const testRealmSlice = createSlice({
   name: 'myTestRealmUpdate',
@@ -10,12 +11,14 @@ export const testRealmSlice = createSlice({
   reducers: {
     setTestRealmData: (state, action) => {
       state.realmData = action.payload;
+      testTreeInitiate()
     },
     addTestRealmData: (state, action) => {
       state.realmData.push(action.payload);
       testMakerRealm.write(() => {
         testMakerRealm.create('MyTest', action.payload);
       });
+      testTreeInitiate()
     },
     modifyTestReamData: (state, action) => {
       const {id, category, word, meaning} = action.payload
@@ -36,6 +39,7 @@ export const testRealmSlice = createSlice({
         dataToModify.word = word
         dataToModify.meaning = meaning
       });
+      testTreeInitiate()
     },
     removeOneTestRealmData: (state, action) => {
       const id = action.payload;
@@ -48,8 +52,9 @@ export const testRealmSlice = createSlice({
           .filtered(`id == "${id}"`);
         testMakerRealm.delete(dataToDelete);
       });
+      testTreeInitiate()
     },
-    removeTestRealmData: (state, action) => {
+    removeCategoryTestRealmData: (state, action) => {
       const category = action.payload;
       state.realmData = state.realmData.filter(
         item => !(item.category === category)
@@ -60,11 +65,12 @@ export const testRealmSlice = createSlice({
           .filtered(`category == "${category}"`);
         testMakerRealm.delete(listToDelete)
       })
+      testTreeInitiate()
     }
   },
 });
 
-export const {setTestRealmData, addTestRealmData, modifyTestReamData, removeOneTestRealmData, removeTestRealmData} =
+export const {setTestRealmData, addTestRealmData, modifyTestReamData, removeOneTestRealmData, removeCategoryTestRealmData} =
   testRealmSlice.actions;
 
 export const wrongAnswerRealmSlice = createSlice({

@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatListChild } from '../../navigations/makerTabScreen/MyTest';
 import { GridComponent } from '../GridComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeTestRealmData } from '../../redux/RealmSlice';
+import { removeCategoryTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 
 export const Container = styled.ScrollView`
@@ -53,7 +53,7 @@ export const RemoveCategoryContainer = ({category}) => {
   return (
     <RemoveContainer
       onPress={() => {
-        dispatch(removeTestRealmData(category))
+        dispatch(removeCategoryTestRealmData(category))
       }}
     >
       <CategoryText>
@@ -69,9 +69,14 @@ const OpenContainer = styled.TouchableOpacity`
 export const OpenCategoryContainer = ({title, children}) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
+  const testListModified = useSelector((state => state.testRealm.realmData))
 
   const [isOpenRemove, setIsOpenRemove] = useState(false)
   const [isOpenCategory, setIsOpenCategory] = useState(false)
+  
+  useEffect(() => {
+    setIsOpenRemove(false)
+  }, [testListModified])
   return (
     <JustContainer>
       <OpenContainer
