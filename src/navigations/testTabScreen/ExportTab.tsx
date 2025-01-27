@@ -11,11 +11,12 @@ import {
   Container,
   ExportContainer,
   ExportInnerContainer,
+  GridContainer,
   RowContainer,
   Text,
 } from '../../components/testTabScreen/ExportTab';
 import { getLanguageSet } from '../../services/LanguageSet';
-import { returnContentPlusBlank } from '../../services/ChoreFunction';
+import { GridComponent } from '../../components/GridComponent';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -31,8 +32,8 @@ let testProblem = '';
 let testAnswer = '';
 
 export const ExportTab = () => {
-  const [exportTestContents, setExportTestContents] = useState('');
-  const [exportAnswerContents, setExportAnswerContents] = useState('');
+  const [exportTestList, setExportTestList] = useState<any[]>([])
+  const [exportAnswerList, setExportAnswerList] = useState<any[]>([])
 
   const exportNum = useSelector(state => state.exportNum.exportNum)
   const showExportNum = useSelector(state => state.showExportNum.showExportNum)
@@ -40,7 +41,7 @@ export const ExportTab = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
-  const copyToClipboard = text => {
+  const copyToClipboard = (text) => {
     Clipboard.setString(text);
     Alert.alert(languageSet.CopiedToClipBoard);
   };
@@ -85,7 +86,7 @@ export const ExportTab = () => {
     choiceList = [];
     const quizLength = tempQuizList.length;
     while (quizLength > 0) {
-      const choice = Math.floor(Math.random() * quizLength);
+      const choice = Math.floor(Math.random() * quizLength); // 랜덤 숫자뽑기, 운 나쁘면 O(n) 증가
       if (
         tempQuizId !== tempQuizList[choice] &&
         choiceList.find(item => item === tempQuizList[choice]) === undefined
@@ -113,15 +114,27 @@ export const ExportTab = () => {
   };
 
   const makeProblem = () => {
+    //init
     testProblem = '';
     testAnswer = '';
+
+    const tempNoData = {
+      problemMain : languageSet.NoData,
+      first : '',
+      second : '',
+      third : '',
+      fourth : '',
+    }
     if (randomQuizQueue.length === 1) {
-      setExportTestContents(languageSet.NoData);
+      setExportTestList([tempNoData]);
       return;
     }
 
     let num = 1
     let testNumber = '';
+    const toExportTestList = []
+    const toExportAnswerList = []
+
     while (randomQuizQueue.length > 0) {
       tempQuizId = dequeue(randomQuizQueue);
       if (tempQuizId === '00000000') {
@@ -140,37 +153,60 @@ export const ExportTab = () => {
       let thirdChoice = '';
       let fourthChoice = '';
 
-      testProblem =  testProblem + testNumber + mean;
-      testAnswer = testAnswer + testNumber + mean;
-      num += 1
+      let tempProblem = testNumber + mean;    
+      const tempProblemDic = {
+        problemMain : '',
+        first : '',
+        second : '',
+        third : '',
+        fourth : '',
+      }
+      tempProblemDic.problemMain = tempProblem
 
       if (choiceNodeList.length > 0) {
         firstChoice = '\t' + choiceNodeList[0].word;
-        testProblem = testProblem + '\n' + '\n' + firstChoice;
+        tempProblem = tempProblem + '\n' + '\n' + firstChoice;
+        tempProblemDic.first = firstChoice
       }
       if (choiceNodeList.length > 1) {
         secondChoice = '\t' + choiceNodeList[1].word;
-        testProblem = testProblem + '\n' + secondChoice;
+        tempProblem = tempProblem + '\n' + secondChoice;
+        tempProblemDic.second = secondChoice
       }
       if (choiceNodeList.length > 2) {
         thirdChoice = '\t' + choiceNodeList[2].word;
-        testProblem = testProblem + '\n' + thirdChoice;
+        tempProblem = tempProblem + '\n' + thirdChoice;
+        tempProblemDic.third = thirdChoice
       }
       if (choiceNodeList.length > 3) {
         fourthChoice = '\t' + choiceNodeList[3].word;
-        testProblem = testProblem + '\n' + fourthChoice;
+        tempProblem = tempProblem + '\n' + fourthChoice;
+        tempProblemDic.fourth = fourthChoice
       }
-      testAnswer = testAnswer + '\n' + '\n' + '\t' + word;
+      testProblem = testProblem + tempProblem + '\n' + '\n' + '\n';
+      toExportTestList.push(tempProblemDic)
 
-      testProblem = testProblem + '\n' + '\n' + '\n';
-      testAnswer = testAnswer + '\n' + '\n' + '\n';
+      let tempAnswer = testNumber + mean;
+      const tempAnswerDic = {
+        answerMain : '',
+        answerValue : '',
+      }
+      tempAnswerDic.answerMain = tempAnswer
+
+      const tempAnswerAnswer = '\t' + word;
+      tempAnswerDic.answerValue = tempAnswerAnswer
+      tempAnswer = tempAnswer + '\n' + '\n' + tempAnswerAnswer
+      testAnswer = testAnswer + tempAnswer + '\n' + '\n' + '\n';
+      toExportAnswerList.push(tempAnswerDic)
+
+      //setting problem number
+      num += 1
     }
-    setExportTestContents(testProblem);
-    setExportAnswerContents(testAnswer);
+    setExportTestList(toExportTestList)
+    setExportAnswerList(toExportAnswerList)
   };
 
   const makeExportableTest = () => {
-    setExportTestContents('');
     tempSetting();
     randomQuizQueueSetting();
     makeProblem();
@@ -200,17 +236,39 @@ export const ExportTab = () => {
           <Text>-{languageSet.Problem}-</Text>
         </CenterTextContainer>
         <ExportInnerContainer>
-          <Text>
-            {returnContentPlusBlank(exportTestContents)}
-          </Text>
+          <GridComponent
+            data={exportTestList}
+            renderItem={({item}) => (
+              <GridContainer>
+                <Text>{item.problemMain}</Text>
+                <Text />
+                <Text>{'\t' + item.first}</Text>
+                <Text>{'\t' + item.second}</Text>
+                <Text>{'\t' + item.third}</Text>
+                <Text>{'\t' + item.fourth}</Text>
+                <Text />
+                <Text />
+              </GridContainer>
+            )}
+          />
         </ExportInnerContainer>
+
         <CenterTextContainer>
           <Text>-{languageSet.Answer}-</Text>
         </CenterTextContainer>
         <ExportInnerContainer>
-          <Text>
-            {returnContentPlusBlank(exportAnswerContents)}
-          </Text>
+          <GridComponent
+            data={exportAnswerList}
+            renderItem={({item}) => (
+              <GridContainer>
+                <Text>{item.answerMain}</Text>
+                <Text />
+                <Text>{'\t' + item.answerValue}</Text>
+                <Text />
+                <Text />
+              </GridContainer>
+            )}
+          />
         </ExportInnerContainer>
       </ExportContainer>
     </Container>

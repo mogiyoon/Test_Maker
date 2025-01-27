@@ -16,8 +16,6 @@ export const setMainLanguage = (inputData) => {
 }
 
 export const setTestTreeInsertList = (inputData) => {
-  console.log('list')
-  console.log(inputData)
   const data = inputData;
   data.forEach(element => {
     const categoryList = categoryAlign(element.category);
@@ -28,8 +26,6 @@ export const setTestTreeInsertList = (inputData) => {
 };
 
 export const setTestTreeInsert = (inputData) => {
-  console.log('data')
-  console.log(inputData)
   const data = inputData;
   const categoryList = categoryAlign(data.category);
   const levelNum = 0;

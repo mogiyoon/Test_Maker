@@ -1,8 +1,10 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
   flex: 1;
 `;
+export const GridContainer = styled.View`
+`
 export const ExportContainer = styled.View`
   flex: 10;
   margin: 20px;
@@ -11,7 +13,7 @@ export const ExportContainer = styled.View`
   background-color: #e9e9e9;
 `;
 export const ExportInnerContainer = styled.ScrollView`
-  height: 50%;
+  flex: 1;
   margin: 2px;
   padding: 10px;
   border-radius: 5px;

@@ -90,15 +90,12 @@ export const TestSpace = () => {
             columnNumber={3}
             isFull={true}
             data={nowCategory.childId}
-            renderItem={({item}) => {
-              console.log(nowCategory.childId)
-              console.log(nowCategory.childId.length)
-              return (
+            renderItem={({item}) => (
               <TextContainer>
                 <StyledText>
                   {item ? myTestList.find(value => value.id === item).word : null}
                 </StyledText>
-              </TextContainer>)}
+              </TextContainer>)
             }
           />
         ) : (
