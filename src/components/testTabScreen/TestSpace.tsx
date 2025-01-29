@@ -1,8 +1,4 @@
-import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 export const ScrollContainer = styled.ScrollView`
   flex: 1;
@@ -49,8 +45,8 @@ export const StyledGrid = styled.TouchableOpacity`
   margin: 5px;
 `;
 export const StyledButton = styled.TouchableOpacity`
-  width: 100px;
-  height: 50px;
+  width: 80px;
+  height: 40px;
   justify-content: center;
   align-items: center;
   background-color: #ffffe8;

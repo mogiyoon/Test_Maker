@@ -1,5 +1,7 @@
 import {Dimensions} from 'react-native';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { getLanguageSet } from '../../services/LanguageSet';
 
 export const windowWidth = Dimensions.get('window').width;
 
@@ -7,35 +9,70 @@ export const ScrollView = styled.ScrollView`
   margin: 5px;
 `;
 export const Container = styled.View`
-  justify-content: center;
   align-items: center;
 `;
 
 export const ResultContainer = styled.View`
-  height: 60px;
-  width: 120px;
-  margin: 5px;
-  border-radius: 20px;
+  height: 30px;
+  width: 70px;
+  margin: 15px;
+  margin-bottom: 0px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
   background-color: ${({color}) => color};
   justify-content: center;
   align-items: center;
 `
 export const ResultText = styled.Text`
-  font-size: 30px;
+  font-size: 16px;
 `
 
 export const AnswerContainer = styled.View`
-  width: 180px;
-  height: 40px;
-  margin: 10px;
-  border-radius: 10px;
-  justify-content: center;
-  align-items: center;
-  background-color: #78ffc4;
+  flex: 1;
+  margin: 15px;
+  margin-top: 0px;
+  padding-bottom: 15px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: ${({color}) => color};
 `
 export const AnswerText = styled.Text`
-  font-size: 20px;
+  margin: 5px;
+  margin-left: 10px;
+  font-size: 15px;
 `
+export const RAFullContainer = styled.View`
+  width: 95%;
+  background-color: ${({color}) => color};
+  border-radius: 10px;
+`
+export const AnswerResultContainer = ({isRight, wasExplain, wasAnswer, wasReply}) => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
+  return (
+    <RAFullContainer
+      color={isRight === languageSet.True ? ('#00ff37') : ('#ff4444')}
+    >
+      <ResultContainer
+        color={isRight === languageSet.True ? ('#c7ffd3') : ('#ff9b9b')}
+      >
+        <ResultText>
+          {isRight === languageSet.True ? (languageSet.True) : (languageSet.Wrong)}
+        </ResultText>
+      </ResultContainer>
+      <AnswerContainer
+        color={isRight === languageSet.True ? ('#c7ffd3') : ('#ff9b9b')}
+      >
+        <AnswerText>{languageSet.Problem}: {wasExplain}</AnswerText>
+        <AnswerText>{languageSet.Answer}: {wasAnswer}</AnswerText>
+        <AnswerText/>
+        <AnswerText>{languageSet.MyAnswer}: {wasReply}</AnswerText>
+      </AnswerContainer>
+    </RAFullContainer>
+  )
+}
 
 export const RowContainerWithColor = styled.View`
   flex-direction: row;
@@ -52,7 +89,6 @@ export const RowContainer = styled.View`
 `;
 
 export const MeaningContainer = styled.View`
-  flex: 1;
   background-color: #c4c0f4;
   justify-content: center;
   align-items: center;
@@ -98,9 +134,9 @@ export const TextWriteBox = styled.TextInput.attrs({
 export const Button = styled.TouchableOpacity`
   height: 30px;
   width: 70px;
+  margin: 10px;
   border-radius: 15px;
   background-color: #cacdff;
   justify-content: center;
   align-items: center;
-  margin: 10px;
 `;

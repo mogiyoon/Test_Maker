@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
-import { setExportNum, setShowExportNum } from '../../redux/TestSettingSlice';
+import { setExportNum, setShowCommentary, setShowExportNum } from '../../redux/TestSettingSlice';
 import { Container, RowContainer, StyledButton, StyledSwitch, StyledText, StyledTextInput } from '../../components/testTabScreen/TestSetting';
 
 
@@ -9,6 +9,7 @@ export const TestSetting = () => {
   const tempExportNum = useSelector(state => state.exportNum.exportNum)
   const exportNum = String(tempExportNum)
   const showExportNum = useSelector(state => state.showExportNum.showExportNum)
+  const showCommentary = useSelector(state => state.showCommentary.showCommentary)
   const dispatch = useDispatch()
 
   const languageSetting = useSelector((state) => state.language.language)
@@ -16,6 +17,7 @@ export const TestSetting = () => {
 
   const [settingExportNum, setSettingExportNum] = useState(exportNum)
   const [settingShowExportNum, setSettingShowExportNum] = useState(showExportNum)
+  const [settingShowCommentary, setSettingShowCommentary] = useState(showCommentary)
 
   return (
     <Container>
@@ -46,7 +48,7 @@ export const TestSetting = () => {
       </RowContainer>
 
       <RowContainer>
-        {/* Word Inside Mean */}
+        {/* show export number*/}
         <StyledText>
           {languageSet.ShowProblemNumber}
         </StyledText>
@@ -55,6 +57,20 @@ export const TestSetting = () => {
           onValueChange={value => {
             setSettingShowExportNum(value);
             dispatch(setShowExportNum(value));
+          }}
+        />
+      </RowContainer>
+
+      <RowContainer>
+        {/* show commentary */}
+        <StyledText>
+          {languageSet.ShowCommentary}
+        </StyledText>
+        <StyledSwitch
+          value={settingShowCommentary}
+          onValueChange={value => {
+            setSettingShowCommentary(value);
+            dispatch(setShowCommentary(value));
           }}
         />
       </RowContainer>

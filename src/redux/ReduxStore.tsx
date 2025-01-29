@@ -11,7 +11,7 @@ import {
   wordInsideMeanSlice,
 } from './MakerSettingSlice';
 import { languageSlice } from './LanguageSlice';
-import { exportNumSlice, showExportNumSlice } from './TestSettingSlice';
+import { exportNumSlice, showCommentarySlice, showExportNumSlice } from './TestSettingSlice';
 import { testChangedSlice } from './TestChoiceSlice';
 
 export const store = configureStore({
@@ -35,5 +35,6 @@ export const store = configureStore({
     //Test Setting
     exportNum: exportNumSlice.reducer,
     showExportNum: showExportNumSlice.reducer,
+    showCommentary: showCommentarySlice.reducer,
   },
 });

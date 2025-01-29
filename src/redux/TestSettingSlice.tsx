@@ -31,16 +31,33 @@ export const showExportNumSlice = createSlice({
   },
 });
 
+export const showCommentarySlice = createSlice({
+  name: 'showCommentary',
+  initialState: {showCommentary: ''},
+  reducers: {
+    setShowCommentary: (state, action) => {
+      const tempValue = action.payload;
+      state.showCommentary = tempValue;
+      const tempStringValue = String(tempValue);
+      writeTestSetting('showCommentary', tempStringValue);
+    },
+  },
+});
+
 
 export const { setExportNum } = exportNumSlice.actions;
 export const { setShowExportNum} = showExportNumSlice.actions;
+export const { setShowCommentary } = showCommentarySlice.actions;
 
 export const testSettingInit = async () => {
   const tempExportNum = await readTestSetting('exportNum');
   const exportNum = parseInt(tempExportNum, 10)
   const tempShowExportNum = await readTestSetting('showExportNum')
   const showExportNum = tempShowExportNum === 'true';
+  const tempShowCommentary = await readTestSetting('showCommentary')
+  const showCommentary = tempShowCommentary === 'true';
 
   store.dispatch(setExportNum(exportNum));
   store.dispatch(setShowExportNum(showExportNum))
+  store.dispatch(setShowCommentary(showCommentary))
 };
