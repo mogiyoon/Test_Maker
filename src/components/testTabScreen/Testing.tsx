@@ -15,10 +15,10 @@ export const Container = styled.View`
 export const ResultContainer = styled.View`
   height: 30px;
   width: 70px;
-  margin: 15px;
-  margin-bottom: 0px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+  border-bottom-right-radius: ${({bottomRightSize}) => bottomRightSize}px;
+  border-bottom-left-radius: ${({bottomLeftSize}) => bottomLeftSize}px;
   background-color: ${({color}) => color};
   justify-content: center;
   align-items: center;
@@ -29,8 +29,7 @@ export const ResultText = styled.Text`
 
 export const AnswerContainer = styled.View`
   flex: 1;
-  margin: 15px;
-  margin-top: 0px;
+  padding: 10px;
   padding-bottom: 15px;
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -38,18 +37,19 @@ export const AnswerContainer = styled.View`
   background-color: ${({color}) => color};
 `
 export const AnswerText = styled.Text`
-  margin: 5px;
-  margin-left: 10px;
   font-size: 15px;
 `
 export const RAFullContainer = styled.View`
   width: 95%;
   background-color: ${({color}) => color};
   border-radius: 10px;
+  padding: 15px;
 `
 export const AnswerResultContainer = ({isRight, wasExplain, wasAnswer, wasReply}) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
+
+  const showRightOnly = useSelector(state => state.showRightOnly.showRightOnly)
 
   return (
     <RAFullContainer
@@ -57,19 +57,26 @@ export const AnswerResultContainer = ({isRight, wasExplain, wasAnswer, wasReply}
     >
       <ResultContainer
         color={isRight === languageSet.True ? ('#c7ffd3') : ('#ff9b9b')}
+        bottomRightSize={showRightOnly ? 10 : 0}
+        bottomLeftSize={showRightOnly ? 10 : 0}
       >
         <ResultText>
           {isRight === languageSet.True ? (languageSet.True) : (languageSet.Wrong)}
         </ResultText>
       </ResultContainer>
-      <AnswerContainer
-        color={isRight === languageSet.True ? ('#c7ffd3') : ('#ff9b9b')}
-      >
-        <AnswerText>{languageSet.Problem}: {wasExplain}</AnswerText>
-        <AnswerText>{languageSet.Answer}: {wasAnswer}</AnswerText>
-        <AnswerText/>
-        <AnswerText>{languageSet.MyAnswer}: {wasReply}</AnswerText>
-      </AnswerContainer>
+      { showRightOnly ? (
+        null
+      ) : (
+        <AnswerContainer
+          color={isRight === languageSet.True ? ('#c7ffd3') : ('#ff9b9b')}
+        >
+          <AnswerText>{languageSet.Problem}: {wasExplain}</AnswerText>
+          <AnswerText>{languageSet.Answer}: {wasAnswer}</AnswerText>
+          <AnswerText/>
+          <AnswerText>{languageSet.MyAnswer}: {wasReply}</AnswerText>
+        </AnswerContainer>
+      )}
+
     </RAFullContainer>
   )
 }

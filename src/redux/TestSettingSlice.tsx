@@ -44,10 +44,24 @@ export const showCommentarySlice = createSlice({
   },
 });
 
+export const showRightOnlySlice = createSlice({
+  name: 'showRightOnly',
+  initialState: {showRightOnly: ''},
+  reducers: {
+    setShowRightOnly: (state, action) => {
+      const tempValue = action.payload;
+      state.showRightOnly = tempValue;
+      const tempStringValue = String(tempValue);
+      writeTestSetting('showRightOnly', tempStringValue);
+    },
+  },
+})
+
 
 export const { setExportNum } = exportNumSlice.actions;
 export const { setShowExportNum} = showExportNumSlice.actions;
 export const { setShowCommentary } = showCommentarySlice.actions;
+export const { setShowRightOnly } = showRightOnlySlice.actions
 
 export const testSettingInit = async () => {
   const tempExportNum = await readTestSetting('exportNum');
@@ -56,8 +70,11 @@ export const testSettingInit = async () => {
   const showExportNum = tempShowExportNum === 'true';
   const tempShowCommentary = await readTestSetting('showCommentary')
   const showCommentary = tempShowCommentary === 'true';
+  const tempShowRightOnly = await readTestSetting('showRightOnly')
+  const showRightOnly = tempShowRightOnly === 'true';
 
   store.dispatch(setExportNum(exportNum));
   store.dispatch(setShowExportNum(showExportNum))
   store.dispatch(setShowCommentary(showCommentary))
+  store.dispatch(setShowCommentary(showRightOnly))
 };

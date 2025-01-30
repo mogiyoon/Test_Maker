@@ -23,8 +23,8 @@ export async function readTestSetting(testSettingParm: string) {
 export async function initiateTestSettingStorage() {
   const initiateValue = await AsyncStorage.getItem('testSetting');
   const testSettingVersion = '1';
-  const testSettingList = ['exportNum', 'showExportNum', 'showCommentary'];
-  const testSettingInitiateValue = ['0', 'false', 'false'];
+  const testSettingList = ['exportNum', 'showExportNum', 'showCommentary', 'showRightOnly'];
+  const testSettingInitiateValue = ['0', 'false', 'false', 'false'];
 
   if (initiateValue === testSettingVersion) {
   } else {
