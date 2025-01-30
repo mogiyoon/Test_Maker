@@ -20,6 +20,7 @@ import {
 import _ from 'lodash';
 import {dequeue, enqueue} from '../../services/Queue';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { placeHolerColor } from '../../services/ChoreFunction';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -188,6 +189,7 @@ export const Testing = () => {
               <TextWriteBox
                 value={myAnswer}
                 onChangeText={text => setMyAnswer(text)}
+                placeholderTextColor={placeHolerColor}
                 placeholder="Answer"
               />
               <RowContainer>

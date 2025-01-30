@@ -71,8 +71,9 @@ export const AnswerResultContainer = ({isRight, wasExplain, wasAnswer, wasReply}
           color={isRight === languageSet.True ? ('#c7ffd3') : ('#ff9b9b')}
         >
           <AnswerText>{languageSet.Problem}: {wasExplain}</AnswerText>
-          <AnswerText>{languageSet.Answer}: {wasAnswer}</AnswerText>
           <AnswerText/>
+          <AnswerText/>
+          <AnswerText>{languageSet.Answer}: {wasAnswer}</AnswerText>
           <AnswerText>{languageSet.MyAnswer}: {wasReply}</AnswerText>
         </AnswerContainer>
       )}
@@ -128,7 +129,7 @@ export const ChoiceText = styled.Text`
 export const TextWriteBox = styled.TextInput.attrs({
   autoCapitalize: 'none',
   autoCorrect: false,
-  textAlignVertical: 'top',
+  textAlignVertical: 'center',
   multiline: true,
 })`
   height: 50px;
@@ -142,6 +143,7 @@ export const Button = styled.TouchableOpacity`
   height: 30px;
   width: 70px;
   margin: 10px;
+  padding: 0px;
   border-radius: 15px;
   background-color: #cacdff;
   justify-content: center;

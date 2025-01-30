@@ -76,5 +76,5 @@ export const testSettingInit = async () => {
   store.dispatch(setExportNum(exportNum));
   store.dispatch(setShowExportNum(showExportNum))
   store.dispatch(setShowCommentary(showCommentary))
-  store.dispatch(setShowCommentary(showRightOnly))
+  store.dispatch(setShowRightOnly(showRightOnly))
 };
