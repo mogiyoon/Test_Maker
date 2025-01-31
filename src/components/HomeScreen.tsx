@@ -22,7 +22,7 @@ export const LangRowContainer = styled.View`
   flex-direction: row;
   justify-content:space-evenly;
   align-items: flex-start;
-  margin: 0 5px;
+  margin: 0px 5px;
 `
 export const LangButton = styled.TouchableOpacity`
   width: 100px;
