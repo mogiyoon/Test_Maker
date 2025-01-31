@@ -7,6 +7,7 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {Alert} from 'react-native';
 import {
   Button,
+  ButtonStyleContainer,
   CenterTextContainer,
   Container,
   ExportContainer,
@@ -17,7 +18,7 @@ import {
 } from '../../components/testTabScreen/ExportTab';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { GridComponent } from '../../components/GridComponent';
-import { Admob } from '../../services/GoogleAd';
+import { AdmobReward } from '../../services/GoogleAd';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -216,13 +217,13 @@ export const ExportTab = () => {
   return (
     <Container>
       <RowContainer>
-        <Button>
-          <Admob
-            callBackFunction = {makeExportableTest}
+        <AdmobReward
+          callBackFunction = {makeExportableTest}
           >
+          <ButtonStyleContainer>
             <Text>{languageSet.Extract}</Text>
-          </Admob>
-        </Button>
+          </ButtonStyleContainer>
+        </AdmobReward>
         <Button
           onPress={() => {
             copyToClipboard(

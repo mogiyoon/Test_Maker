@@ -10,6 +10,7 @@ import {
   ExampleText,
   RowContainer,
   StyledButton,
+  StyledButtonLikeContainer,
   StyledSwitch,
   StyledText,
   StyledTextInput,
@@ -22,7 +23,7 @@ import {
   setWordInsideMean,
 } from '../../redux/MakerSettingSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
-import { Admob } from '../../services/GoogleAd';
+import { AdmobReward } from '../../services/GoogleAd';
 
 export const MakerSetting = () => {
   const isChanged = useSelector(state => state.contentChanged.isChanged);
@@ -40,20 +41,23 @@ export const MakerSetting = () => {
   const dispatch = useDispatch();
 
   //setting
-  const timeValue = readConvertTime();
-  const [appearingTime, setAppearingTime] = useState(timeValue);
+  const [appearingTime, setAppearingTime] = useState(0);
   const [settingWordInsideMean, setSettingWordInsideMean] =
     useState(wordInsideMean);
   const [settingName, setSettingName] = useState(wordFind);
   const [settingMean, setSettingMean] = useState(meanFind);
 
-  useEffect(() => {
-    const processingOCR = async () => {
-      const time = await readConvertTime();
-      setAppearingTime(time);
-      dispatch(setIsUsedOCR(false));
-    };
+  const processingOCR = async () => {
+    const time = await readConvertTime();
+    setAppearingTime(time);
+    dispatch(setIsUsedOCR(false));
+  };
 
+  useEffect(() => {
+    processingOCR()
+  }, [])
+  
+  useEffect(() => {
     if (isChanged === false && isUsingOCR === true) {
       processingOCR();
     }
@@ -77,19 +81,21 @@ export const MakerSetting = () => {
           {/* 광고 */}
           <StyledText>{languageSet.OCR}</StyledText>
           <StyledText>{appearingTime}</StyledText>
-          <StyledButton>
             {appearingTime < 5 ? (
-              <Admob
+              <AdmobReward
                 callBackFunction = {handlePlusConvertTime}
               >
-              <StyledText>{languageSet.WatchAd}</StyledText>
-              </Admob>
+                <StyledButtonLikeContainer>
+                  <StyledText>{languageSet.WatchAd}</StyledText>
+                </StyledButtonLikeContainer>
+              </AdmobReward>
             ) : (
-              <StyledText>
-                {languageSet.Max}
-              </StyledText>
+              <StyledButton>
+                <StyledText>
+                  {languageSet.Max}
+                </StyledText>
+              </StyledButton>
             )}
-          </StyledButton>
         </RowContainer>
 
         {wordInsideMean ? (

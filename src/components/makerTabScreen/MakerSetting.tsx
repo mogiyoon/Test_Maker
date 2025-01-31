@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   align-items: center;
+  padding: 5px;
 `;
 export const RowContainer = styled.View`
   flex-direction: row;
@@ -52,6 +53,17 @@ export const StyledTextInput = styled.TextInput.attrs({
 export const StyledButton = styled.TouchableOpacity`
   background-color: #ffffff;
   min-width: 70px;
+  height: 25px;
+  margin: 10px;
+  padding: 2px;
+  border-radius: 10px;
+  border: 1px;
+  justify-content: center;
+  align-items: center;
+`;
+export const StyledButtonLikeContainer = styled.View`
+  background-color: #ffffff;
+  width: 100px;
   height: 25px;
   margin: 10px;
   padding: 2px;

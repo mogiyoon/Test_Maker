@@ -36,6 +36,15 @@ export const Button = styled.TouchableOpacity`
   justify-content: center;
   padding: 3px;
 `;
+export const ButtonStyleContainer = styled.View`
+  width: 70px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #fffaaa;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+`;
 
 export const Text = styled.Text`
   font-size: 15px;
