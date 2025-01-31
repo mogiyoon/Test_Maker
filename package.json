@@ -6,6 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
+    "postinstall": "react-native setup-ios-permissions && pod-install",
     "start": "react-native start",
     "test": "jest"
   },
@@ -27,6 +28,7 @@
     "react-native-dotenv": "^3.4.11",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.21.0",
+    "react-native-google-mobile-ads": "^14.8.1",
     "react-native-image-picker": "^7.2.2",
     "react-native-permissions": "^5.1.0",
     "react-native-reanimated": "^3.16.3",
@@ -65,6 +67,7 @@
     "node": ">=18"
   },
   "reactNativePermissionsIOS": [
+    "AppTrackingTransparency",
     "Camera"
   ]
 }

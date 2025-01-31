@@ -13,6 +13,7 @@ import { initiateTestSettingStorage } from './db/TestSettingAsyncStorage';
 import { testSettingInit } from './redux/TestSettingSlice';
 import { languageSettingInit } from './redux/LanguageSlice';
 import { wait } from './services/ChoreFunction';
+import { initializeAdMob } from './services/GoogleAd';
 
 const App = () => {
   const [loading, setLoading] = useState(0)
@@ -34,6 +35,7 @@ const App = () => {
     try {
       initiateStorage().then(() => {
         setLoading((preVal) => preVal + 1)
+        initializeAdMob()
         languageSettingInit();
         syncReduxWithRealm();
         testTreeInitiate();

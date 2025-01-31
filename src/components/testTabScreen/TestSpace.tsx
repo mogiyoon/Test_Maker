@@ -3,13 +3,17 @@ import styled from 'styled-components/native';
 export const ScrollContainer = styled.ScrollView`
   flex: 1;
 `;
+export const CenterContainer = styled.View`
+  align-items: center;
+`
 export const FlexContainer = styled.View`
-  flex: ${({flexSize}) => flexSize};
+  flex: 1;
   width: 95%;
   height: 95%;
   background-color: #bab0ff;
   border-radius: 10px;
-  margin: 8px 6px;
+  margin: 6px 6px;
+  margin-top: 0px;
   padding: 5px;
 `;
 export const RowContainer = styled.View`

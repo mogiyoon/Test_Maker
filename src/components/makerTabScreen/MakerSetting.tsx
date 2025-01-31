@@ -51,7 +51,8 @@ export const StyledTextInput = styled.TextInput.attrs({
 `;
 export const StyledButton = styled.TouchableOpacity`
   background-color: #ffffff;
-  width: 60px;
+  min-width: 70px;
+  height: 25px;
   margin: 10px;
   padding: 2px;
   border-radius: 10px;

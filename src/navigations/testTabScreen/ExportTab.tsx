@@ -17,6 +17,7 @@ import {
 } from '../../components/testTabScreen/ExportTab';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { GridComponent } from '../../components/GridComponent';
+import { Admob } from '../../services/GoogleAd';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -215,11 +216,12 @@ export const ExportTab = () => {
   return (
     <Container>
       <RowContainer>
-        <Button
-          onPress={() => {
-            makeExportableTest();
-          }}>
-          <Text>{languageSet.Extract}</Text>
+        <Button>
+          <Admob
+            callBackFunction = {makeExportableTest}
+          >
+            <Text>{languageSet.Extract}</Text>
+          </Admob>
         </Button>
         <Button
           onPress={() => {

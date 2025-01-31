@@ -12,9 +12,11 @@ import {
   StyledText,
   StyledTitle,
   TextContainer,
+  CenterContainer,
 } from '../../components/testTabScreen/TestSpace';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { Admob, AdMobBanner } from '../../services/GoogleAd';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
@@ -35,98 +37,102 @@ export const TestSpace = () => {
 
   return (
     <ScrollContainer>
+      <AdMobBanner/>
+      <CenterContainer>
+
         {/* 선택된 카테고리 컨테이너 */}
-            <FlexContainer>
-        <TextContainer>
-            <StyledTitle>{languageSet.ChosenCategory}</StyledTitle>
-        </TextContainer>
-          {chosenCategory ? (
-            <TextContainer>
-              <StyledText>
-                {chosenCategory}
-              </StyledText>
-            </TextContainer>
+        <FlexContainer>
+          <TextContainer>
+              <StyledTitle>{languageSet.ChosenCategory}</StyledTitle>
+          </TextContainer>
+            {chosenCategory ? (
+              <TextContainer>
+                <StyledText>
+                  {chosenCategory}
+                </StyledText>
+              </TextContainer>
+            ) : (
+              <TextContainer>
+                <StyledText>{languageSet.NoData}</StyledText>
+              </TextContainer>
+            )}
+        </FlexContainer>
+
+        {/* 카테고리 목록 컨테이너 */}
+        <FlexContainer>
+          <TextContainer>
+            {nowCategory ? (
+              <StyledTitle>{nowCategory.categoryName} {languageSet.Category}</StyledTitle>
+            ) : (
+              <StyledTitle />
+            )}
+          </TextContainer>
+          <GridComponent
+            maxHeight={330}
+            columnNumber={2}
+            isFull={true}
+            data={inCategories}
+            renderItem={({item}) => (
+              <StyledGrid
+                onPress={() => {
+                  setNowCategory(item);
+                  setInCategories(item.childCategory);
+                }}>
+                <StyledCategory>{item.categoryName}</StyledCategory>
+              </StyledGrid>
+            )}
+          />
+        </FlexContainer>
+
+        {/* 포함된 아이템 컨테이너 */}
+        <FlexContainer>
+          <TextContainer>
+            <StyledTitle>{languageSet.ContainedItem}</StyledTitle>
+          </TextContainer>
+          {nowCategory ? (
+            <GridComponent
+              maxHeight={300}
+              columnNumber={3}
+              isFull={true}
+              data={nowCategory.childId}
+              renderItem={({item}) => (
+                <TextContainer>
+                  <StyledText>
+                    {item ? myTestList.find(value => value.id === item).word : null}
+                  </StyledText>
+                </TextContainer>)
+              }
+            />
           ) : (
             <TextContainer>
               <StyledText>{languageSet.NoData}</StyledText>
             </TextContainer>
           )}
-      </FlexContainer>
+        </FlexContainer>
 
-      {/* 카테고리 목록 컨테이너 */}
-      <FlexContainer>
-        <TextContainer>
-          {nowCategory ? (
-            <StyledTitle>{nowCategory.categoryName} {languageSet.Category}</StyledTitle>
-          ) : (
-            <StyledTitle />
-          )}
-        </TextContainer>
-        <GridComponent
-          maxHeight={330}
-          columnNumber={2}
-          isFull={true}
-          data={inCategories}
-          renderItem={({item}) => (
-            <StyledGrid
+        {/* 테스트 선택 컨테이너 */}
+        <FlexContainer>
+          <RowContainer>
+            <StyledButton
               onPress={() => {
-                setNowCategory(item);
-                setInCategories(item.childCategory);
+                setChosenCategory(nowCategory.categoryName + ' ' + languageSet.Category)
+                testChooser(nowCategory);
+                dispatch(setIsTestChanged(true));
               }}>
-              <StyledCategory>{item.categoryName}</StyledCategory>
-            </StyledGrid>
-          )}
-        />
-      </FlexContainer>
-
-      {/* 포함된 아이템 컨테이너 */}
-      <FlexContainer>
-        <TextContainer>
-          <StyledTitle>{languageSet.ContainedItem}</StyledTitle>
-        </TextContainer>
-        {nowCategory ? (
-          <GridComponent
-            maxHeight={300}
-            columnNumber={3}
-            isFull={true}
-            data={nowCategory.childId}
-            renderItem={({item}) => (
-              <TextContainer>
-                <StyledText>
-                  {item ? myTestList.find(value => value.id === item).word : null}
-                </StyledText>
-              </TextContainer>)
-            }
-          />
-        ) : (
-          <TextContainer>
-            <StyledText>{languageSet.NoData}</StyledText>
-          </TextContainer>
-        )}
-      </FlexContainer>
-
-      {/* 테스트 선택 컨테이너 */}
-      <FlexContainer flexSize={1}>
-        <RowContainer>
-          <StyledButton
-            onPress={() => {
-              setChosenCategory(nowCategory.categoryName + ' ' + languageSet.Category)
-              testChooser(nowCategory);
-              dispatch(setIsTestChanged(true));
-            }}>
-            <StyledText>{languageSet.Choose}</StyledText>
-          </StyledButton>
-          <StyledButton
-            onPress={() => {
-              if (nowCategory.parentCategory) {
-                setNowCategory(nowCategory.parentCategory);
-                setInCategories(nowCategory.parentCategory.childCategory);
-              }
-            }}>
-            <StyledText>{languageSet.Back}</StyledText>
-          </StyledButton>
-        </RowContainer>
-      </FlexContainer>
+              <StyledText>{languageSet.Choose}</StyledText>
+            </StyledButton>
+            <StyledButton
+              onPress={() => {
+                if (nowCategory.parentCategory) {
+                  setNowCategory(nowCategory.parentCategory);
+                  setInCategories(nowCategory.parentCategory.childCategory);
+                }
+              }}>
+              <StyledText>{languageSet.Back}</StyledText>
+            </StyledButton>
+          </RowContainer>
+        </FlexContainer>
+      </CenterContainer>
     </ScrollContainer>
   );
 };

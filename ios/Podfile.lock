@@ -4,6 +4,9 @@ PODS:
   - FBLazyVector (0.76.1)
   - fmt (9.1.0)
   - glog (0.3.5)
+  - Google-Mobile-Ads-SDK (11.13.0):
+    - GoogleUserMessagingPlatform (>= 1.1)
+  - GoogleUserMessagingPlatform (2.7.0)
   - hermes-engine (0.76.1):
     - hermes-engine/Pre-built (= 0.76.1)
   - hermes-engine/Pre-built (0.76.1)
@@ -1686,6 +1689,29 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNGoogleMobileAds (14.8.1):
+    - DoubleConversion
+    - glog
+    - Google-Mobile-Ads-SDK (= 11.13.0)
+    - GoogleUserMessagingPlatform (= 2.7.0)
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNPermissions (5.1.0):
     - DoubleConversion
     - glog
@@ -1943,6 +1969,7 @@ DEPENDENCIES:
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNGoogleMobileAds (from `../node_modules/react-native-google-mobile-ads`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1952,6 +1979,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Google-Mobile-Ads-SDK
+    - GoogleUserMessagingPlatform
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -2098,6 +2127,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNGoogleMobileAds:
+    :path: "../node_modules/react-native-google-mobile-ads"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -2117,6 +2148,8 @@ SPEC CHECKSUMS:
   FBLazyVector: 7075bb12898bc3998fd60f4b7ca422496cc2cdf7
   fmt: fad7775865bb4340e98e10997c965fd61b3c749e
   glog: 94308668c25e8ccac76f853cda1931c7aa3f5fae
+  Google-Mobile-Ads-SDK: 14f57f2dc33532a24db288897e26494640810407
+  GoogleUserMessagingPlatform: a8b56893477f67212fbc8411c139e61d463349f5
   hermes-engine: 75c51e2a3ee3d1bf0ba3251f2580344849fcc3c8
   RCT-Folly: aac5a2e8a7b6b8108945e58a66d08f78b800a1ea
   RCTDeprecation: fde92935b3caa6cb65cbff9fbb7d3a9867ffb259
@@ -2183,7 +2216,8 @@ SPEC CHECKSUMS:
   RNCClipboard: 8212ca9e8370d0e23bfb7f5a591380da5a63456d
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 4f6fa6d03da1154c5174f5a87b0c7c02fa391ea6
-  RNPermissions: 052a58760a263b8d8ace18eb549c9dea89003c9f
+  RNGoogleMobileAds: 2b4b93a052b624073abcf55ef7836064a7850f46
+  RNPermissions: 109d7074e33b4840a571a9529359140b836b94d1
   RNReanimated: 006a5d3961bf09c1e96d62ed436e02b2e43b89bb
   RNScreens: 27587018b2e6082f5172b1ecf158c14a0e8842d6
   RNVectorIcons: 07792a9538e8577c1263fcad187712e90d65d8fb
@@ -2191,6 +2225,6 @@ SPEC CHECKSUMS:
   VisionCamera: c95a8ad535f527562be1fb05fb2fd324578e769c
   Yoga: db69236006b8b1c6d55ab453390c882306cbf219
 
-PODFILE CHECKSUM: 7b2f876e1cc289321c805a9163172315f068d8d6
+PODFILE CHECKSUM: da5e110def1e7ca13b2c6da84e9da96f29a26f46
 
 COCOAPODS: 1.16.2

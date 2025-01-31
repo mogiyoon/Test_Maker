@@ -22,21 +22,24 @@ import {
   setWordInsideMean,
 } from '../../redux/MakerSettingSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { Admob } from '../../services/GoogleAd';
 
 export const MakerSetting = () => {
   const isChanged = useSelector(state => state.contentChanged.isChanged);
   const isUsingOCR = useSelector(state => state.usingOCR.setIsUsedOCR);
 
+  //language setting
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
-  //저장된 설정 받아오기
+  //saved setting
   const wordInsideMean = useSelector(state => state.wordInsideMean.wordInsideMean);
   const wordFind = useSelector(state => state.wordFind.wordFind);
   const meanFind = useSelector(state => state.meanFind.meanFind);
 
   const dispatch = useDispatch();
 
+  //setting
   const timeValue = readConvertTime();
   const [appearingTime, setAppearingTime] = useState(timeValue);
   const [settingWordInsideMean, setSettingWordInsideMean] =
@@ -72,9 +75,20 @@ export const MakerSetting = () => {
       <Container>
         <RowContainer>
           {/* 광고 */}
+          <StyledText>{languageSet.OCR}</StyledText>
           <StyledText>{appearingTime}</StyledText>
-          <StyledButton onPress={handlePlusConvertTime}>
-            <StyledText>{languageSet.Read}</StyledText>
+          <StyledButton>
+            {appearingTime < 5 ? (
+              <Admob
+                callBackFunction = {handlePlusConvertTime}
+              >
+              <StyledText>{languageSet.WatchAd}</StyledText>
+              </Admob>
+            ) : (
+              <StyledText>
+                {languageSet.Max}
+              </StyledText>
+            )}
           </StyledButton>
         </RowContainer>
 

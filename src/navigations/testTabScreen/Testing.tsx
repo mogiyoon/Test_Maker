@@ -21,6 +21,7 @@ import _ from 'lodash';
 import {dequeue, enqueue} from '../../services/Queue';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { placeHolerColor } from '../../services/ChoreFunction';
+import { AdMobBanner } from '../../services/GoogleAd';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -158,6 +159,7 @@ export const Testing = () => {
 
   return (
     <ScrollView>
+      <AdMobBanner/>
       <RowContainerWithColor>
         <FlexContainer>
           <TextBox>{languageSet.Choice}</TextBox>

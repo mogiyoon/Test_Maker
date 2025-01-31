@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { setExportNum, setShowCommentary, setShowExportNum, setShowRightOnly } from '../../redux/TestSettingSlice';
-import { Container, RowContainer, StyledButton, StyledSwitch, StyledText, StyledTextInput } from '../../components/testTabScreen/TestSetting';
+import { AdButton, Container, RowContainer, StyledButton, StyledSwitch, StyledText, StyledTextInput } from '../../components/testTabScreen/TestSetting';
+import { Admob } from '../../services/GoogleAd';
 
 
 export const TestSetting = () => {

@@ -1,6 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { store } from '../redux/ReduxStore';
-import { setLanguageData } from '../redux/LanguageSlice';
 
 const language = 'Language';
 export const languageIndex = {

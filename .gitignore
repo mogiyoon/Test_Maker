@@ -73,8 +73,9 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 
-# Ignore Vision Cloud API
+# API KEY
 test-maker-443512-e481b6eb8d46.json
+app.json
 
 # tsx
 src/services/*
