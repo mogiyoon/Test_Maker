@@ -1,8 +1,21 @@
 import {testMakerRealm} from '../db/TestMakerDB';
 import { getLanguageSet } from '../services/LanguageSet';
 
+export interface TestTreeCategory {
+  categoryName: string
+  childId: string[]
+  childCategory: TestTreeCategory[]
+  parentCategory: TestTreeCategory | null
+}
 
-export const testTree = [
+export interface TestData {
+  id: string,
+  category: string,
+  word: string,
+  meaning: string,
+}
+
+export const testTree: TestTreeCategory[] = [
   {
     categoryName: 'Main',
     childId: [],
@@ -11,12 +24,12 @@ export const testTree = [
   },
 ];
 
-export const setMainLanguage = (inputData) => {
+export const setMainLanguage = (inputData: string) => {
   testTree[0].categoryName = getLanguageSet(inputData).Main
 }
 
-export const setTestTreeInsertList = (inputData) => {
-  const data = inputData;
+export const setTestTreeInsertList = (inputDataList: TestData[]) => {
+  const data = inputDataList;
   data.forEach(element => {
     const categoryList = categoryAlign(element.category);
     const levelNum = 0;
@@ -25,7 +38,7 @@ export const setTestTreeInsertList = (inputData) => {
   });
 };
 
-export const setTestTreeInsert = (inputData) => {
+export const setTestTreeInsert = (inputData: TestData) => {
   const data = inputData;
   const categoryList = categoryAlign(data.category);
   const levelNum = 0;
@@ -33,11 +46,11 @@ export const setTestTreeInsert = (inputData) => {
   dataWriter(node, data);
 };
 
-const dataWriter = (node, data) => {
+const dataWriter = (node: TestTreeCategory, data: TestData) => {
   node.childId.push(data.id);
 }; // 데이터 추가
 
-const categoryWriter = (parentNode, inputCategory) => {
+const categoryWriter = (parentNode: TestTreeCategory, inputCategory: string) => {
   const category = {
     categoryName: inputCategory,
     childCategory: [],
@@ -47,7 +60,50 @@ const categoryWriter = (parentNode, inputCategory) => {
   parentNode.childCategory.push(category);
 }; // 카테고리 추가
 
-const categoryFinder = (parentNode, categoryList, levelNum, isWrite) => {
+const parentCategoryNameCollector = (nowCategory: TestTreeCategory) => {
+  let totalParentCategoryName = nowCategory.categoryName
+  let parentCategory = nowCategory.parentCategory
+
+  while (parentCategory !== null && parentCategory.categoryName !== 'Main') {
+    totalParentCategoryName = parentCategory.categoryName + '-' + totalParentCategoryName
+    parentCategory = parentCategory.parentCategory
+  }
+
+  return totalParentCategoryName
+}
+
+const childCategoryCollector = (nowCategory: TestTreeCategory, childCategoryList: string[], realCategoryName: string = '') => {
+  for (let i = 0; i < nowCategory.childCategory.length; i++) {
+    let realChildCategoryName = ''
+    if (realCategoryName === 'Main' || realCategoryName === '') {
+      realChildCategoryName = nowCategory.childCategory[i].categoryName
+    } else {
+      realChildCategoryName = realCategoryName + '-' + nowCategory.childCategory[i].categoryName
+    }
+    childCategoryList.push(realChildCategoryName)
+    if (nowCategory.childCategory[i].childCategory.length !== 0) {
+      childCategoryCollector(nowCategory.childCategory[i], childCategoryList, realChildCategoryName)
+    }
+  }
+}
+
+export const childRealCategoryNameList = (nowCategory: TestTreeCategory, returnedList: string[]) => {
+  const tempChildList: string[] = []
+  childCategoryCollector(nowCategory, tempChildList)
+  const tempParentName = parentCategoryNameCollector(nowCategory)
+
+  for (let i = 0; i < tempChildList.length; i++) {
+    let tempName = ''
+    if (tempParentName !== 'Main') {
+      tempName = tempParentName + '-' + tempChildList[i]
+    } else {
+      tempName = tempChildList[i]
+    }
+    returnedList.push(tempName)
+  }
+}
+
+const categoryFinder = (parentNode: TestTreeCategory, categoryList: string[], levelNum: number, isWrite: boolean) => {
   for (const node of parentNode.childCategory) {
     if (node.categoryName === categoryList[levelNum]) {
       // 노드의 카테고리 이름과 리스트의 카테고리 이름이 일치
@@ -78,7 +134,7 @@ const categoryFinder = (parentNode, categoryList, levelNum, isWrite) => {
   }
 };
 
-const categoryAlign = category => {
+const categoryAlign = (category: string) => {
   const categoryList = [];
   let categoryName = '';
   for (let i = 0; i < category.length; i++) {

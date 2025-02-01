@@ -15,7 +15,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {addTestRealmData} from '../../redux/RealmSlice';
 import {setIsChanged} from '../../redux/ContentsSlice';
-import {setTestTreeInsert} from '../../redux/TestTree';
+import {setTestTreeInsert, TestData} from '../../redux/TestTree';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { returnContentPlusBlank, placeHolerColor } from '../../services/ChoreFunction';
@@ -24,7 +24,12 @@ let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
 let allToggleSwitch = false;
 
-const FlatListComponent = ({word, meaning}) => {
+interface FlatListComponentProps {
+  word: string
+  meaning: string
+}
+
+const FlatListComponent = ({word, meaning}: FlatListComponentProps) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   if (!toggleCheckBoxFunctionList.includes(setToggleCheckBox)) {
@@ -256,7 +261,7 @@ function saveToMyTest(myTest: string[], dispatch, categoryName: string) {
     );
 
     if (dataToCheck.length === 0) {
-      const inputData = {
+      const inputData: TestData = {
         id: inputTimeKey,
         category: categoryName,
         word: word,

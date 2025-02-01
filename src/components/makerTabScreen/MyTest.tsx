@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeCategoryTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { itemIdReset } from '../../redux/TestChoiceSlice';
+import { childRealCategoryNameList, TestData, TestTreeCategory } from '../../redux/TestTree';
 
 export const Container = styled.View`
   width: 100%;
@@ -48,7 +49,15 @@ const RemoveContainer = styled.TouchableOpacity`
   margin: 0 5px;
   padding: 5px;
 `
-export const RemoveCategoryContainer = ({category, setIsOpenRemove}) => {
+
+interface RemoveCategoryContainerProps {
+  node: TestTreeCategory
+  setIsOpenRemove: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
+  const categoryList: string[] = [node.categoryName]
+  childRealCategoryNameList(node, categoryList)
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
   const dispatch = useDispatch()
@@ -57,12 +66,14 @@ export const RemoveCategoryContainer = ({category, setIsOpenRemove}) => {
     <RemoveContainer
       onPress={() => {
         setIsOpenRemove(false)
-        dispatch(removeCategoryTestRealmData(category)) 
+        for (const category of categoryList ) {
+          dispatch(removeCategoryTestRealmData(category)) 
+        }
         itemIdReset();
       }}
     >
       <CategoryText>
-        {languageSet.RemoveThis} {category} {languageSet.CategoryAfterRemove}
+        {languageSet.RemoveThis} {node.categoryName} {languageSet.CategoryAfterRemove}
       </CategoryText>
     </RemoveContainer>
   )
@@ -73,14 +84,21 @@ const OpenContainer = styled.TouchableOpacity`
 `
 
 //TODO 삭제시 연관된 카테고리 모두 삭제
-export const OpenCategoryContainer = ({title, children}) => {
+interface OpenCategoryContainerProps {
+  node: TestTreeCategory
+  realCategory: string
+  children: React.ReactNode
+}
+
+export const OpenCategoryContainer = ({node, children}: OpenCategoryContainerProps) => {
+  const title = node.categoryName
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
   const testListModified = useSelector((state => state.testRealm.realmData))
 
   const [isOpenRemove, setIsOpenRemove] = useState(false)
   const [isOpenCategory, setIsOpenCategory] = useState(false)
-  
+
   useEffect(() => {
     setIsOpenRemove(false)
   }, [testListModified])
@@ -90,7 +108,6 @@ export const OpenCategoryContainer = ({title, children}) => {
       <OpenContainer
         onLongPress={() => setIsOpenRemove(!isOpenRemove)}
         onPress={() => {
-          console.log(title)
           setIsOpenCategory(!isOpenCategory)}}>
         <CategoryContainer
           color = { isOpenCategory ? '#ffcdcd' : '#ff9d9d' }>
@@ -101,7 +118,7 @@ export const OpenCategoryContainer = ({title, children}) => {
       </OpenContainer>
         {isOpenRemove && (title !== languageSet.Main) ? (
           <RemoveCategoryContainer
-            category={title}
+            node={node}
             setIsOpenRemove={setIsOpenRemove}
           />
         ):(null)}
@@ -112,9 +129,17 @@ export const OpenCategoryContainer = ({title, children}) => {
   )
 }
 
+interface RecursionTreeFlatListProps {
+  node: TestTreeCategory
+  beforeCategoryName: string
+  testList: TestData[]
+}
+
 export const RecursionTreeFlatList = ({
-  node, beforeCategoryName, testList
-  }) => {
+  node,
+  beforeCategoryName,
+  testList
+  }: RecursionTreeFlatListProps) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
@@ -127,7 +152,10 @@ export const RecursionTreeFlatList = ({
   }
 
   return (
-    <OpenCategoryContainer title={node.categoryName}>
+    <OpenCategoryContainer 
+      node={node}
+      realCategory={nowCategoryName}
+    >
       <GridComponent //Category용 그리드 컴포넌트
         data={node.childCategory}
         renderItem={({item: firstItem}) => {
