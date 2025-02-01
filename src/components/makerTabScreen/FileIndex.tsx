@@ -2,10 +2,11 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 10px;
+  padding-top: 20px;
   padding-bottom: 20px;
 `;
 export const InnerContainer = styled.View`
+  flex: 1;
   justify-content: center;
   align-items: center;
 `
@@ -33,4 +34,5 @@ export const StyledButtonText = styled.Text`
 export const ImageContainer = styled.Image`
   width: 100%;
   height: 90%;
+  padding: 10px;
 `

@@ -8,8 +8,10 @@ import {
   Container,
   ImageContainer,
   InnerContainer,
+  NoCameraContainer,
   RowContainer,
   StyledButton,
+  StyledButtonText,
   StyledTakePhotoButton,
   StyledText,
 } from '../../components/makerTabScreen/Camera';
@@ -105,29 +107,33 @@ export const CameraScreen = () => {
           />
           <RowContainer>
             <StyledButton onPress={handleProcessing}>
-              <StyledText>{languageSet.Choose}</StyledText>
+              <StyledButtonText>{languageSet.Choose}</StyledButtonText>
             </StyledButton>
             <StyledButton onPress={() => resetPhoto(setPhotoPath)}>
-              <StyledText>{languageSet.Cancel}</StyledText>
+              <StyledButtonText>{languageSet.Cancel}</StyledButtonText>
             </StyledButton>
           </RowContainer>
         </InnerContainer>
       ) : (
         <>
           {hasPermission && device ? (
-            <Camera
-              ref={cameraRef}
-              style={StyleSheet.absoluteFill}
-              device={device}
-              isActive={true}
-              photo={true}
-            />
+            <InnerContainer>
+              <Camera
+                ref={cameraRef}
+                style={StyleSheet.absoluteFill}
+                device={device}
+                isActive={true}
+                photo={true}
+              />
+              <StyledTakePhotoButton onPress={onPressTakePhoto}>
+                <StyledText />
+              </StyledTakePhotoButton>
+            </InnerContainer>
           ) : (
-            <StyledText>{languageSet.NoCamera}</StyledText>
+            <NoCameraContainer>
+              <StyledText>{languageSet.NoCamera}</StyledText>
+            </NoCameraContainer>
           )}
-          <StyledTakePhotoButton onPress={onPressTakePhoto}>
-            <StyledText />
-          </StyledTakePhotoButton>
         </>
       )}
     </Container>

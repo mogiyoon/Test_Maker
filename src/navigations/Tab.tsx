@@ -40,7 +40,7 @@ export const TestTabNavigation = ({navigation}) => {
               iconName = focused ? 'star' : 'star-outline'
               break
             case languageSet.Export:
-              iconName = focused ? 'log-out-outline' : 'log-out-outline'
+              iconName = focused ? 'share-outline' : 'share-outline'
               break
             case languageSet.Setting:
               iconName = focused ? 'settings-outline' : 'settings-outline'

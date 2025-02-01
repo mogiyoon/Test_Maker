@@ -10,6 +10,11 @@ export const Container = styled.View`
 export const InnerContainer = styled.View`
  padding: 5px;
 `
+export const NoCameraContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
 export const RowContainer = styled.View`
   flex-direction: row;
   width: 100%;
@@ -21,7 +26,7 @@ export const ImageContainer = styled.Image`
   height: 90%;
 `
 export const StyledText = styled.Text`
-  font-size: 15px;
+  font-size: 30px;
 `;
 export const StyledTakePhotoButton = styled.TouchableOpacity`
   position: absolute;
@@ -42,4 +47,7 @@ export const StyledButton = styled.TouchableOpacity`
   background-color: #ffffff;
   justify-content: center;
   align-items: center;
+`;
+export const StyledButtonText = styled.Text`
+  font-size: 15px;
 `;

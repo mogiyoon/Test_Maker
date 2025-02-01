@@ -83,7 +83,6 @@ export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryC
 const OpenContainer = styled.TouchableOpacity`
 `
 
-//TODO 삭제시 연관된 카테고리 모두 삭제
 interface OpenCategoryContainerProps {
   node: TestTreeCategory
   realCategory: string
