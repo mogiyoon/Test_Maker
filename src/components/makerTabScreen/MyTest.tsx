@@ -7,7 +7,7 @@ import { removeCategoryTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { itemIdReset } from '../../redux/TestChoiceSlice';
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
   width: 100%;
   padding: 2px;
 `;
@@ -23,7 +23,9 @@ export const StyledText = styled.Text`
 export const NoDataText = styled.Text`
   font-size: 20px;
 `
-
+export const MaxHeightContainer = styled.View`
+  height: 90%;
+`
 
 const JustContainer = styled.View`
 `
@@ -46,7 +48,7 @@ const RemoveContainer = styled.TouchableOpacity`
   margin: 0 5px;
   padding: 5px;
 `
-export const RemoveCategoryContainer = ({category}) => {
+export const RemoveCategoryContainer = ({category, setIsOpenRemove}) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
   const dispatch = useDispatch()
@@ -54,6 +56,7 @@ export const RemoveCategoryContainer = ({category}) => {
   return (
     <RemoveContainer
       onPress={() => {
+        setIsOpenRemove(false)
         dispatch(removeCategoryTestRealmData(category)) 
         itemIdReset();
       }}
@@ -68,6 +71,8 @@ export const RemoveCategoryContainer = ({category}) => {
 //OpenContainer를 상위 Container로 만들기 위한 컴포넌트
 const OpenContainer = styled.TouchableOpacity`
 `
+
+//TODO 삭제시 연관된 카테고리 모두 삭제
 export const OpenCategoryContainer = ({title, children}) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
@@ -79,11 +84,14 @@ export const OpenCategoryContainer = ({title, children}) => {
   useEffect(() => {
     setIsOpenRemove(false)
   }, [testListModified])
+  
   return (
     <JustContainer>
       <OpenContainer
         onLongPress={() => setIsOpenRemove(!isOpenRemove)}
-        onPress={() => setIsOpenCategory(!isOpenCategory)}>
+        onPress={() => {
+          console.log(title)
+          setIsOpenCategory(!isOpenCategory)}}>
         <CategoryContainer
           color = { isOpenCategory ? '#ffcdcd' : '#ff9d9d' }>
           <CategoryText>
@@ -94,6 +102,7 @@ export const OpenCategoryContainer = ({title, children}) => {
         {isOpenRemove && (title !== languageSet.Main) ? (
           <RemoveCategoryContainer
             category={title}
+            setIsOpenRemove={setIsOpenRemove}
           />
         ):(null)}
         {isOpenCategory ? (<JustContainer>

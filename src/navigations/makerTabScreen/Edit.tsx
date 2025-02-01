@@ -116,7 +116,7 @@ export const Edit = () => {
           placeholderTextColor={placeHolerColor}
         />
         <StyledButton onPress={() => selectAll(toggleCheckBoxFunctionList)}>
-          <StyledText>{languageSet.SelectAll}</StyledText>
+          <StyledText>{languageSet.ChooseAll}</StyledText>
         </StyledButton>
         <StyledButton
           onPress={() => {
@@ -243,6 +243,7 @@ function saveToMyTest(myTest: string[], dispatch, categoryName: string) {
     return
   }
   if (categoryName === '') {
+    //TODO 한글로 수정
     Alert.alert('No Category Name \n -Hint- \n Category can be divided by -')
     return
   }

@@ -16,6 +16,7 @@ import {
   ModifyRowContainer,
   RemoveButton,
   NoDataText,
+  MaxHeightContainer,
 } from '../../components/makerTabScreen/MyTest';
 import {useDispatch, useSelector} from 'react-redux';
 import {modifyTestReamData, removeOneTestRealmData} from '../../redux/RealmSlice';
@@ -152,11 +153,13 @@ export const MyTest = () => {
           <NoDataText>{languageSet.NoData}</NoDataText>
         </DataContainer>
       ) : (
-        <RecursionTreeFlatList
-          node={nowCategory}
-          beforeCategoryName={''}
-          testList={myTestList}
-        />
+        <MaxHeightContainer>
+          <RecursionTreeFlatList
+            node={nowCategory}
+            beforeCategoryName={''}
+            testList={myTestList}
+          />
+        </MaxHeightContainer>
       )}
     </Container>
   );

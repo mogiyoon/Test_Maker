@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import {Image} from 'react-native';
+import {Alert} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {fileProcessing} from '../../services/FileProcessing';
 import {useNavigation} from '@react-navigation/native';
 import {
   Container,
+  ImageContainer,
+  InnerContainer,
   RowContainer,
   StyledButton,
   StyledButtonText,
   StyledText,
-  windowHeight,
-  windowWidth,
 } from '../../components/makerTabScreen/FileIndex';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -54,31 +54,32 @@ export const FileIndex = () => {
       navigation.navigate(languageSet.TextBox);
     } else {
       dispatch(setIsUsedOCR(false));
-      navigation.navigate(languageSet.Setting);
+      Alert.alert('Warning', 'Network Connection\nor\nToken Shortage');
     }
   };
 
   return (
     <Container>
-      <Container>
+      <InnerContainer>
         <StyledText>{languageSet.Image}</StyledText>
         <RowContainer>
           <StyledButton onPress={handleSelectImage}>
-            <StyledButtonText>{languageSet.Choose}</StyledButtonText>
+            <StyledButtonText>{languageSet.File}</StyledButtonText>
           </StyledButton>
-          {imageUri && (
+          {imageUri ? (
             <StyledButton onPress={handleProcessing}>
-              <StyledButtonText>{languageSet.Select}</StyledButtonText>
+              <StyledButtonText>{languageSet.Choose}</StyledButtonText>
             </StyledButton>
+          ) : (
+            null
           )}
         </RowContainer>
+      </InnerContainer>
         {imageUri && (
-          <Image
+          <ImageContainer
             source={{uri: imageUri}}
-            style={{width: windowWidth * 0.8, height: windowHeight * 0.7}}
           />
         )}
-      </Container>
     </Container>
   );
 };

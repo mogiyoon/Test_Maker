@@ -24,7 +24,7 @@ export const WrongAnswer = () => {
     <Container>
       {wrongAnswerList.length === 0 ? (
         <DataContainer>
-          <NoDataText>No Data</NoDataText>
+          <NoDataText>{languageSet.NoData}</NoDataText>
         </DataContainer>
       ) : (
         <GridComponent

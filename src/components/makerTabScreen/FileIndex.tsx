@@ -1,17 +1,17 @@
-import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
-
-export const windowWidth = Dimensions.get('window').width;
-export const windowHeight = Dimensions.get('window').height;
 
 export const Container = styled.View`
   flex: 1;
+  padding: 10px;
+  padding-bottom: 20px;
+`;
+export const InnerContainer = styled.View`
   justify-content: center;
   align-items: center;
-`;
+`
 export const RowContainer = styled.View`
   flex-direction: row;
-  width: ${windowWidth * 0.9}px;
+  width: 300px;
   padding: 10px;
   justify-content: space-evenly;
   align-items: center;
@@ -30,3 +30,7 @@ export const StyledButton = styled.TouchableOpacity`
 export const StyledButtonText = styled.Text`
   font-size: 15px;
 `;
+export const ImageContainer = styled.Image`
+  width: 100%;
+  height: 90%;
+`

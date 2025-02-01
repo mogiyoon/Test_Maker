@@ -1,18 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Image, Linking, Platform, StyleSheet} from 'react-native';
-import {PERMISSIONS, request} from 'react-native-permissions';
+import {Alert, Linking, StyleSheet} from 'react-native';
 import {Camera, useCameraDevice} from 'react-native-vision-camera';
 import {fileProcessing} from '../../services/FileProcessing';
 import {resetPhoto} from '../../services/ModifyPhoto';
 import {
   Container,
+  ImageContainer,
+  InnerContainer,
   RowContainer,
   StyledButton,
   StyledTakePhotoButton,
   StyledText,
-  windowHeight,
-  windowWidth,
 } from '../../components/makerTabScreen/Camera';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -22,20 +21,16 @@ import {
 } from '../../redux/ContentsSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 
-async function CheckPermission(navigation, languageSet) {
-  const cameraPermission = await Camera.getCameraPermissionStatus();
-  const requestPhotoPermission = await request(
-    Platform.OS === 'ios'
-      ? PERMISSIONS.IOS.CAMERA
-      : PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
-  );
-  const state = navigation.getState();
+async function CheckPermission(navigation, languageSet, setHasPermission) {
+  const cameraPermission = Camera.getCameraPermissionStatus();
 
   if (cameraPermission === 'granted') {
+    setHasPermission(true)
   } else {
     const newCameraPermission = await Camera.requestCameraPermission();
 
     if (newCameraPermission === 'granted') {
+      setHasPermission(true)
     } else {
       Alert.alert(languageSet.Alert, languageSet.CameraPermission, [
         {
@@ -58,11 +53,12 @@ async function CheckPermission(navigation, languageSet) {
 export const CameraScreen = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
-
   const cameraRef = useRef<Camera>(null);
+
   const navigation = useNavigation();
   const device = useCameraDevice('back');
   const [photoPath, setPhotoPath] = useState(null);
+  const [hasPermission, setHasPermission] = useState(false)
   const dispatch = useDispatch();
   const setContent = payload => dispatch(setContentData(payload));
   const setChanged = payload => dispatch(setIsChanged(payload));
@@ -94,7 +90,7 @@ export const CameraScreen = () => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      CheckPermission(navigation, languageSet);
+      CheckPermission(navigation, languageSet, setHasPermission)
     });
 
     return () => unsubscribe();
@@ -103,23 +99,22 @@ export const CameraScreen = () => {
   return (
     <Container>
       {photoPath ? (
-        <Container>
-          <Image
-            style={{width: windowWidth, height: windowHeight * 0.75}}
+        <InnerContainer>
+          <ImageContainer
             source={{uri: 'file://' + photoPath}}
           />
           <RowContainer>
             <StyledButton onPress={handleProcessing}>
-              <StyledText>{languageSet.Select}</StyledText>
+              <StyledText>{languageSet.Choose}</StyledText>
             </StyledButton>
             <StyledButton onPress={() => resetPhoto(setPhotoPath)}>
               <StyledText>{languageSet.Cancel}</StyledText>
             </StyledButton>
           </RowContainer>
-        </Container>
+        </InnerContainer>
       ) : (
         <>
-          {device ? (
+          {hasPermission && device ? (
             <Camera
               ref={cameraRef}
               style={StyleSheet.absoluteFill}

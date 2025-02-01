@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Keyboard, Platform, TouchableWithoutFeedback} from 'react-native';
 import {
   Container,
@@ -30,6 +30,10 @@ export const TextBox = () => {
     contentDispatch(setContentData(''));
     contentDispatch(setIsChanged(true));
   };
+
+  useEffect(() => {
+    setTestContext(content)
+  }, [content])
 
   return (
     <TouchableWithoutFeedback
