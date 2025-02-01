@@ -1,14 +1,11 @@
-import {Dimensions} from 'react-native';
 import styled, { css } from 'styled-components/native';
-
-export const windowWidth = Dimensions.get('window').width;
-export const windowHeight = Dimensions.get('window').height;
 
 export const Container = styled.View`
   flex: 1;
 `;
 export const InnerContainer = styled.View`
- padding: 5px;
+  flex: 1;
+  padding: 5px;
 `
 export const NoCameraContainer = styled.View`
   flex: 1;

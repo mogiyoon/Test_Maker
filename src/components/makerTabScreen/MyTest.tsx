@@ -55,6 +55,7 @@ interface RemoveCategoryContainerProps {
   setIsOpenRemove: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+//TODO Remove 수정 필요
 export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
   const categoryList: string[] = [node.categoryName]
   childRealCategoryNameList(node, categoryList)

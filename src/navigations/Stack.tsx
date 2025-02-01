@@ -13,6 +13,7 @@ export const StackNavigation = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
+  //TODO Navigation별 설명넣기
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={languageSet.Home}>
