@@ -248,6 +248,26 @@ export const openSourceLicenseJsonList = [
       'The MIT License (MIT)\n\nCopyright (c) 2016 Software Mansion <swmansion.com>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n',
   },
   {
+    libraryName: 'react-native-google-mobile-ads',
+    version: '14.8.1',
+    _license: 'Apache-2.0',
+    _description:
+      'React Native Google Mobile Ads is an easy way to monetize mobile apps with targeted, in-app advertising.',
+    homepage:
+      'https://github.com/invertase/react-native-google-mobile-ads#readme',
+    author: {
+      name: 'Invertase',
+      email: 'oss@invertase.io',
+      url: 'http://invertase.io',
+    },
+    repository: {
+      type: 'git',
+      url: 'git+https://github.com/invertase/react-native-google-mobile-ads.git',
+    },
+    _licenseContent:
+      'Apache-2.0 License\n------------------\n\nCopyright (c) 2021-present Invertase Limited <oss@invertase.io>\n\nLicensed under the Apache License, Version 2.0 (the "License");\nyou may not use this library except in compliance with the License.\n\nYou may obtain a copy of the Apache-2.0 License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an "AS IS" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n\nCreative Commons Attribution 3.0 License\n----------------------------------------\n\nCopyright (c) 2016-present Invertase Limited <oss@invertase.io>\n\nDocumentation and other instructional materials provided for this project\n(including on a separate documentation repository or it\'s documentation website) are\nlicensed under the Creative Commons Attribution 3.0 License. Code samples/blocks\ncontained therein are licensed under the Apache License, Version 2.0 (the "License"), as above.\n\nYou may obtain a copy of the Creative Commons Attribution 3.0 License at\n\n    https://creativecommons.org/licenses/by/3.0/\n',
+  },
+  {
     libraryName: 'react-native-image-picker',
     version: '7.2.2',
     _license: 'MIT',
