@@ -8,7 +8,7 @@ const FullContainer = styled.View`
   top: 5%;
   left: 5%;
   width: 90%;
-  height: 95%;
+  height: 600px;
   position: absolute;
   background-color: white;
   border: 1px;
