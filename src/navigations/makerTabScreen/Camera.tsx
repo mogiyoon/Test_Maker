@@ -17,6 +17,7 @@ import {
 } from '../../components/makerTabScreen/Camera';
 import {useDispatch, useSelector} from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 async function CheckPermission(navigation, languageSet, setHasPermission) {
   const cameraPermission = Camera.getCameraPermissionStatus();
@@ -51,6 +52,8 @@ export const CameraScreen = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
   const cameraRef = useRef<Camera>(null);
+
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
 
   const navigation = useNavigation();
   const device = useCameraDevice('back');
@@ -125,6 +128,11 @@ export const CameraScreen = () => {
             </NoCameraContainer>
           )}
         </>
+      )}
+      {isInfoWindowOpen ? (
+        <ExplainWindow/>
+      ) : (
+        null
       )}
     </Container>
   );

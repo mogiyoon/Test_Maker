@@ -14,14 +14,15 @@ import {
 } from '../../components/makerTabScreen/FileIndex';
 import {useDispatch, useSelector} from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 export const FileIndex = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
-  // const [files, setFiles] = useState([])
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
+
   const [imageUri, setImageUri] = useState(null);
-  // const [documentUri, setDocumentUri] = useState(null)
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -70,6 +71,8 @@ export const FileIndex = () => {
             source={{uri: imageUri}}
           />
         )}
+
+      {isInfoWindowOpen ? <ExplainWindow/> : null}
     </Container>
   );
 };

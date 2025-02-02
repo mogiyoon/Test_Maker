@@ -21,9 +21,13 @@ import {
 import { getLanguageSet } from '../../services/LanguageSet';
 import { AdmobReward } from '../../services/GoogleAd';
 import { plusOneAdTime } from '../../redux/TimeSlice';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 export const MakerSetting = () => {
   const dispatch = useDispatch();
+
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
+
   //ad setting
   const adTime = useSelector((state) => state.adTime.adTime)
 
@@ -138,7 +142,9 @@ export const MakerSetting = () => {
             <StyledText>{languageSet.Ok}</StyledText>
           </StyledButton>
         </RowContainer>
+      {isInfoWindowOpen ? <ExplainWindow/> : null}
       </Container>
+
     </TouchableWithoutFeedback>
   );
 };

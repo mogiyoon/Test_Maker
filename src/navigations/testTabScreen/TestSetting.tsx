@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { setExportNum, setShowCommentary, setShowExportNum, setShowRightOnly } from '../../redux/TestSettingSlice';
-import { AdButton, Container, RowContainer, StyledButton, StyledSwitch, StyledText, StyledTextInput } from '../../components/testTabScreen/TestSetting';
-import { AdmobReward } from '../../services/GoogleAd';
+import { Container, RowContainer, StyledButton, StyledSwitch, StyledText, StyledTextInput } from '../../components/testTabScreen/TestSetting';
 
 
 export const TestSetting = () => {
@@ -13,6 +12,8 @@ export const TestSetting = () => {
   const showCommentary = useSelector(state => state.showCommentary.showCommentary)
   const showRightOnly = useSelector(state => state.showRightOnly.showRightOnly)
   const dispatch = useDispatch()
+
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
 
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
@@ -94,6 +95,7 @@ export const TestSetting = () => {
       (
         null
       )}
+      {isInfoWindowOpen ? <ExplainWindow/> : null}
     </Container>
   );
 };

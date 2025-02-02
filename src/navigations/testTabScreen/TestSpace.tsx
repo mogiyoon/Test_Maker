@@ -16,7 +16,8 @@ import {
 } from '../../components/testTabScreen/TestSpace';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
-import { AdmobReward, AdMobBanner } from '../../services/GoogleAd';
+import { AdMobBanner } from '../../services/GoogleAd';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
@@ -25,6 +26,8 @@ export const TestSpace = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
+  
   const [myTestTree, setMyTestTree] = useState(testTree);
   const [nowCategory, setNowCategory] = useState(myTestTree[0]); // 현재 카테고리
   const [inCategories, setInCategories] = useState(myTestTree[0].childCategory); // 자식 카테고리를 보여줌(화면에 나오는 것)
@@ -133,6 +136,7 @@ export const TestSpace = () => {
           </RowContainer>
         </FlexContainer>
       </CenterContainer>
+      {isInfoWindowOpen ? <ExplainWindow/> : null}
     </ScrollContainer>
   );
 };

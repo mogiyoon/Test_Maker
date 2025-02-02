@@ -11,10 +11,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setContentData, setIsChanged} from '../../redux/ContentsSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { placeHolerColor } from '../../services/ChoreFunction';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 export const TextBox = () => {
-    const languageSetting = useSelector((state) => state.language.language)
-    const languageSet = getLanguageSet(languageSetting)
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
 
   const content = useSelector(state => state.content.contentData);
   const contentDispatch = useDispatch();
@@ -57,6 +60,7 @@ export const TextBox = () => {
           placeholder={languageSet.InputContent}
           placeholderTextColor={placeHolerColor}
         />
+        {isInfoWindowOpen ? <ExplainWindow/> : null}
       </Container>
     </TouchableWithoutFeedback>
   );

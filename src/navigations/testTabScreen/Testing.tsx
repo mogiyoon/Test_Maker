@@ -22,6 +22,7 @@ import {dequeue, enqueue} from '../../services/Queue';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { placeHolerColor } from '../../services/ChoreFunction';
 import { AdMobBanner } from '../../services/GoogleAd';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -46,6 +47,8 @@ export const Testing = () => {
 
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
+
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
 
   const myTestList = useSelector(state => state.testRealm.realmData);
   const _makeIdToNode = InputId => {
@@ -323,6 +326,7 @@ export const Testing = () => {
       ) : (
         null
       )}
+      {isInfoWindowOpen ? <ExplainWindow/> : null}
     </ScrollView>
   );
 };

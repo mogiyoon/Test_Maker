@@ -19,6 +19,7 @@ import {
 import { getLanguageSet } from '../../services/LanguageSet';
 import { GridComponent } from '../../components/GridComponent';
 import { AdmobReward } from '../../services/GoogleAd';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -39,6 +40,9 @@ export const ExportTab = () => {
 
   const exportNum = useSelector(state => state.exportNum.exportNum)
   const showExportNum = useSelector(state => state.showExportNum.showExportNum)
+
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
+  
 
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
@@ -274,6 +278,7 @@ export const ExportTab = () => {
           />
         </ExportInnerContainer>
       </ExportContainer>
+      {isInfoWindowOpen ? <ExplainWindow/> : null}
     </Container>
   );
 };

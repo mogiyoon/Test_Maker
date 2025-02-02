@@ -20,6 +20,7 @@ import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet, wordList } from '../../services/LanguageSet';
 import { returnContentPlusBlank, placeHolerColor } from '../../services/ChoreFunction';
 import { Dispatch, UnknownAction } from 'redux';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
@@ -64,6 +65,8 @@ export const Edit = () => {
   const content = useSelector(state => state.content.contentData);
   const isChanged = useSelector(state => state.contentChanged.isChanged);
   const myTestRedux = useSelector(state => state.testRealm.realmData);
+
+  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
 
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
@@ -146,6 +149,8 @@ export const Edit = () => {
       <ScrollableContainer>
         <StyledText>{allContent}</StyledText>
       </ScrollableContainer>
+
+      {isInfoWindowOpen ? <ExplainWindow/> : null}
     </WindowContainer>
   );
 };
