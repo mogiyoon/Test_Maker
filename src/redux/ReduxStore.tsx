@@ -13,6 +13,7 @@ import { languageSlice } from './LanguageSlice';
 import { exportNumSlice, showCommentarySlice, showExportNumSlice, showRightOnlySlice } from './TestSettingSlice';
 import { testChangedSlice } from './TestChoiceSlice';
 import { adTimeSlice } from './TimeSlice';
+import { infoWindowSlice } from './InfoWindowSlice';
 
 export const store = configureStore({
   reducer: {
@@ -39,5 +40,8 @@ export const store = configureStore({
 
     //Ad setting
     adTime: adTimeSlice.reducer,
+
+    //Info setting
+    infoWindow: infoWindowSlice.reducer,
   },
 });

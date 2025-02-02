@@ -1,12 +1,64 @@
 import styled from 'styled-components/native';
 import React, { useEffect, useState } from 'react';
-import { FlatListChild } from '../../navigations/makerTabScreen/MyTest';
 import { GridComponent } from '../GridComponent';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeCategoryTestRealmData } from '../../redux/RealmSlice';
+import { modifyTestReamData, removeCategoryTestRealmData, removeOneTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { itemIdReset } from '../../redux/TestChoiceSlice';
-import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory } from '../../db/TestTree';
+import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory, testTreeInitiate } from '../../db/TestTree';
+import { placeHolerColor } from '../../services/ChoreFunction';
+
+//FlatList Recursion
+export const RecursionTreeFlatList = ({
+  node,
+  beforeCategoryName,
+  testList
+  }: RecursionTreeFlatListProps) => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
+  let nowCategoryName = ''
+  if (node.categoryName === languageSet.Main) {
+  } else if (beforeCategoryName === '') {
+    nowCategoryName = node.categoryName
+  } else {
+    nowCategoryName += beforeCategoryName + '-' + node.categoryName
+  }
+
+  return (
+    <OpenCategoryContainer 
+      node={node}
+      realCategory={nowCategoryName}
+    >
+      <GridComponent //Category용 그리드 컴포넌트
+        data={node.childCategory}
+        renderItem={({item: firstItem}) => {
+          return (
+            <RecursionTreeFlatList
+              node={firstItem}
+              beforeCategoryName={nowCategoryName}
+              testList={testList}
+            />
+          );
+        }}
+      />
+      <GridComponent //단어 컴포넌트
+        data={testList} // testList 데이터 활용
+        maxHeight={400}
+        renderItem={({item: secondItem}) => {
+          return secondItem.category === nowCategoryName ? (
+            <FlatListChild inputItem={secondItem} />
+          ) : null;
+        }}
+      />
+      <SessionSeparator>
+        <CategoryText>
+          {node.categoryName}
+        </CategoryText>
+      </SessionSeparator>
+    </OpenCategoryContainer>
+  );
+}
 
 export const Container = styled.View`
   width: 100%;
@@ -18,7 +70,7 @@ export const DataContainer = styled.View`
   justify-content: center;
   align-items: center;
 `
-export const StyledText = styled.Text`
+const StyledText = styled.Text`
   font-size: 12px;
 `;
 export const NoDataText = styled.Text`
@@ -61,6 +113,122 @@ const RemoveContainer = styled.TouchableOpacity`
   margin: 0 5px;
   padding: 5px;
 `
+
+interface FlatListChildProps {
+  inputItem: TestData
+}
+export const FlatListChild = ({inputItem}: FlatListChildProps) => {
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+
+  const [isModifyOpen, setIsModifyOpen] = useState(false)
+  const [textInputCategory, setTextInputCategory] = useState('')
+  const [textInputWord, setTextInputWord] = useState('')
+  const [textInputMeaning, setTextInputMeaning] = useState('')
+  const dispatch = useDispatch()
+
+  return (
+    <FlatListTouchableContainer
+      onPress={() => {
+        setIsModifyOpen(!isModifyOpen)
+      }}
+    >
+      <FlatListContainer
+        borderBottomLeftRadius={isModifyOpen ? 0 : 5}
+        borderBottomRightRadius={isModifyOpen ? 0 : 5}
+      >
+        <WordContainer>
+          <StyledText>{inputItem.word}</StyledText>
+        </WordContainer>
+        <MeaningContainer>
+          <StyledText>{inputItem.meaning}</StyledText>
+        </MeaningContainer>
+      </FlatListContainer>
+      {isModifyOpen ? (
+        <ModifyContainer>
+          <ModifyRowContainer>
+            <ModifyText>
+              {languageSet.Category} : 
+            </ModifyText>
+            <ModifyTextInput
+              placeholder={inputItem.category}
+              placeholderTextColor={placeHolerColor}
+              value={textInputCategory}
+              onChangeText={(value) => setTextInputCategory(value)}
+            />
+          </ModifyRowContainer>
+
+          <ModifyRowContainer>
+            <ModifyText>
+              {languageSet.Word} :
+            </ModifyText>
+            <ModifyTextInput
+              placeholder={inputItem.word}
+              placeholderTextColor={placeHolerColor}
+              value={textInputWord}
+              onChangeText={(value) => setTextInputWord(value)}
+            />
+          </ModifyRowContainer>
+
+          <ModifyRowContainer>
+            <ModifyText>
+              {languageSet.Meaning} :
+            </ModifyText>
+            <ModifyTextInput
+              placeholder={inputItem.meaning}
+              placeholderTextColor={placeHolerColor}
+              value={textInputMeaning}
+              onChangeText={(value) => setTextInputMeaning(value)}
+            />
+          </ModifyRowContainer>
+
+          <ModifyEvenRowContainer>
+            <ModifyButton // 수정 버튼
+              onPress={() => {
+                let newCategory = inputItem.category
+                let newWord = inputItem.word
+                let newMeaning = inputItem.meaning
+
+                if (textInputCategory !== '') {
+                  newCategory = textInputCategory
+                }
+                if (textInputWord !== '') {
+                  newWord = textInputWord
+                }
+                if (textInputMeaning !== '') {
+                  newMeaning = textInputMeaning
+                }
+                dispatch(modifyTestReamData({
+                  id: inputItem.id,
+                  category: newCategory,
+                  word: newWord,
+                  meaning: newMeaning,
+                }))
+                testTreeInitiate();
+                itemIdReset();
+              }}
+            >
+              <ModifyText>{languageSet.Modify}</ModifyText>
+            </ModifyButton>
+
+            <RemoveButton // 삭제 버튼
+              onPress={() => {
+                dispatch(removeOneTestRealmData(inputItem.id));
+                testTreeInitiate();
+                itemIdReset();
+              }}
+            >
+              <ModifyText>{languageSet.Remove}</ModifyText>
+            </RemoveButton>
+          </ModifyEvenRowContainer>
+        </ModifyContainer>
+      ) : (
+        null
+      )}
+    </FlatListTouchableContainer>
+  );
+};
+
 
 interface RemoveCategoryContainerProps {
   node: TestTreeCategory
@@ -157,61 +325,12 @@ interface RecursionTreeFlatListProps {
   testList: TestData[]
 }
 
-export const RecursionTreeFlatList = ({
-  node,
-  beforeCategoryName,
-  testList
-  }: RecursionTreeFlatListProps) => {
-  const languageSetting = useSelector((state) => state.language.language)
-  const languageSet = getLanguageSet(languageSetting)
 
-  let nowCategoryName = ''
-  if (node.categoryName === languageSet.Main) {
-  } else if (beforeCategoryName === '') {
-    nowCategoryName = node.categoryName
-  } else {
-    nowCategoryName += beforeCategoryName + '-' + node.categoryName
-  }
 
-  return (
-    <OpenCategoryContainer 
-      node={node}
-      realCategory={nowCategoryName}
-    >
-      <GridComponent //Category용 그리드 컴포넌트
-        data={node.childCategory}
-        renderItem={({item: firstItem}) => {
-          return (
-            <RecursionTreeFlatList
-              node={firstItem}
-              beforeCategoryName={nowCategoryName}
-              testList={testList}
-            />
-          );
-        }}
-      />
-      <GridComponent //단어 컴포넌트
-        data={testList} // testList 데이터 활용
-        maxHeight={400}
-        renderItem={({item: secondItem}) => {
-          return secondItem.category === nowCategoryName ? (
-            <FlatListChild inputItem={secondItem} />
-          ) : null;
-        }}
-      />
-      <SessionSeparator>
-        <CategoryText>
-          {node.categoryName}
-        </CategoryText>
-      </SessionSeparator>
-    </OpenCategoryContainer>
-  );
-}
-
-export const FlatListTouchableContainer = styled.TouchableOpacity`
+const FlatListTouchableContainer = styled.TouchableOpacity`
   margin: 4px;
 `;
-export const FlatListContainer = styled.View`
+const FlatListContainer = styled.View`
   flex-direction: row;
   background-color: #ffbfbf;
   min-height: 40px;
@@ -223,7 +342,7 @@ export const FlatListContainer = styled.View`
   align-items: center;
   justify-content: center;
 `;
-export const WordContainer = styled.View`
+const WordContainer = styled.View`
   background-color: #ffffff;
   min-height: 30px;
   width: 60px;
@@ -233,7 +352,7 @@ export const WordContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
-export const MeaningContainer = styled.View`
+const MeaningContainer = styled.View`
   background-color: #ffffff;
   flex: 1;
   min-height: 30px;
@@ -242,25 +361,25 @@ export const MeaningContainer = styled.View`
   border-radius: 2px;
   justify-content: center;
 `;
-export const ModifyContainer = styled.View`
+const ModifyContainer = styled.View`
   padding: 10px;
   background-color: #ffbebe;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `
-export const ModifyEvenRowContainer = styled.View`
+const ModifyEvenRowContainer = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   margin-top: 15px;
 `
-export const ModifyRowContainer = styled.View`
+const ModifyRowContainer = styled.View`
   flex-direction: row;
   align-items: center;
   margin: 5px;
 `
-export const ModifyText = styled.Text`
+const ModifyText = styled.Text`
 `
-export const ModifyTextInput = styled.TextInput.attrs({
+const ModifyTextInput = styled.TextInput.attrs({
   autoCapitalize: 'none',
   autoCorrect: false,
   textAlign: 'center',
@@ -270,7 +389,7 @@ export const ModifyTextInput = styled.TextInput.attrs({
   margin-left: 4px;
   border-radius: 5px;
 `
-export const ModifyButton = styled.TouchableOpacity`
+const ModifyButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   width: 60px;
@@ -278,7 +397,7 @@ export const ModifyButton = styled.TouchableOpacity`
   border-radius: 5px;
   background-color: #ff7878;
 `
-export const RemoveButton = styled.TouchableOpacity`
+const RemoveButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   width: 60px;

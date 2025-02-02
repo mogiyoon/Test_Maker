@@ -12,11 +12,13 @@ import {WrongAnswer} from './testTabScreen/WrongAnswer';
 import {TestSetting} from './testTabScreen/TestSetting';
 import {Testing} from './testTabScreen/Testing';
 import {ExportTab} from './testTabScreen/ExportTab';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getLanguageSet } from '../services/LanguageSet';
+import { MakerTabIconName, TabNavigatorHomeIcon, TabNavigatorInfoIcon, TestTabIconName } from '../components/Tab';
+import { setIsInfoWindowOpen } from '../redux/InfoWindowSlice';
 
-const MakerTab = createBottomTabNavigator();
-const TestTab = createBottomTabNavigator();
+export const MakerTab = createBottomTabNavigator();
+export const TestTab = createBottomTabNavigator();
 
 export const TestTabNavigation = ({navigation}) => {
   const languageSetting = useSelector((state) => state.language.language)
@@ -27,29 +29,10 @@ export const TestTabNavigation = ({navigation}) => {
       initialRouteName={languageSet.TestSpace}
       screenOptions={({route}) => ({
         tabBarIcon: ({ focused, color, size}) => {
-          let iconName
-
-          switch (route.name) {
-            case languageSet.TestSpace:
-              iconName = focused ? 'checkmark-outline' : 'checkmark-outline'
-              break
-            case languageSet.Testing:
-              iconName = focused ? 'document-text-outline' : 'document-text-outline'
-              break
-            case languageSet.WrongAnswer:
-              iconName = focused ? 'star' : 'star-outline'
-              break
-            case languageSet.Export:
-              iconName = focused ? 'share-outline' : 'share-outline'
-              break
-            case languageSet.Setting:
-              iconName = focused ? 'settings-outline' : 'settings-outline'
-              break
-          }
-
+          const iconName = TestTabIconName(route, focused, languageSet)
           return <Ionicons name={iconName} size={size} color={color} />
           },
-        headerShown: false
+        headerShown: true
       })}
       backBehavior="order"
     >
@@ -80,64 +63,36 @@ export const TestTabNavigation = ({navigation}) => {
 export const MakerTabNavigation = ({navigation}) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
+  const dispatch = useDispatch()
 
   return (
     <MakerTab.Navigator
       initialRouteName={languageSet.MyTest}
       screenOptions={({route}) => ({
-        tabBarIcon: ({ focused, color, size}) => {
-          let iconName
-
-          switch (route.name) {
-            case languageSet.MyTest:
-              iconName = focused ? 'heart-outline' : 'heart-outline'
-              break
-            case languageSet.Camera:
-              iconName = focused ? 'camera-outline' : 'camera-outline'
-              break
-            case languageSet.File:
-              iconName = focused ? 'folder-outline' : 'folder-outline'
-              break
-            case languageSet.TextBox:
-              iconName = focused ? 'clipboard-outline' : 'clipboard-outline'
-              break
-            case languageSet.Edit:
-              iconName = focused ? 'create-outline' : 'create-outline'
-              break
-            case languageSet.Setting:
-              iconName = focused ? 'settings-outline' : 'settings-outline'
-              break
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />
-          },
-        headerShown: false
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName = MakerTabIconName(route, focused, languageSet);
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        headerShown: true,
       })}
       backBehavior="order">
-      <MakerTab.Screen 
-        name={languageSet.MyTest} 
+      {/* Tab Screen */}
+      <MakerTab.Screen
+        name={languageSet.MyTest}
         component={MyTest}
+        listeners={({navigation}) => ({
+          blur: () => {dispatch(setIsInfoWindowOpen(false))},
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
       />
-      <MakerTab.Screen 
-        name={languageSet.Camera} 
-        component={CameraScreen}
-      />
-      <MakerTab.Screen 
-        name={languageSet.File} 
-        component={FileIndex}
-      />
-      <MakerTab.Screen 
-        name={languageSet.TextBox} 
-        component={TextBox}
-      />
-      <MakerTab.Screen
-        name={languageSet.Edit}
-        component={Edit}
-      />
-      <MakerTab.Screen
-        name={languageSet.Setting}
-        component={MakerSetting}
-      />
+      <MakerTab.Screen name={languageSet.Camera} component={CameraScreen} />
+      <MakerTab.Screen name={languageSet.File} component={FileIndex} />
+      <MakerTab.Screen name={languageSet.TextBox} component={TextBox} />
+      <MakerTab.Screen name={languageSet.Edit} component={Edit} />
+      <MakerTab.Screen name={languageSet.Setting} component={MakerSetting} />
     </MakerTab.Navigator>
   );
 };

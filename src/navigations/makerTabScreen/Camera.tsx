@@ -75,6 +75,7 @@ export const CameraScreen = () => {
     if (boolValue) {
       navigation.navigate(languageSet.TextBox);
     } else {
+      //TODO 언어 패치
       Alert.alert('Warning', 'Network Connection\nor\nToken Shortage');
     }
   };

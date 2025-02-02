@@ -17,8 +17,9 @@ import {addTestRealmData} from '../../redux/RealmSlice';
 import {setIsChanged} from '../../redux/ContentsSlice';
 import {setTestTreeInsert, TestData} from '../../db/TestTree';
 import { GridComponent } from '../../components/GridComponent';
-import { getLanguageSet } from '../../services/LanguageSet';
+import { getLanguageSet, wordList } from '../../services/LanguageSet';
 import { returnContentPlusBlank, placeHolerColor } from '../../services/ChoreFunction';
+import { Dispatch, UnknownAction } from 'redux';
 
 let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
@@ -125,7 +126,7 @@ export const Edit = () => {
         </StyledButton>
         <StyledButton
           onPress={() => {
-            saveToMyTest(myTestRedux, dispatch, category);
+            saveToMyTest(myTestRedux, dispatch, category, languageSet);
           }}>
           <StyledText>{languageSet.Save}</StyledText>
         </StyledButton>
@@ -243,13 +244,17 @@ function insertWord(toggleCheckBox, word) {
   }
 }
 
-function saveToMyTest(myTest: string[], dispatch, categoryName: string) {
+function saveToMyTest(
+  myTest: string[],
+  dispatch: Dispatch<UnknownAction>,
+  categoryName: string,
+  languageSet: wordList
+) {
   if (tempTestList.length === 0) {
     return
   }
   if (categoryName === '') {
-    //TODO 한글로 수정
-    Alert.alert('No Category Name \n -Hint- \n Category can be divided by -')
+    Alert.alert(languageSet.NeedCategory)
     return
   }
   for (let i = 0; i < tempTestList.length; i++) {
