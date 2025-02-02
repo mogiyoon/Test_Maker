@@ -8,7 +8,31 @@ import { itemIdReset } from '../../redux/TestChoiceSlice';
 import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory, testTreeInitiate } from '../../db/TestTree';
 import { placeHolerColor } from '../../services/ChoreFunction';
 
+//For export
+export const Container = styled.View`
+  width: 100%;
+  padding: 2px;
+`;
+export const DataContainer = styled.View`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`
+export const NoDataText = styled.Text`
+  font-size: 20px;
+`
+export const MaxHeightContainer = styled.View`
+  height: 90%;
+`
+
 //FlatList Recursion
+interface RecursionTreeFlatListProps {
+  node: TestTreeCategory
+  beforeCategoryName: string
+  testList: TestData[]
+}
+
 export const RecursionTreeFlatList = ({
   node,
   beforeCategoryName,
@@ -60,28 +84,6 @@ export const RecursionTreeFlatList = ({
   );
 }
 
-export const Container = styled.View`
-  width: 100%;
-  padding: 2px;
-`;
-export const DataContainer = styled.View`
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-`
-const StyledText = styled.Text`
-  font-size: 12px;
-`;
-export const NoDataText = styled.Text`
-  font-size: 20px;
-`
-export const MaxHeightContainer = styled.View`
-  height: 90%;
-`
-
-const JustContainer = styled.View`
-`
 const SessionSeparator = styled.View`
   min-height: 2px;
   margin: 4px;
@@ -93,6 +95,67 @@ const SessionSeparator = styled.View`
   justify-content: center;
 `
 
+const CategoryText = styled.Text`
+  font-size: 20px;
+`
+
+//Container which have openable hook, removable hook
+interface OpenCategoryContainerProps {
+  node: TestTreeCategory
+  realCategory: string
+  children: React.ReactNode
+}
+
+export const OpenCategoryContainer = ({node, children}: OpenCategoryContainerProps) => {
+  const title = node.categoryName
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+  const testListModified = useSelector((state => state.testRealm.realmData))
+
+  const [isOpenRemove, setIsOpenRemove] = useState(false)
+  const [isOpenCategory, setIsOpenCategory] = useState(false)
+
+  useEffect(() => {
+    setIsOpenRemove(false)
+  }, [testListModified])
+  
+  return (
+    <JustContainer>
+      <OpenContainer
+        onLongPress={() => setIsOpenRemove(!isOpenRemove)}
+        onPress={() => {
+          setIsOpenCategory(!isOpenCategory)}}>
+        <CategoryContainer
+          color = { isOpenCategory ? '#ffcdcd' : '#ff9d9d' }
+          borderTopRightRadius = { isOpenCategory ? 20 : 0 }
+          borderTopLeftRadius = { isOpenCategory ? 20 : 0 }
+        >
+          <CategoryText>
+            {title}
+          </CategoryText>
+        </CategoryContainer>
+      </OpenContainer>
+        {isOpenRemove && (title !== languageSet.Main) ? (
+          <RemoveCategoryContainer
+            node={node}
+            setIsOpenRemove={setIsOpenRemove}
+          />
+        ):(null)}
+        {isOpenCategory ? (
+        <JustContainer>
+          {children}
+        </JustContainer>):(null)}
+    </JustContainer>
+  )
+}
+
+const JustContainer = styled.View`
+`
+
+//OpenContainer의 위치를 위쪽으로 만들기 위한 컴포넌트
+const OpenContainer = styled.TouchableOpacity`
+`
+
 const CategoryContainer = styled.View`
   justify-content: center;
   align-items: center;
@@ -102,9 +165,43 @@ const CategoryContainer = styled.View`
   border-top-right-radius: ${({borderTopRightRadius}) => borderTopRightRadius}px;
   border-top-left-radius: ${({borderTopLeftRadius}) => borderTopLeftRadius}px;
 `
-const CategoryText = styled.Text`
-  font-size: 20px;
-`
+
+//Category which can remove category, lower category, child item
+interface RemoveCategoryContainerProps {
+  node: TestTreeCategory
+  setIsOpenRemove: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
+  // 자기 자신 노드 추가
+  const categoryList: string[] = []
+  const nowRealCategory = parentCategoryNameCollector(node) 
+  categoryList.push(nowRealCategory) 
+
+  // 자식 노드 추가
+  childRealCategoryNameList(node, categoryList)
+
+  //언어 설정
+  const languageSetting = useSelector((state) => state.language.language)
+  const languageSet = getLanguageSet(languageSetting)
+  const dispatch = useDispatch()
+
+  return (
+    <RemoveContainer
+      onPress={() => {
+        setIsOpenRemove(false)
+        for (const category of categoryList) {
+          dispatch(removeCategoryTestRealmData(category)) 
+        }
+        itemIdReset();
+      }}
+    >
+      <CategoryText>
+        {languageSet.RemoveThis} {node.categoryName} {languageSet.CategoryAfterRemove}
+      </CategoryText>
+    </RemoveContainer>
+  )
+}
 
 const RemoveContainer = styled.TouchableOpacity`
   justify-content: center;
@@ -114,9 +211,11 @@ const RemoveContainer = styled.TouchableOpacity`
   padding: 5px;
 `
 
+//
 interface FlatListChildProps {
   inputItem: TestData
 }
+
 export const FlatListChild = ({inputItem}: FlatListChildProps) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
@@ -229,107 +328,10 @@ export const FlatListChild = ({inputItem}: FlatListChildProps) => {
   );
 };
 
-
-interface RemoveCategoryContainerProps {
-  node: TestTreeCategory
-  setIsOpenRemove: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
-  // 자기 자신 노드 추가
-  const categoryList: string[] = []
-  const nowRealCategory = parentCategoryNameCollector(node) 
-  categoryList.push(nowRealCategory) 
-
-  // 자식 노드 추가
-  childRealCategoryNameList(node, categoryList)
-
-  //언어 설정
-  const languageSetting = useSelector((state) => state.language.language)
-  const languageSet = getLanguageSet(languageSetting)
-  const dispatch = useDispatch()
-
-  return (
-    <RemoveContainer
-      onPress={() => {
-        setIsOpenRemove(false)
-        for (const category of categoryList) {
-          dispatch(removeCategoryTestRealmData(category)) 
-        }
-        itemIdReset();
-      }}
-    >
-      <CategoryText>
-        {languageSet.RemoveThis} {node.categoryName} {languageSet.CategoryAfterRemove}
-      </CategoryText>
-    </RemoveContainer>
-  )
-}
-
-//OpenContainer를 상위 Container로 만들기 위한 컴포넌트
-const OpenContainer = styled.TouchableOpacity`
-`
-
-interface OpenCategoryContainerProps {
-  node: TestTreeCategory
-  realCategory: string
-  children: React.ReactNode
-}
-
-export const OpenCategoryContainer = ({node, children}: OpenCategoryContainerProps) => {
-  const title = node.categoryName
-  const languageSetting = useSelector((state) => state.language.language)
-  const languageSet = getLanguageSet(languageSetting)
-  const testListModified = useSelector((state => state.testRealm.realmData))
-
-  const [isOpenRemove, setIsOpenRemove] = useState(false)
-  const [isOpenCategory, setIsOpenCategory] = useState(false)
-
-  useEffect(() => {
-    setIsOpenRemove(false)
-  }, [testListModified])
-  
-  return (
-    <JustContainer>
-      <OpenContainer
-        onLongPress={() => setIsOpenRemove(!isOpenRemove)}
-        onPress={() => {
-          setIsOpenCategory(!isOpenCategory)}}>
-        <CategoryContainer
-          color = { isOpenCategory ? '#ffcdcd' : '#ff9d9d' }
-          borderTopRightRadius = { isOpenCategory ? 20 : 0 }
-          borderTopLeftRadius = { isOpenCategory ? 20 : 0 }
-        >
-          <CategoryText>
-            {title}
-          </CategoryText>
-        </CategoryContainer>
-      </OpenContainer>
-        {isOpenRemove && (title !== languageSet.Main) ? (
-          <RemoveCategoryContainer
-            node={node}
-            setIsOpenRemove={setIsOpenRemove}
-          />
-        ):(null)}
-        {isOpenCategory ? (
-        <JustContainer>
-          {children}
-        </JustContainer>):(null)}
-    </JustContainer>
-  )
-}
-
-interface RecursionTreeFlatListProps {
-  node: TestTreeCategory
-  beforeCategoryName: string
-  testList: TestData[]
-}
-
-
-
 const FlatListTouchableContainer = styled.TouchableOpacity`
   margin: 4px;
 `;
+
 const FlatListContainer = styled.View`
   flex-direction: row;
   background-color: #ffbfbf;
@@ -342,6 +344,7 @@ const FlatListContainer = styled.View`
   align-items: center;
   justify-content: center;
 `;
+
 const WordContainer = styled.View`
   background-color: #ffffff;
   min-height: 30px;
@@ -352,6 +355,11 @@ const WordContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+const StyledText = styled.Text`
+  font-size: 12px;
+`;
+
 const MeaningContainer = styled.View`
   background-color: #ffffff;
   flex: 1;
@@ -361,24 +369,23 @@ const MeaningContainer = styled.View`
   border-radius: 2px;
   justify-content: center;
 `;
+
 const ModifyContainer = styled.View`
   padding: 10px;
   background-color: #ffbebe;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `
-const ModifyEvenRowContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-evenly;
-  margin-top: 15px;
-`
+
 const ModifyRowContainer = styled.View`
   flex-direction: row;
   align-items: center;
   margin: 5px;
 `
+
 const ModifyText = styled.Text`
 `
+
 const ModifyTextInput = styled.TextInput.attrs({
   autoCapitalize: 'none',
   autoCorrect: false,
@@ -389,6 +396,13 @@ const ModifyTextInput = styled.TextInput.attrs({
   margin-left: 4px;
   border-radius: 5px;
 `
+
+const ModifyEvenRowContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 15px;
+`
+
 const ModifyButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
@@ -397,6 +411,7 @@ const ModifyButton = styled.TouchableOpacity`
   border-radius: 5px;
   background-color: #ff7878;
 `
+
 const RemoveButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
