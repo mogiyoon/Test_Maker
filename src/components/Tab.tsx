@@ -3,7 +3,8 @@ import styled from 'styled-components/native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { NavigationProp, NavigationState, ParamListBase, RouteProp, useNavigation } from '@react-navigation/native';
 import { getLanguageSet, wordList } from '../services/LanguageSet';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsInfoWindowOpen, toggleInfoWindowOpen } from '../redux/InfoWindowSlice';
 
 const IconContainer = styled.TouchableOpacity`
   margin: 0px 10px;
@@ -32,15 +33,17 @@ export const TabNavigatorHomeIcon = ({navigation} : TabNavigatorHomeIconProps) =
   );
 };
 
-interface TabNavigatorInfoIconProps {
-  callbackFunction?: () => void
-}
 
-export const TabNavigatorInfoIcon = ({callbackFunction = () => {}} : TabNavigatorInfoIconProps) => {
+export const TabNavigatorInfoIcon = () => {
+  const dispatch = useDispatch()
+
+  const handleInfoWindowOpen = () => {
+    dispatch(toggleInfoWindowOpen())
+  }
 
   return (
     <IconContainer
-      onPress={callbackFunction}
+      onPress={handleInfoWindowOpen}
     >
       <Ionicons name={'information-circle-outline'} size={30} color={'skyblue'} />
     </IconContainer>
