@@ -44,7 +44,10 @@ export const FlatListChild = ({inputItem}: FlatListChildProps) => {
         setIsModifyOpen(!isModifyOpen)
       }}
     >
-      <FlatListContainer>
+      <FlatListContainer
+        borderBottomLeftRadius={isModifyOpen ? 0 : 5}
+        borderBottomRightRadius={isModifyOpen ? 0 : 5}
+      >
         <WordContainer>
           <StyledText>{inputItem.word}</StyledText>
         </WordContainer>

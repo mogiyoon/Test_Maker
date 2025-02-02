@@ -67,7 +67,6 @@ interface RemoveCategoryContainerProps {
   setIsOpenRemove: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-//TODO Remove 수정 필요
 export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
   // 자기 자신 노드 추가
   const categoryList: string[] = []
@@ -210,7 +209,7 @@ export const RecursionTreeFlatList = ({
 }
 
 export const FlatListTouchableContainer = styled.TouchableOpacity`
-  margin: 2px;
+  margin: 4px;
 `;
 export const FlatListContainer = styled.View`
   flex-direction: row;
@@ -219,6 +218,8 @@ export const FlatListContainer = styled.View`
   width: 100%;
   padding: 2px;
   border-radius: 5px;
+  border-bottom-left-radius: ${({borderBottomLeftRadius}) => borderBottomLeftRadius}px;
+  border-bottom-right-radius: ${({borderBottomRightRadius}) => borderBottomRightRadius}px;
   align-items: center;
   justify-content: center;
 `;
@@ -244,6 +245,8 @@ export const MeaningContainer = styled.View`
 export const ModifyContainer = styled.View`
   padding: 10px;
   background-color: #ffbebe;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `
 export const ModifyEvenRowContainer = styled.View`
   flex-direction: row;

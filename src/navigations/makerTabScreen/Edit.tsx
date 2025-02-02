@@ -29,7 +29,6 @@ interface FlatListComponentProps {
   meaning: string
 }
 
-//TODO 연속으로 -- 넣는 경우 고려하기
 const FlatListComponent = ({word, meaning}: FlatListComponentProps) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
