@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { setExportNum, setShowCommentary, setShowExportNum, setShowRightOnly } from '../../redux/TestSettingSlice';
 import { Container, RowContainer, StyledButton, StyledSwitch, StyledText, StyledTextInput } from '../../components/testTabScreen/TestSetting';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 
 export const TestSetting = () => {
