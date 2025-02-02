@@ -81,6 +81,7 @@ app.json
 src/services/*
 src/services/GoogleVision.tsx
 src/db/TimeAsyncStorage.tsx
+src/redux/TimeSlice.tsx
 
 # .env
 .env

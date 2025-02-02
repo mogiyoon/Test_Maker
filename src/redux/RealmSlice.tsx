@@ -3,7 +3,7 @@ import {testMakerRealm} from '../db/TestMakerDB';
 import {store} from './ReduxStore';
 import _ from 'lodash';
 import {Heap} from 'heap-js'
-import { testTreeInitiate } from './TestTree';
+import { testTreeInitiate } from '../db/TestTree';
 
 export const testRealmSlice = createSlice({
   name: 'myTestRealmUpdate',

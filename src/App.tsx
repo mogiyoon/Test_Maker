@@ -5,7 +5,7 @@ import {StackNavigation} from './navigations/Stack';
 import {initiateTimeStorage} from './db/TimeAsyncStorage';
 import {initiateMakerSettingStorage} from './db/MakerSettingAsyncStorage';
 import {store} from './redux/ReduxStore';
-import {testTreeInitiate} from './redux/TestTree';
+import {testTreeInitiate} from './db/TestTree';
 import {makerSettingInit} from './redux/MakerSettingSlice';
 import { HomeView, ImageContainer, InitiateImg, InitiateText } from './components/App';
 import { initiateLanguageStorage } from './db/LanguageAsyncStorage';
@@ -14,6 +14,7 @@ import { testSettingInit } from './redux/TestSettingSlice';
 import { languageSettingInit } from './redux/LanguageSlice';
 import { wait } from './services/ChoreFunction';
 import { initializeAdMob } from './services/GoogleAd';
+import { adTimeInit } from './redux/TimeSlice';
 
 const App = () => {
   const [loading, setLoading] = useState(0)
@@ -39,6 +40,7 @@ const App = () => {
         languageSettingInit();
         syncReduxWithRealm();
         testTreeInitiate();
+        adTimeInit();
         makerSettingInit();
         testSettingInit();
       })

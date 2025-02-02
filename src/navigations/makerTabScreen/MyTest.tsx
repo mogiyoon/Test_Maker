@@ -20,7 +20,7 @@ import {
 } from '../../components/makerTabScreen/MyTest';
 import {useDispatch, useSelector} from 'react-redux';
 import {modifyTestReamData, removeOneTestRealmData} from '../../redux/RealmSlice';
-import {testTreeInitiate, testTree, TestData} from '../../redux/TestTree';
+import {testTreeInitiate, testTree, TestData} from '../../db/TestTree';
 import {itemIdReset} from '../../redux/TestChoiceSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { placeHolerColor } from '../../services/ChoreFunction';

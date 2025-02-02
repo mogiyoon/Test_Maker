@@ -3,7 +3,6 @@ import {testRealmSlice, wrongAnswerRealmSlice} from './RealmSlice';
 import {
   contentChangedSlice,
   contentSlice,
-  usingOCRSlice,
 } from './ContentsSlice';
 import {
   meanFindSlice,
@@ -13,6 +12,7 @@ import {
 import { languageSlice } from './LanguageSlice';
 import { exportNumSlice, showCommentarySlice, showExportNumSlice, showRightOnlySlice } from './TestSettingSlice';
 import { testChangedSlice } from './TestChoiceSlice';
+import { adTimeSlice } from './TimeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +23,6 @@ export const store = configureStore({
 
     content: contentSlice.reducer,
     contentChanged: contentChangedSlice.reducer,
-    usingOCR: usingOCRSlice.reducer,
 
     testChanged: testChangedSlice.reducer,
 
@@ -36,6 +35,9 @@ export const store = configureStore({
     exportNum: exportNumSlice.reducer,
     showExportNum: showExportNumSlice.reducer,
     showCommentary: showCommentarySlice.reducer,
-    showRightOnly: showRightOnlySlice.reducer
+    showRightOnly: showRightOnlySlice.reducer,
+
+    //Ad setting
+    adTime: adTimeSlice.reducer,
   },
 });

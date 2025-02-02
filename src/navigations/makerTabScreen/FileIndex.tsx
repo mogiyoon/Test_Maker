@@ -13,11 +13,6 @@ import {
   StyledText,
 } from '../../components/makerTabScreen/FileIndex';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  setContentData,
-  setIsChanged,
-  setIsUsedOCR,
-} from '../../redux/ContentsSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 
 export const FileIndex = () => {
@@ -28,8 +23,6 @@ export const FileIndex = () => {
   const [imageUri, setImageUri] = useState(null);
   // const [documentUri, setDocumentUri] = useState(null)
   const dispatch = useDispatch();
-  const setContent = payload => dispatch(setContentData(payload));
-  const setChanged = payload => dispatch(setIsChanged(payload));
   const navigation = useNavigation();
 
   const handleSelectImage = () => {
@@ -46,14 +39,11 @@ export const FileIndex = () => {
     const boolValue = await fileProcessing(
       imageUri,
       setImageUri,
-      setContent,
-      setChanged,
+      dispatch
     );
     if (boolValue) {
-      dispatch(setIsUsedOCR(true));
       navigation.navigate(languageSet.TextBox);
     } else {
-      dispatch(setIsUsedOCR(false));
       Alert.alert('Warning', 'Network Connection\nor\nToken Shortage');
     }
   };

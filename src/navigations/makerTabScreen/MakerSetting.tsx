@@ -1,8 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {
-  readConvertTime,
-  writeConvertTimePlusOne,
-} from '../../db/TimeAsyncStorage';
+import React, {useState} from 'react';
 import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import {
   Container,
@@ -16,7 +12,7 @@ import {
   StyledTextInput,
 } from '../../components/makerTabScreen/MakerSetting';
 import {useDispatch, useSelector} from 'react-redux';
-import {setIsChanged, setIsUsedOCR} from '../../redux/ContentsSlice';
+import {setIsChanged} from '../../redux/ContentsSlice';
 import {
   setMeanFind,
   setWordFind,
@@ -24,10 +20,12 @@ import {
 } from '../../redux/MakerSettingSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { AdmobReward } from '../../services/GoogleAd';
+import { plusOneAdTime } from '../../redux/TimeSlice';
 
 export const MakerSetting = () => {
-  const isChanged = useSelector(state => state.contentChanged.isChanged);
-  const isUsingOCR = useSelector(state => state.usingOCR.setIsUsedOCR);
+  const dispatch = useDispatch();
+  //ad setting
+  const adTime = useSelector((state) => state.adTime.adTime)
 
   //language setting
   const languageSetting = useSelector((state) => state.language.language)
@@ -38,37 +36,14 @@ export const MakerSetting = () => {
   const wordFind = useSelector(state => state.wordFind.wordFind);
   const meanFind = useSelector(state => state.meanFind.meanFind);
 
-  const dispatch = useDispatch();
-
   //setting
-  const [appearingTime, setAppearingTime] = useState(0);
   const [settingWordInsideMean, setSettingWordInsideMean] =
     useState(wordInsideMean);
   const [settingName, setSettingName] = useState(wordFind);
   const [settingMean, setSettingMean] = useState(meanFind);
 
-  const processingOCR = async () => {
-    const time = await readConvertTime();
-    setAppearingTime(time);
-    dispatch(setIsUsedOCR(false));
-  };
-
-  useEffect(() => {
-    processingOCR()
-  }, [])
-  
-  useEffect(() => {
-    if (isChanged === false && isUsingOCR === true) {
-      processingOCR();
-    }
-  }, [isChanged]);
-
-  const handlePlusConvertTime = async () => {
-    const value = await writeConvertTimePlusOne();
-    const time = await readConvertTime();
-    if (value) {
-      setAppearingTime(time);
-    }
+  const handleDispatch = () => {
+    dispatch(plusOneAdTime());
   };
 
   return (
@@ -80,10 +55,10 @@ export const MakerSetting = () => {
         <RowContainer>
           {/* 광고 */}
           <StyledText>{languageSet.OCR}</StyledText>
-          <StyledText>{appearingTime}</StyledText>
-            {appearingTime < 5 ? (
+          <StyledText>{adTime}</StyledText>
+            {adTime < 5 ? (
               <AdmobReward
-                callBackFunction = {handlePlusConvertTime}
+                callBackFunction = {handleDispatch}
               >
                 <StyledButtonLikeContainer>
                   <StyledText>{languageSet.WatchAd}</StyledText>

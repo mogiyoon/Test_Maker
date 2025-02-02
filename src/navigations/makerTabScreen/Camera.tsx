@@ -16,11 +16,6 @@ import {
   StyledText,
 } from '../../components/makerTabScreen/Camera';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  setContentData,
-  setIsChanged,
-  setIsUsedOCR,
-} from '../../redux/ContentsSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 
 async function CheckPermission(navigation, languageSet, setHasPermission) {
@@ -62,9 +57,6 @@ export const CameraScreen = () => {
   const [photoPath, setPhotoPath] = useState(null);
   const [hasPermission, setHasPermission] = useState(false)
   const dispatch = useDispatch();
-  const setContent = payload => dispatch(setContentData(payload));
-  const setChanged = payload => dispatch(setIsChanged(payload));
-
   const onPressTakePhoto = async () => {
     if (cameraRef.current) {
       try {
@@ -78,14 +70,11 @@ export const CameraScreen = () => {
     const boolValue = await fileProcessing(
       photoPath,
       setPhotoPath,
-      setContent,
-      setChanged,
+      dispatch
     );
     if (boolValue) {
-      dispatch(setIsUsedOCR(true));
       navigation.navigate(languageSet.TextBox);
     } else {
-      dispatch(setIsUsedOCR(false));
       Alert.alert('Warning', 'Network Connection\nor\nToken Shortage');
     }
   };

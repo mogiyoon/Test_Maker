@@ -20,16 +20,5 @@ export const contentChangedSlice = createSlice({
   },
 });
 
-export const usingOCRSlice = createSlice({
-  name: 'usedOCR',
-  initialState: {isUsedOCR: false},
-  reducers: {
-    setIsUsedOCR: (state, action) => {
-      state.isUsedOCR = action.payload;
-    },
-  },
-});
-
 export const {setContentData} = contentSlice.actions;
 export const {setIsChanged} = contentChangedSlice.actions;
-export const {setIsUsedOCR} = usingOCRSlice.actions;

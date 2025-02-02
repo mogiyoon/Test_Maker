@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeCategoryTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { itemIdReset } from '../../redux/TestChoiceSlice';
-import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory } from '../../redux/TestTree';
+import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory } from '../../db/TestTree';
 
 export const Container = styled.View`
   width: 100%;

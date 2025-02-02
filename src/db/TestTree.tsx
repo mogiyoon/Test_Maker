@@ -1,4 +1,4 @@
-import {testMakerRealm} from '../db/TestMakerDB';
+import {testMakerRealm} from './TestMakerDB';
 import { getLanguageSet } from '../services/LanguageSet';
 
 export interface TestTreeCategory {
