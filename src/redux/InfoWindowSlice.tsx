@@ -7,7 +7,10 @@ export const infoWindowSlice = createSlice({
     setIsInfoWindowOpen: (state, action) => {
       state.isInfoWindowOpen = action.payload;
     },
+    toggleInfoWindowOpen: (state) => {
+      state.isInfoWindowOpen = !state.isInfoWindowOpen
+    }
   },
 });
 
-export const {setIsInfoWindowOpen} = infoWindowSlice.actions;
+export const {setIsInfoWindowOpen, toggleInfoWindowOpen} = infoWindowSlice.actions;
