@@ -24,6 +24,8 @@ export const TestTabNavigation = ({navigation}) => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
+  const dispatch = useDispatch();
+
   return (
     <TestTab.Navigator
       initialRouteName={languageSet.TestSpace}
@@ -39,22 +41,57 @@ export const TestTabNavigation = ({navigation}) => {
       <TestTab.Screen 
         name={languageSet.TestSpace} 
         component={TestSpace}
+        listeners={({navigation}) => ({
+          blur: () => {dispatch(setIsInfoWindowOpen(false))},
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
       />
       <TestTab.Screen 
         name={languageSet.Testing} 
         component={Testing}
+        listeners={({navigation}) => ({
+          blur: () => {dispatch(setIsInfoWindowOpen(false))},
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
       />
       <TestTab.Screen 
         name={languageSet.WrongAnswer} 
         component={WrongAnswer}
+        listeners={({navigation}) => ({
+          blur: () => {dispatch(setIsInfoWindowOpen(false))},
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
       />
       <TestTab.Screen 
         name={languageSet.Export} 
         component={ExportTab}
+        listeners={({navigation}) => ({
+          blur: () => {dispatch(setIsInfoWindowOpen(false))},
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
       />
       <TestTab.Screen 
         name={languageSet.Setting} 
         component={TestSetting}
+        listeners={({navigation}) => ({
+          blur: () => {dispatch(setIsInfoWindowOpen(false))},
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
       />
     </TestTab.Navigator>
   );
@@ -81,18 +118,80 @@ export const MakerTabNavigation = ({navigation}) => {
         name={languageSet.MyTest}
         component={MyTest}
         listeners={({navigation}) => ({
-          blur: () => {dispatch(setIsInfoWindowOpen(false))},
+          blur: () => {
+            dispatch(setIsInfoWindowOpen(false));
+          },
         })}
         options={{
           headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
           headerRight: () => <TabNavigatorInfoIcon />,
         }}
       />
-      <MakerTab.Screen name={languageSet.Camera} component={CameraScreen} />
-      <MakerTab.Screen name={languageSet.File} component={FileIndex} />
-      <MakerTab.Screen name={languageSet.TextBox} component={TextBox} />
-      <MakerTab.Screen name={languageSet.Edit} component={Edit} />
-      <MakerTab.Screen name={languageSet.Setting} component={MakerSetting} />
+      <MakerTab.Screen
+        name={languageSet.Camera}
+        component={CameraScreen}
+        listeners={({navigation}) => ({
+          blur: () => {
+            dispatch(setIsInfoWindowOpen(false));
+          },
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
+      />
+      <MakerTab.Screen
+        name={languageSet.File}
+        component={FileIndex}
+        listeners={({navigation}) => ({
+          blur: () => {
+            dispatch(setIsInfoWindowOpen(false));
+          },
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
+      />
+      <MakerTab.Screen
+        name={languageSet.TextBox}
+        component={TextBox}
+        listeners={({navigation}) => ({
+          blur: () => {
+            dispatch(setIsInfoWindowOpen(false));
+          },
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
+      />
+      <MakerTab.Screen
+        name={languageSet.Edit}
+        component={Edit}
+        listeners={({navigation}) => ({
+          blur: () => {
+            dispatch(setIsInfoWindowOpen(false));
+          },
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
+      />
+      <MakerTab.Screen
+        name={languageSet.Setting}
+        component={MakerSetting}
+        listeners={({navigation}) => ({
+          blur: () => {
+            dispatch(setIsInfoWindowOpen(false));
+          },
+        })}
+        options={{
+          headerLeft: () => <TabNavigatorHomeIcon navigation={navigation} />,
+          headerRight: () => <TabNavigatorInfoIcon />,
+        }}
+      />
     </MakerTab.Navigator>
   );
 };
