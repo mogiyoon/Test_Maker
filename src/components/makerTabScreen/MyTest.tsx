@@ -31,9 +31,14 @@ export const MaxHeightContainer = styled.View`
 const JustContainer = styled.View`
 `
 const SessionSeparator = styled.View`
-  height: 5px;
+  min-height: 2px;
   margin: 4px;
-  background-color: black;
+  padding: 3px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #ffcdcd;
+  align-items: center;
+  justify-content: center;
 `
 
 const CategoryContainer = styled.View`
@@ -42,6 +47,8 @@ const CategoryContainer = styled.View`
   padding: 10px;
   margin: 5px;
   background-color: ${({color}) => color};
+  border-top-right-radius: ${({borderTopRightRadius}) => borderTopRightRadius}px;
+  border-top-left-radius: ${({borderTopLeftRadius}) => borderTopLeftRadius}px;
 `
 const CategoryText = styled.Text`
   font-size: 20px;
@@ -62,10 +69,15 @@ interface RemoveCategoryContainerProps {
 
 //TODO Remove 수정 필요
 export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
+  // 자기 자신 노드 추가
   const categoryList: string[] = []
-  const nowRealCategory = parentCategoryNameCollector(node)
-  categoryList.push(nowRealCategory)
+  const nowRealCategory = parentCategoryNameCollector(node) 
+  categoryList.push(nowRealCategory) 
+
+  // 자식 노드 추가
   childRealCategoryNameList(node, categoryList)
+
+  //언어 설정
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
   const dispatch = useDispatch()
@@ -117,7 +129,10 @@ export const OpenCategoryContainer = ({node, children}: OpenCategoryContainerPro
         onPress={() => {
           setIsOpenCategory(!isOpenCategory)}}>
         <CategoryContainer
-          color = { isOpenCategory ? '#ffcdcd' : '#ff9d9d' }>
+          color = { isOpenCategory ? '#ffcdcd' : '#ff9d9d' }
+          borderTopRightRadius = { isOpenCategory ? 20 : 0 }
+          borderTopLeftRadius = { isOpenCategory ? 20 : 0 }
+        >
           <CategoryText>
             {title}
           </CategoryText>
@@ -185,7 +200,11 @@ export const RecursionTreeFlatList = ({
           ) : null;
         }}
       />
-      <SessionSeparator/>
+      <SessionSeparator>
+        <CategoryText>
+          {node.categoryName}
+        </CategoryText>
+      </SessionSeparator>
     </OpenCategoryContainer>
   );
 }
