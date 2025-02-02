@@ -72,6 +72,7 @@ export const FlatListChild = ({inputItem}: FlatListChildProps) => {
             </ModifyText>
             <ModifyTextInput
               placeholder={inputItem.word}
+              placeholderTextColor={placeHolerColor}
               value={textInputWord}
               onChangeText={(value) => setTextInputWord(value)}
             />

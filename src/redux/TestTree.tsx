@@ -60,7 +60,7 @@ const categoryWriter = (parentNode: TestTreeCategory, inputCategory: string) => 
   parentNode.childCategory.push(category);
 }; // 카테고리 추가
 
-const parentCategoryNameCollector = (nowCategory: TestTreeCategory) => {
+export const parentCategoryNameCollector = (nowCategory: TestTreeCategory) => {
   let totalParentCategoryName = nowCategory.categoryName
   let parentCategory = nowCategory.parentCategory
 

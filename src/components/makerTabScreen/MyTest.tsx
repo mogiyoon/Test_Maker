@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeCategoryTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { itemIdReset } from '../../redux/TestChoiceSlice';
-import { childRealCategoryNameList, TestData, TestTreeCategory } from '../../redux/TestTree';
+import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory } from '../../redux/TestTree';
 
 export const Container = styled.View`
   width: 100%;
@@ -29,6 +29,11 @@ export const MaxHeightContainer = styled.View`
 `
 
 const JustContainer = styled.View`
+`
+const SessionSeparator = styled.View`
+  height: 5px;
+  margin: 4px;
+  background-color: black;
 `
 
 const CategoryContainer = styled.View`
@@ -57,7 +62,9 @@ interface RemoveCategoryContainerProps {
 
 //TODO Remove 수정 필요
 export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
-  const categoryList: string[] = [node.categoryName]
+  const categoryList: string[] = []
+  const nowRealCategory = parentCategoryNameCollector(node)
+  categoryList.push(nowRealCategory)
   childRealCategoryNameList(node, categoryList)
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
@@ -67,7 +74,7 @@ export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryC
     <RemoveContainer
       onPress={() => {
         setIsOpenRemove(false)
-        for (const category of categoryList ) {
+        for (const category of categoryList) {
           dispatch(removeCategoryTestRealmData(category)) 
         }
         itemIdReset();
@@ -122,7 +129,8 @@ export const OpenCategoryContainer = ({node, children}: OpenCategoryContainerPro
             setIsOpenRemove={setIsOpenRemove}
           />
         ):(null)}
-        {isOpenCategory ? (<JustContainer>
+        {isOpenCategory ? (
+        <JustContainer>
           {children}
         </JustContainer>):(null)}
     </JustContainer>
@@ -177,6 +185,7 @@ export const RecursionTreeFlatList = ({
           ) : null;
         }}
       />
+      <SessionSeparator/>
     </OpenCategoryContainer>
   );
 }
