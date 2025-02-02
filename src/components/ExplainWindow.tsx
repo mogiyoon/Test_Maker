@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components/native";
 import { GridComponent } from "./GridComponent";
+import { useDispatch } from "react-redux";
+import { setIsInfoWindowOpen } from "../redux/InfoWindowSlice";
 
 const FullContainer = styled.View`
   top: 5%;
@@ -44,38 +46,30 @@ interface ExplainSet {
 }
 
 export const ExplainWindow = (
-  // isOpen: boolean,
-  //setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   explainList: ExplainSet[]
 ) => {
+  const dispatch = useDispatch()
+
+  const handleInfoWindowClose = () => {
+    dispatch(setIsInfoWindowOpen(false))
+  }
+
   return (
-    // isOpen ? 
-    (
-      <FullContainer>
-        <ExitBox
-          // onPress={setIsOpen(false)}
-        >
-          <ExitBoxText>
-            X
-          </ExitBoxText>
-        </ExitBox>
-        <GridComponent
-          data={explainList}
-          renderItem={({item}) => (
-            <ExplainContainer>
-              <ImageContainer
-                source={item.imageUrl}
-              />
-              <ExplainText>
-                {item.explainText}
-              </ExplainText>
-            </ExplainContainer>
-          )}
-        />
-      </FullContainer>
-    )
-    //  : (
-    //   null
-    // )
-  )
+    <FullContainer>
+      <ExitBox
+        onPress={handleInfoWindowClose}
+      >
+        <ExitBoxText>X</ExitBoxText>
+      </ExitBox>
+      <GridComponent
+        data={explainList}
+        renderItem={({item}) => (
+          <ExplainContainer>
+            <ImageContainer source={item.imageUrl} />
+            <ExplainText>{item.explainText}</ExplainText>
+          </ExplainContainer>
+        )}
+      />
+    </FullContainer>
+  );
 }
