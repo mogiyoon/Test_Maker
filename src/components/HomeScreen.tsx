@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.SafeAreaView`
   flex-direction: ${({inputWidth, inputHeight}) =>
     inputWidth > inputHeight ? 'row' : 'column'};
+  margin-top: 20px;
   flex: 1;
 `;
 export const JustContainer = styled.SafeAreaView`
