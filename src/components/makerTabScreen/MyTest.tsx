@@ -173,23 +173,24 @@ interface RemoveCategoryContainerProps {
 }
 
 export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryContainerProps) => {
-  // 자기 자신 노드 추가
-  const categoryList: string[] = []
-  const nowRealCategory = parentCategoryNameCollector(node) 
-  categoryList.push(nowRealCategory) 
-
-  // 자식 노드 추가
-  childRealCategoryNameList(node, categoryList)
-
   //언어 설정
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
   const dispatch = useDispatch()
 
+  // 자기 자신 노드 추가
+  const categoryList: string[] = []
+  const nowRealCategory = parentCategoryNameCollector(node, languageSet) 
+  categoryList.push(nowRealCategory) 
+
+  // 자식 노드 추가
+  childRealCategoryNameList(node, categoryList, languageSet)
+
   return (
     <RemoveContainer
       onPress={() => {
         setIsOpenRemove(false)
+        console.log(categoryList)
         for (const category of categoryList) {
           dispatch(removeCategoryTestRealmData(category)) 
         }
