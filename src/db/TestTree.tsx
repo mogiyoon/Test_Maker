@@ -1,18 +1,18 @@
 import {testMakerRealm} from './TestMakerDB';
-import { getLanguageSet } from '../services/LanguageSet';
+import {getLanguageSet, wordList} from '../services/LanguageSet';
 
 export interface TestTreeCategory {
-  categoryName: string
-  childId: string[]
-  childCategory: TestTreeCategory[]
-  parentCategory: TestTreeCategory | null
+  categoryName: string;
+  childId: string[];
+  childCategory: TestTreeCategory[];
+  parentCategory: TestTreeCategory | null;
 }
 
 export interface TestData {
-  id: string,
-  category: string,
-  word: string,
-  meaning: string,
+  id: string;
+  category: string;
+  word: string;
+  meaning: string;
 }
 
 export const testTree: TestTreeCategory[] = [
@@ -25,8 +25,8 @@ export const testTree: TestTreeCategory[] = [
 ];
 
 export const setMainLanguage = (inputData: string) => {
-  testTree[0].categoryName = getLanguageSet(inputData).Main
-}
+  testTree[0].categoryName = getLanguageSet(inputData).Main;
+};
 
 export const setTestTreeInsertList = (inputDataList: TestData[]) => {
   const data = inputDataList;
@@ -50,7 +50,10 @@ const dataWriter = (node: TestTreeCategory, data: TestData) => {
   node.childId.push(data.id);
 }; // 데이터 추가
 
-const categoryWriter = (parentNode: TestTreeCategory, inputCategory: string) => {
+const categoryWriter = (
+  parentNode: TestTreeCategory,
+  inputCategory: string,
+) => {
   const category = {
     categoryName: inputCategory,
     childCategory: [],
@@ -60,50 +63,74 @@ const categoryWriter = (parentNode: TestTreeCategory, inputCategory: string) => 
   parentNode.childCategory.push(category);
 }; // 카테고리 추가
 
-export const parentCategoryNameCollector = (nowCategory: TestTreeCategory) => {
-  let totalParentCategoryName = nowCategory.categoryName
-  let parentCategory = nowCategory.parentCategory
+export const parentCategoryNameCollector = (
+  nowCategory: TestTreeCategory,
+  languageSet: wordList,
+) => {
+  let totalParentCategoryName = nowCategory.categoryName;
+  let parentCategory = nowCategory.parentCategory;
 
-  while (parentCategory !== null && parentCategory.categoryName !== 'Main') {
-    totalParentCategoryName = parentCategory.categoryName + '-' + totalParentCategoryName
-    parentCategory = parentCategory.parentCategory
+  while (parentCategory !== null && parentCategory.categoryName !== languageSet.Main) {
+    totalParentCategoryName =
+      parentCategory.categoryName + '-' + totalParentCategoryName;
+    parentCategory = parentCategory.parentCategory;
   }
 
-  return totalParentCategoryName
-}
+  return totalParentCategoryName;
+};
 
-const childCategoryCollector = (nowCategory: TestTreeCategory, childCategoryList: string[], realCategoryName: string = '') => {
+const childCategoryCollector = (
+  nowCategory: TestTreeCategory,
+  childCategoryList: string[],
+  languageSet: wordList,
+  realCategoryName: string = '',
+) => {
   for (let i = 0; i < nowCategory.childCategory.length; i++) {
-    let realChildCategoryName = ''
-    if (realCategoryName === 'Main' || realCategoryName === '') {
-      realChildCategoryName = nowCategory.childCategory[i].categoryName
+    let realChildCategoryName = '';
+    if (realCategoryName === languageSet.Main || realCategoryName === '') {
+      realChildCategoryName = nowCategory.childCategory[i].categoryName;
     } else {
-      realChildCategoryName = realCategoryName + '-' + nowCategory.childCategory[i].categoryName
+      realChildCategoryName =
+        realCategoryName + '-' + nowCategory.childCategory[i].categoryName;
     }
-    childCategoryList.push(realChildCategoryName)
+    childCategoryList.push(realChildCategoryName);
     if (nowCategory.childCategory[i].childCategory.length !== 0) {
-      childCategoryCollector(nowCategory.childCategory[i], childCategoryList, realChildCategoryName)
+      childCategoryCollector(
+        nowCategory.childCategory[i],
+        childCategoryList,
+        languageSet,
+        realChildCategoryName,
+      );
     }
   }
-}
+};
 
-export const childRealCategoryNameList = (nowCategory: TestTreeCategory, returnedList: string[]) => {
-  const tempChildList: string[] = []
-  childCategoryCollector(nowCategory, tempChildList)
-  const tempParentName = parentCategoryNameCollector(nowCategory)
+export const childRealCategoryNameList = (
+  nowCategory: TestTreeCategory,
+  returnedList: string[],
+  languageSet: wordList,
+) => {
+  const tempChildList: string[] = [];
+  childCategoryCollector(nowCategory, tempChildList, languageSet);
+  const tempParentName = parentCategoryNameCollector(nowCategory, languageSet);
 
   for (let i = 0; i < tempChildList.length; i++) {
-    let tempName = ''
-    if (tempParentName !== 'Main') {
-      tempName = tempParentName + '-' + tempChildList[i]
+    let tempName = '';
+    if (tempParentName !== languageSet.Main) {
+      tempName = tempParentName + '-' + tempChildList[i];
     } else {
-      tempName = tempChildList[i]
+      tempName = tempChildList[i];
     }
-    returnedList.push(tempName)
+    returnedList.push(tempName);
   }
-}
+};
 
-const categoryFinder = (parentNode: TestTreeCategory, categoryList: string[], levelNum: number, isWrite: boolean) => {
+const categoryFinder = (
+  parentNode: TestTreeCategory,
+  categoryList: string[],
+  levelNum: number,
+  isWrite: boolean,
+) => {
   for (const node of parentNode.childCategory) {
     if (node.categoryName === categoryList[levelNum]) {
       // 노드의 카테고리 이름과 리스트의 카테고리 이름이 일치
