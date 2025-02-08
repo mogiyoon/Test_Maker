@@ -18,6 +18,7 @@ import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { AdMobBanner } from '../../services/GoogleAd';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { TestSpaceTutorialSet } from '../../constants/Tutorials';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
@@ -136,7 +137,9 @@ export const TestSpace = () => {
           </RowContainer>
         </FlexContainer>
       </CenterContainer>
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
+      
+      {isInfoWindowOpen ?
+        <TestSpaceTutorialSet/> : null}
     </ScrollContainer>
   );
 };

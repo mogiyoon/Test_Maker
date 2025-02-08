@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { NavigationProp, NavigationState, ParamListBase, RouteProp, useNavigation } from '@react-navigation/native';
 import { getLanguageSet, wordList } from '../services/LanguageSet';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsInfoWindowOpen, toggleInfoWindowOpen } from '../redux/InfoWindowSlice';
+import { toggleInfoWindowOpen } from '../redux/InfoWindowSlice';
 
 const IconContainer = styled.TouchableOpacity`
   margin: 0px 10px;

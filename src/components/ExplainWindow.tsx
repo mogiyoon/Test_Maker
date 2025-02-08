@@ -1,34 +1,27 @@
 import React from "react";
 import styled from "styled-components/native";
-import { GridComponent } from "./GridComponent";
 import { useDispatch } from "react-redux";
 import { setIsInfoWindowOpen } from "../redux/InfoWindowSlice";
+import { SlideComponent } from "./SlideComponent";
+import { ExplainSet } from "../constants/Tutorials";
 
 const FullContainer = styled.View`
   top: 5%;
   left: 5%;
   width: 90%;
   height: 600px;
+  padding: 10px;
   position: absolute;
   background-color: white;
   border: 1px;
   border-color: #b4b4b4;
   border-radius: 10px;
-  justify-content: center;
-  align-items: center;
-`
-
-const ExplainContainer = styled.View`
-`
-const ImageContainer = styled.Image`
-`
-const ExplainText = styled.Text`
 `
 
 const ExitBox = styled.TouchableOpacity`
-  width: 50%;
+  width: 20%;
   height: 30px;
-  margin: 8px;
+  margin-bottom: 10px;
   border-radius: 5px;
   background-color: red;
   justify-content: center;
@@ -40,36 +33,25 @@ const ExitBoxText = styled.Text`
   font-size: 20px;
 `
 
-interface ExplainSet {
-  imageUrl: string,
-  explainText: string,
+interface ExplainWindowProps {
+  explainList : ExplainSet[]
 }
 
-export const ExplainWindow = (
-  explainList: ExplainSet[]
-) => {
-  const dispatch = useDispatch()
+export const ExplainWindow: React.FC<ExplainWindowProps> = ({explainList}) => {
+  const dispatch = useDispatch();
 
   const handleInfoWindowClose = () => {
-    dispatch(setIsInfoWindowOpen(false))
-  }
+    dispatch(setIsInfoWindowOpen(false));
+  };
 
   return (
     <FullContainer>
-      <ExitBox
-        onPress={handleInfoWindowClose}
-      >
+      <ExitBox onPress={handleInfoWindowClose}>
         <ExitBoxText>X</ExitBoxText>
       </ExitBox>
-      <GridComponent
-        data={explainList}
-        renderItem={({item}) => (
-          <ExplainContainer>
-            <ImageContainer source={item.imageUrl} />
-            <ExplainText>{item.explainText}</ExplainText>
-          </ExplainContainer>
-        )}
+      <SlideComponent
+        inputList={explainList}
       />
     </FullContainer>
   );
-}
+};

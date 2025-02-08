@@ -190,7 +190,6 @@ export const RemoveCategoryContainer = ({node, setIsOpenRemove}: RemoveCategoryC
     <RemoveContainer
       onPress={() => {
         setIsOpenRemove(false)
-        console.log(categoryList)
         for (const category of categoryList) {
           dispatch(removeCategoryTestRealmData(category)) 
         }
