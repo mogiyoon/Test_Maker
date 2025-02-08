@@ -15,10 +15,12 @@ import { languageSettingInit } from './redux/LanguageSlice';
 import { wait } from './services/ChoreFunction';
 import { initializeAdMob } from './services/GoogleAd';
 import { adTimeInit } from './redux/TimeSlice';
+import { loadingImages } from './assets/images/ImagesPath';
 
 const App = () => {
   const [loading, setLoading] = useState(0)
   const [loadingImg, setLoadingImg] = useState(false)
+
   const initiateStorage = async () => {
     await initiateTimeStorage();
     await initiateMakerSettingStorage();
@@ -60,19 +62,33 @@ const App = () => {
 
   return (
     <HomeView>
-      { loading === loadingMax ? (
+      {loading === loadingMax ? (
         <Provider store={store}>
           <StackNavigation />
         </Provider>
       ) : (
         <ImageContainer>
-          <InitiateImg
-            source={loadingImg === false ? require('./assets/images/loading1.png') : require('./assets/images/loading2.png')}
-            resizeMode={'contain'}
-          />
-          <InitiateText>
-            {loadingImg === false ? 'Test' : 'Maker'}
-          </InitiateText>
+          {loadingImg === false ? (
+            <ImageContainer>
+              <InitiateImg
+                source={loadingImages.loading1}
+                resizeMode={'contain'}
+              />
+              <InitiateText>
+                {'Test'}
+              </InitiateText>
+            </ImageContainer>
+          ) : (
+            <ImageContainer>
+              <InitiateImg
+                source={loadingImages.loading2}
+                resizeMode={'contain'}
+              />
+              <InitiateText>
+                {'Maker'}
+              </InitiateText>
+            </ImageContainer>
+          )}
         </ImageContainer>
       )}
     </HomeView>
