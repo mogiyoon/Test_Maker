@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { NavigationProp, NavigationState, ParamListBase, RouteProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, NavigationState, ParamListBase, RouteProp } from '@react-navigation/native';
 import { getLanguageSet, wordList } from '../services/LanguageSet';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleInfoWindowOpen } from '../redux/InfoWindowSlice';
@@ -21,7 +21,10 @@ export const TabNavigatorHomeIcon = ({navigation} : TabNavigatorHomeIconProps) =
   const languageSet = getLanguageSet(languageSetting)
 
   const onPressFunction = () => {
-    navigation.navigate(languageSet.Home)
+    navigation.reset({
+      index: 0,
+      routes: [{ name: languageSet.Home }],
+    })
   }
 
   return (
