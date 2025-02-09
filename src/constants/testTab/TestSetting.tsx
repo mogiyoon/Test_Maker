@@ -16,6 +16,10 @@ export const TestSettingTutorialSet = () => {
       imageUri: require('../../assets/images/tutorials/testTab/testSetting/2.png'),
       explainText: testSettingExplainList[typedLanguageSetting].explain2
     },
+    {
+      imageUri: require('../../assets/images/tutorials/testTab/testSetting/3.png'),
+      explainText: testSettingExplainList[typedLanguageSetting].explain3
+    },
   ]
   return (
     <SlideComponent
@@ -27,14 +31,17 @@ export const TestSettingTutorialSet = () => {
 interface testSettingExplainList {
   explain1: string
   explain2: string
+  explain3: string
 }
 const englishTestSettingExplainList : testSettingExplainList = {
-  explain1: 'explain1',
-  explain2: 'explain2'
+  explain1: 'Sets the number of questions to be extracted.',
+  explain2: 'Displays the numbers of the extracted questions.',
+  explain3: 'Configures the setting to view explanations or only the answers.',
 }
 const koreanTestSettingExplainList : testSettingExplainList = {
-  explain1: '테스트1',
-  explain2: '테스트2'
+  explain1: '추출되는 문제의 수를 설정합니다.',
+  explain2: '추출되는 문제의 번호를 보여줍니다.',
+  explain3: '해설을 보거나 정답만 보게 설정합니다.',
 }
 
 export const testSettingExplainList = {

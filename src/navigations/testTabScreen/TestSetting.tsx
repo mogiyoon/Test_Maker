@@ -4,6 +4,8 @@ import { getLanguageSet } from '../../services/LanguageSet';
 import { setExportNum, setShowCommentary, setShowExportNum, setShowRightOnly } from '../../redux/TestSettingSlice';
 import { Container, RowContainer, StyledButton, StyledSwitch, StyledText, StyledTextInput } from '../../components/testTabScreen/TestSetting';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { TestSettingTutorialSet } from '../../constants/testTab/TestSetting';
 
 
 export const TestSetting = () => {
@@ -25,78 +27,75 @@ export const TestSetting = () => {
   const [settingShowRightOnly, setSettingShowRightOnly] = useState(showRightOnly)
 
   return (
-    <Container>
-      <RowContainer>
-        <StyledText>
-          {languageSet.ExportNum}
-        </StyledText>
-        <StyledTextInput
-          value={settingExportNum}
-          onChangeText={val => {
-            let tempNumToStr = '0'
-            if (val !== '') {
-              const tempValToNum = parseInt(val, 10)
-              tempNumToStr = String(tempValToNum)
-            }
-            setSettingExportNum(tempNumToStr)
-          }}
-        />
-        <StyledButton
-          onPress={() => {
-            dispatch(setExportNum(settingExportNum))
-          }}
-        >
-          <StyledText>
-            {languageSet.Ok}
-          </StyledText>
-        </StyledButton>
-      </RowContainer>
-
-      <RowContainer>
-        {/* show export number*/}
-        <StyledText>
-          {languageSet.ShowProblemNumber}
-        </StyledText>
-        <StyledSwitch
-          value={settingShowExportNum}
-          onValueChange={value => {
-            setSettingShowExportNum(value);
-            dispatch(setShowExportNum(value));
-          }}
-        />
-      </RowContainer>
-
-      <RowContainer>
-        {/* show commentary */}
-        <StyledText>
-          {languageSet.ShowCommentary}
-        </StyledText>
-        <StyledSwitch
-          value={settingShowCommentary}
-          onValueChange={value => {
-            setSettingShowCommentary(value);
-            dispatch(setShowCommentary(value));
-          }}
-        />
-      </RowContainer>
-      { showCommentary ? (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}>
+      <Container>
         <RowContainer>
-          <StyledText>
-            {languageSet.ShowRightOnly}
-          </StyledText>
+          <StyledText>{languageSet.ExportNum}</StyledText>
+          <StyledTextInput
+            value={settingExportNum}
+            onChangeText={val => {
+              let tempNumToStr = '0';
+              if (val !== '') {
+                const tempValToNum = parseInt(val, 10);
+                tempNumToStr = String(tempValToNum);
+                if (tempNumToStr === 'NaN') {
+                  tempNumToStr = '0'
+                }
+              }
+              setSettingExportNum(tempNumToStr);
+            }}
+          />
+          <StyledButton
+            onPress={() => {
+              dispatch(setExportNum(settingExportNum));
+            }}>
+            <StyledText>{languageSet.Ok}</StyledText>
+          </StyledButton>
+        </RowContainer>
+
+        <RowContainer>
+          {/* show export number*/}
+          <StyledText>{languageSet.ShowProblemNumber}</StyledText>
           <StyledSwitch
-            value={settingShowRightOnly}
+            value={settingShowExportNum}
             onValueChange={value => {
-              setSettingShowRightOnly(value);
-              dispatch(setShowRightOnly(value));
+              setSettingShowExportNum(value);
+              dispatch(setShowExportNum(value));
             }}
           />
         </RowContainer>
-      ) :
-      (
-        null
-      )}
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
-    </Container>
+
+        <RowContainer>
+          {/* show commentary */}
+          <StyledText>{languageSet.ShowCommentary}</StyledText>
+          <StyledSwitch
+            value={settingShowCommentary}
+            onValueChange={value => {
+              setSettingShowCommentary(value);
+              dispatch(setShowCommentary(value));
+            }}
+          />
+        </RowContainer>
+        {showCommentary ? (
+          <RowContainer>
+            <StyledText>{languageSet.ShowRightOnly}</StyledText>
+            <StyledSwitch
+              value={settingShowRightOnly}
+              onValueChange={value => {
+                setSettingShowRightOnly(value);
+                dispatch(setShowRightOnly(value));
+              }}
+            />
+          </RowContainer>
+        ) : null}
+        {isInfoWindowOpen ? 
+        <ExplainWindow>
+          <TestSettingTutorialSet/>
+        </ExplainWindow> : null}
+      </Container>
+    </TouchableWithoutFeedback>
   );
 };

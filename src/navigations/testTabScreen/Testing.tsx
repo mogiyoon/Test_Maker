@@ -23,6 +23,7 @@ import { getLanguageSet } from '../../services/LanguageSet';
 import { placeHolerColor } from '../../services/ChoreFunction';
 import { AdMobBanner } from '../../services/GoogleAd';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { TestingTutorialSet } from '../../constants/testTab/Testing';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -326,7 +327,10 @@ export const Testing = () => {
       ) : (
         null
       )}
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
+      {isInfoWindowOpen ? 
+      <ExplainWindow>
+        <TestingTutorialSet/>
+      </ExplainWindow> : null}
     </ScrollView>
   );
 };

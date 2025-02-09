@@ -5,7 +5,6 @@ export const Container = styled.View`
 `;
 export const InnerContainer = styled.View`
   flex: 1;
-  padding: 5px;
 `
 export const NoCameraContainer = styled.View`
   flex: 1;
@@ -28,7 +27,7 @@ export const StyledText = styled.Text`
 export const StyledTakePhotoButton = styled.TouchableOpacity`
   position: absolute;
   left: 50%;
-  bottom: 40px;
+  bottom: 100px;
   ${({ theme }) => css`
     transform: translateX(-30px);
   `}

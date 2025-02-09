@@ -44,15 +44,22 @@ export const SlideComponent : React.FC<SlideComponentProps> = ({
   return (
     <Container>
       <RowContainer>
-        {pageNum > 0 ? 
-          <MoveButton onPress={handlePrevPage} />
-          : <MoveButton/>}
+        {pageNum > 0 ? (
+          <MoveButton onPress={handlePrevPage} hitSlop={5} />
+        ) : (
+          <MoveButton hitSlop={5} />
+        )}
 
-        <ImageContainer source={inputList[pageNum].imageUri} resizeMode="contain" />
+        <ImageContainer
+          source={inputList[pageNum].imageUri}
+          resizeMode="contain"
+        />
 
         {pageNum < inputListLength - 1 ? (
-          <MoveButton onPress={handleNextPage} />
-        ) : <MoveButton/>}
+          <MoveButton onPress={handleNextPage} hitSlop={5} />
+        ) : (
+          <MoveButton hitSlop={5} />
+        )}
       </RowContainer>
       <ExplainText>{inputList[pageNum].explainText}</ExplainText>
     </Container>

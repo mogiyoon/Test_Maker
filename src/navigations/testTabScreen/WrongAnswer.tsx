@@ -12,6 +12,7 @@ import {useSelector} from 'react-redux';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { WrongAnswerTutorialSet } from '../../constants/testTab/WrongAnswer';
 
 export const WrongAnswer = () => {
   const languageSetting = useSelector((state) => state.language.language)
@@ -49,7 +50,10 @@ export const WrongAnswer = () => {
           )}
         />
       )}
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
+      {isInfoWindowOpen ? 
+      <ExplainWindow>
+        <WrongAnswerTutorialSet/>
+      </ExplainWindow> : null}
     </Container>
   );
 };

@@ -20,6 +20,7 @@ import { getLanguageSet } from '../../services/LanguageSet';
 import { GridComponent } from '../../components/GridComponent';
 import { AdmobReward } from '../../services/GoogleAd';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { ExportTabTutorialSet } from '../../constants/testTab/ExportTab';
 
 let tempQuizList = [];
 let tempQuizQueue = [];
@@ -278,7 +279,10 @@ export const ExportTab = () => {
           />
         </ExportInnerContainer>
       </ExportContainer>
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
+      {isInfoWindowOpen ? 
+      <ExplainWindow>
+        <ExportTabTutorialSet/>
+      </ExplainWindow> : null}
     </Container>
   );
 };

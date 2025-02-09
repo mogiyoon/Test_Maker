@@ -29,12 +29,12 @@ interface wrongAnswerExplainList {
   explain2: string
 }
 const englishWrongAnswerExplainList : wrongAnswerExplainList = {
-  explain1: 'explain1',
-  explain2: 'explain2'
+  explain1: 'Incorrect questions from the test are sorted in descending order.',
+  explain2: 'Selecting an incorrect question will display a delete button, which you can press to remove the question.',
 }
 const koreanWrongAnswerExplainList : wrongAnswerExplainList = {
-  explain1: '테스트1',
-  explain2: '테스트2'
+  explain1: '테스트에서 틀린 문제들이 내림차순으로 정렬됩니다.',
+  explain2: '틀린 문제를 선택하면 삭제할 수 있는 버튼이 나오며 버튼을 누르면 틀린 문제를 삭제할 수 있습니다.'
 }
 
 export const wrongAnswerExplainList = {

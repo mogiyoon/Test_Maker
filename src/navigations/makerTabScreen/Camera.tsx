@@ -18,6 +18,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { CameraTutorialSet } from '../../constants/makerTab/Camera';
 
 async function CheckPermission(navigation, languageSet, setHasPermission) {
   const cameraPermission = Camera.getCameraPermissionStatus();
@@ -118,9 +119,7 @@ export const CameraScreen = () => {
                 isActive={true}
                 photo={true}
               />
-              <StyledTakePhotoButton onPress={onPressTakePhoto}>
-                <StyledText />
-              </StyledTakePhotoButton>
+              <StyledTakePhotoButton onPress={onPressTakePhoto} />
             </InnerContainer>
           ) : (
             <NoCameraContainer>
@@ -130,7 +129,9 @@ export const CameraScreen = () => {
         </>
       )}
       {isInfoWindowOpen ? (
-        <ExplainWindow/>
+        <ExplainWindow>
+          <CameraTutorialSet/>
+        </ExplainWindow>
       ) : (
         null
       )}
