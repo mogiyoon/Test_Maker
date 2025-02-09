@@ -52,7 +52,7 @@ export const Testing = () => {
   const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
 
   const myTestList = useSelector(state => state.testRealm.realmData);
-  const _makeIdToNode = InputId => {
+  const _makeIdToNode = (InputId : string) => {
     const node = myTestList.find(value => value.id === InputId);
     return node;
   };
