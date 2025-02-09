@@ -33,6 +33,14 @@ export const StyledSwitch = styled.Switch`
 export const StyledText = styled.Text`
   font-size: 15px;
 `;
+export const TokenText = styled.Text`
+  margin: 0px 0px 0px 10px;
+  padding: 0px 3px;
+  color: white;
+  font-size: 15px;
+  background-color: black;
+`
+
 export const StyledTextInput = styled.TextInput.attrs({
   autoCapitalize: 'none',
   autoCorrect: false,
