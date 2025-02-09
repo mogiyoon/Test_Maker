@@ -1,11 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
-import {Alert, Linking, StyleSheet} from 'react-native';
+import {Alert, Linking} from 'react-native';
 import {Camera, useCameraDevice} from 'react-native-vision-camera';
 import {fileProcessing} from '../../services/FileProcessing';
 import {resetPhoto} from '../../services/ModifyPhoto';
 import {
   Container,
+  customStyles,
   ImageContainer,
   InnerContainer,
   NoCameraContainer,
@@ -97,7 +98,7 @@ export const CameraScreen = () => {
         <InnerContainer>
           <ImageContainer
             source={{uri: 'file://' + photoPath}}
-            resizeMode='contain'
+            resizeMode="contain"
           />
           <RowContainer>
             <StyledButton onPress={handleProcessing}>
@@ -108,33 +109,28 @@ export const CameraScreen = () => {
             </StyledButton>
           </RowContainer>
         </InnerContainer>
+      ) : hasPermission && device ? (
+        <InnerContainer>
+          <Camera
+            ref={cameraRef}
+            style={customStyles.customAbsoluteFill}
+            device={device}
+            isActive={true}
+            photo={true}
+            resizeMode='contain'
+          />
+          <StyledTakePhotoButton onPress={onPressTakePhoto} />
+        </InnerContainer>
       ) : (
-        <>
-          {hasPermission && device ? (
-            <InnerContainer>
-              <Camera
-                ref={cameraRef}
-                style={StyleSheet.absoluteFill}
-                device={device}
-                isActive={true}
-                photo={true}
-              />
-              <StyledTakePhotoButton onPress={onPressTakePhoto} />
-            </InnerContainer>
-          ) : (
-            <NoCameraContainer>
-              <StyledText>{languageSet.NoCamera}</StyledText>
-            </NoCameraContainer>
-          )}
-        </>
+        <NoCameraContainer>
+          <StyledText>{languageSet.NoCamera}</StyledText>
+        </NoCameraContainer>
       )}
       {isInfoWindowOpen ? (
         <ExplainWindow>
           <CameraTutorialSet/>
         </ExplainWindow>
-      ) : (
-        null
-      )}
+      ) : null}
     </Container>
   );
 };

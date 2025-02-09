@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
@@ -5,6 +6,7 @@ export const Container = styled.View`
 `;
 export const InnerContainer = styled.View`
   flex: 1;
+  background-color: black;
 `
 export const NoCameraContainer = styled.View`
   flex: 1;
@@ -27,7 +29,7 @@ export const StyledText = styled.Text`
 export const StyledTakePhotoButton = styled.TouchableOpacity`
   position: absolute;
   left: 50%;
-  bottom: 100px;
+  bottom: 30px;
   ${({ theme }) => css`
     transform: translateX(-30px);
   `}
@@ -47,3 +49,14 @@ export const StyledButton = styled.TouchableOpacity`
 export const StyledButtonText = styled.Text`
   font-size: 15px;
 `;
+
+export const customStyles = StyleSheet.create({
+  customAbsoluteFill: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: '#000000',
+  },
+});
