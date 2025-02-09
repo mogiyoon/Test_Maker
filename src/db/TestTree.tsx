@@ -1,5 +1,5 @@
 import {testMakerRealm} from './TestMakerDB';
-import {getLanguageSet, wordList} from '../services/LanguageSet';
+import {getLanguageSet, languageIndexList, wordList} from '../services/LanguageSet';
 
 export interface TestTreeCategory {
   categoryName: string;
@@ -24,7 +24,7 @@ export const testTree: TestTreeCategory[] = [
   },
 ];
 
-export const setMainLanguage = (inputData: string) => {
+export const setMainLanguage = (inputData: keyof typeof languageIndexList) => {
   testTree[0].categoryName = getLanguageSet(inputData).Main;
 };
 
@@ -178,7 +178,7 @@ const categoryAlign = (category: string) => {
 
 export const testTreeInitiate = () => {
   const myTest = testMakerRealm.objects('MyTest');
-  const refinedMyTest = myTest.toJSON();
+  const refinedMyTest = myTest.toJSON() as unknown as TestData[];
   testTree[0].childId = [];
   testTree[0].childCategory = [];
   setTestTreeInsertList(refinedMyTest);
