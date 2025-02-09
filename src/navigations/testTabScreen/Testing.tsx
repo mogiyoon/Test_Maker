@@ -231,7 +231,7 @@ export const Testing = () => {
       {isSubjective ? (
         // 주관식
         <Container>
-          {nowNode !== undefined ? (
+          {tempQuizList.length >= 2 ? (
             <Container>
               <TextWriteBox
                 value={myAnswer}
