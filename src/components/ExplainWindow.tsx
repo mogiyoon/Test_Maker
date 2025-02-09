@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components/native";
 import { useDispatch } from "react-redux";
 import { setIsInfoWindowOpen } from "../redux/InfoWindowSlice";
-import { SlideComponent } from "./SlideComponent";
-import { ExplainSet } from "../constants/Tutorials";
 
 const FullContainer = styled.View`
   top: 5%;
@@ -18,8 +16,13 @@ const FullContainer = styled.View`
   border-radius: 10px;
 `
 
+const ExitContainer = styled.View`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`
 const ExitBox = styled.TouchableOpacity`
-  width: 20%;
+  width: 30%;
   height: 30px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -34,10 +37,10 @@ const ExitBoxText = styled.Text`
 `
 
 interface ExplainWindowProps {
-  explainList : ExplainSet[]
+  children: React.ReactNode
 }
 
-export const ExplainWindow: React.FC<ExplainWindowProps> = ({explainList}) => {
+export const ExplainWindow: React.FC<ExplainWindowProps> = ({children}) => {
   const dispatch = useDispatch();
 
   const handleInfoWindowClose = () => {
@@ -46,12 +49,12 @@ export const ExplainWindow: React.FC<ExplainWindowProps> = ({explainList}) => {
 
   return (
     <FullContainer>
-      <ExitBox onPress={handleInfoWindowClose}>
-        <ExitBoxText>X</ExitBoxText>
-      </ExitBox>
-      <SlideComponent
-        inputList={explainList}
-      />
+      <ExitContainer>
+        <ExitBox onPress={handleInfoWindowClose}>
+          <ExitBoxText>X</ExitBoxText>
+        </ExitBox>
+      </ExitContainer>
+      {children}
     </FullContainer>
   );
 };

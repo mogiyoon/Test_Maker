@@ -10,11 +10,10 @@ const RowContainer = styled.View`
   flex-direction: row;
 `
 const MoveButton = styled.TouchableOpacity`
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 200px;
   margin: 5px;
-  border-radius: 15px;
-  border: 1px solid #c1c1c1;
+  border-radius: 5px;
   background-color: #bcffbc;
 `
 const ImageContainer = styled.Image`

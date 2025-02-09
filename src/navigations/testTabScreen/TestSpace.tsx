@@ -17,8 +17,8 @@ import {
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { AdMobBanner } from '../../services/GoogleAd';
-import { ExplainWindow } from '../../components/ExplainWindow';
 import { TestSpaceTutorialSet } from '../../constants/Tutorials';
+import { ExplainWindow } from '../../components/ExplainWindow';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);
@@ -32,7 +32,7 @@ export const TestSpace = () => {
   const [myTestTree, setMyTestTree] = useState(testTree);
   const [nowCategory, setNowCategory] = useState(myTestTree[0]); // 현재 카테고리
   const [inCategories, setInCategories] = useState(myTestTree[0].childCategory); // 자식 카테고리를 보여줌(화면에 나오는 것)
-  const [chosenCategory, setChosenCategory] = useState(undefined)
+  const [chosenCategory, setChosenCategory] = useState('')
 
   useEffect(() => {
     setNowCategory(myTestTree[0]);
@@ -139,7 +139,9 @@ export const TestSpace = () => {
       </CenterContainer>
       
       {isInfoWindowOpen ?
-        <TestSpaceTutorialSet/> : null}
+        <ExplainWindow>
+          <TestSpaceTutorialSet/>
+        </ExplainWindow> : null}
     </ScrollContainer>
   );
 };
