@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Switch} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {readItemIds, setIsTestChanged} from '../../redux/TestChoiceSlice';
-import {addWrongAnswerRealmData} from '../../redux/RealmSlice';
+import {addIncorrectAnswerRealmData} from '../../redux/RealmSlice';
 import {
   Button,
   ChoiceBox,
@@ -159,11 +159,11 @@ export const Testing = () => {
     setWasAnswer('');
   };
 
-  //Wrong Function
-  const chooseWrong = () => {
-    setIsRight(languageSet.Wrong);
+  //Incorrect Function
+  const chooseIncorrect = () => {
+    setIsRight(languageSet.Incorrect);
     setWasAnswer(nowNode.word);
-    dispatch(addWrongAnswerRealmData(testValue));
+    dispatch(addIncorrectAnswerRealmData(testValue));
   };
 
   //After Answer
@@ -245,7 +245,7 @@ export const Testing = () => {
                     if (nowNode.word === myAnswer) {
                       chooseRight();
                     } else {
-                      chooseWrong();
+                      chooseIncorrect();
                     }
                     setMyAnswer('');
                     afterAnswering(myAnswer);
@@ -278,7 +278,7 @@ export const Testing = () => {
                       if (nowNode.word === renderChoiceList[0].word) {
                         chooseRight();
                       } else {
-                        chooseWrong();
+                        chooseIncorrect();
                       }
                       afterAnswering(renderChoiceList[0].word);
                     }}>
@@ -294,7 +294,7 @@ export const Testing = () => {
                       if (nowNode.word === renderChoiceList[1].word) {
                         chooseRight();
                       } else {
-                        chooseWrong();
+                        chooseIncorrect();
                       }
                       afterAnswering(renderChoiceList[1].word);
                     }}>
@@ -312,7 +312,7 @@ export const Testing = () => {
                       if (nowNode.word === renderChoiceList[2].word) {
                         chooseRight();
                       } else {
-                        chooseWrong();
+                        chooseIncorrect();
                       }
                       afterAnswering(renderChoiceList[2].word);
                     }}>
@@ -327,7 +327,7 @@ export const Testing = () => {
                       if (nowNode.word === renderChoiceList[3].word) {
                         chooseRight();
                       } else {
-                        chooseWrong();
+                        chooseIncorrect();
                       }
                       afterAnswering(renderChoiceList[3].word);
                     }}>

@@ -66,7 +66,7 @@ export const TestTabIconName = (
     case languageSet.Testing:
       iconName = focused ? 'document-text-outline' : 'document-text-outline'
       break
-    case languageSet.WrongAnswer:
+    case languageSet.IncorrectAnswer:
       iconName = focused ? 'star' : 'star-outline'
       break
     case languageSet.Export:

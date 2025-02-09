@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {testRealmSlice, wrongAnswerRealmSlice} from './RealmSlice';
+import {testRealmSlice, incorrectAnswerRealmSlice} from './RealmSlice';
 import {
   contentChangedSlice,
   contentSlice,
@@ -20,7 +20,7 @@ export const store = configureStore({
     language: languageSlice.reducer,
 
     testRealm: testRealmSlice.reducer,
-    wrongAnswerRealm: wrongAnswerRealmSlice.reducer,
+    incorrectAnswerRealm: incorrectAnswerRealmSlice.reducer,
 
     content: contentSlice.reducer,
     contentChanged: contentChangedSlice.reducer,

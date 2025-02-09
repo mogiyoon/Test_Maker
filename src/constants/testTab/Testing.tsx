@@ -54,7 +54,7 @@ const englishTestingExplainList : testingExplainList = {
   explain3: 'In the settings, you can choose to view explanations or only the answers.',
   explain4: '',
   explain5: '',
-  explain6: 'You can pass a question by pressing the pass button, and it will not be recorded in the wrong answers list.',
+  explain6: 'You can pass a question by pressing the pass button, and it will not be recorded in the incorrect answers list.',
 }
 const koreanTestingExplainList : testingExplainList = {
   explain1: '앞서 선택한 카테고리 및 하위 카테고리에 포함된 문제들로 출제가 됩니다.',

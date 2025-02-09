@@ -12,18 +12,18 @@ const MyTestSchema = {
   },
 };
 
-const WrongAnswerSchema = {
-  name: 'WrongAnswer',
+const IncorrectAnswerSchema = {
+  name: 'IncorrectAnswer',
   properties: {
     id: 'string',
     category: 'string',
     word: 'string',
     meaning: 'string',
-    wrongNumber: 'int',
+    incorrectNumber: 'int',
   },
 };
 
 export const testMakerRealm = new Realm({
-  schema: [MyTestSchema, WrongAnswerSchema],
+  schema: [MyTestSchema, IncorrectAnswerSchema],
   schemaVersion: 1,
 });

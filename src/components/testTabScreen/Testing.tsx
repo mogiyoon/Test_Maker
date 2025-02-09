@@ -61,7 +61,7 @@ export const AnswerResultContainer = ({isRight, wasExplain, wasAnswer, wasReply}
         bottomLeftSize={showRightOnly ? 10 : 0}
       >
         <ResultText>
-          {isRight === languageSet.True ? (languageSet.True) : (languageSet.Wrong)}
+          {isRight === languageSet.True ? (languageSet.True) : (languageSet.Incorrect)}
         </ResultText>
       </ResultContainer>
       { showRightOnly ? (

@@ -72,40 +72,40 @@ export const testRealmSlice = createSlice({
 export const {setTestRealmData, addTestRealmData, modifyTestReamData, removeOneTestRealmData, removeCategoryTestRealmData} =
   testRealmSlice.actions;
 
-export const wrongAnswerRealmSlice = createSlice({
-  name: 'wrongAnswerRealmUpdate',
+export const incorrectAnswerRealmSlice = createSlice({
+  name: 'incorrectAnswerRealmUpdate',
   initialState: {realmData: []},
   reducers: {
-    setWrongAnswerRealmData: (state, action) => {
+    setIncorrectAnswerRealmData: (state, action) => {
       state.realmData = action.payload;
     },
-    addWrongAnswerRealmData: (state, action) => {
+    addIncorrectAnswerRealmData: (state, action) => {
       const tempValue = _.cloneDeep(action.payload);
-      tempValue.wrongNumber = 1;
+      tempValue.incorrectNumber = 1;
 
       const existingItem = state.realmData.find(
         item => item.id === tempValue.id,
       );
       if (existingItem) {
-        existingItem.wrongNumber += 1;
+        existingItem.incorrectNumber += 1;
         customHeapInit(state.realmData)
         state.realmData = customHeapToList()
         testMakerRealm.write(() => {
           const testMakerValue = testMakerRealm
-            .objects('WrongAnswer')
+            .objects('IncorrectAnswer')
             .filtered(
               `word == "${tempValue.word}" AND id == "${tempValue.id}"`,
             );
-          testMakerValue[0].wrongNumber += 1;
+          testMakerValue[0].incorrectNumber += 1;
         });
       } else {
         state.realmData.push(tempValue);
         testMakerRealm.write(() => {
-          testMakerRealm.create('WrongAnswer', tempValue);
+          testMakerRealm.create('IncorrectAnswer', tempValue);
         });
       }
     },
-    removeWrongAnswerRealmData: (state, action) => {
+    removeIncorrectAnswerRealmData: (state, action) => {
       const id = action.payload;
       const tempData = state.realmData.filter(
         item => item.id !== id,
@@ -114,7 +114,7 @@ export const wrongAnswerRealmSlice = createSlice({
       state.realmData = customHeapToList()
       testMakerRealm.write(() => {
         const dataToDelete = testMakerRealm
-          .objects('WrongAnswer')
+          .objects('IncorrectAnswer')
           .filtered(`id == "${id}"`);
         testMakerRealm.delete(dataToDelete);
       });
@@ -123,25 +123,25 @@ export const wrongAnswerRealmSlice = createSlice({
 });
 
 export const {
-  setWrongAnswerRealmData,
-  addWrongAnswerRealmData,
-  removeWrongAnswerRealmData,
-} = wrongAnswerRealmSlice.actions;
+  setIncorrectAnswerRealmData: setIncorrectAnswerRealmData,
+  addIncorrectAnswerRealmData: addIncorrectAnswerRealmData,
+  removeIncorrectAnswerRealmData: removeIncorrectAnswerRealmData,
+} = incorrectAnswerRealmSlice.actions;
 
 export const syncReduxWithRealm = () => {
   const myTest = testMakerRealm.objects('MyTest');
   const refinedMyTest = myTest.toJSON();
   store.dispatch(setTestRealmData(refinedMyTest));
 
-  const wrongAnswer = testMakerRealm.objects('WrongAnswer');
-  const refinedWrongAnswer = wrongAnswer.toJSON();
-  customHeapInit(refinedWrongAnswer)
+  const incorrectAnswer = testMakerRealm.objects('IncorrectAnswer');
+  const refinedIncorrectAnswer = incorrectAnswer.toJSON();
+  customHeapInit(refinedIncorrectAnswer)
   const HeapedList = customHeapToList()
-  store.dispatch(setWrongAnswerRealmData(HeapedList));
+  store.dispatch(setIncorrectAnswerRealmData(HeapedList));
 };
 
-const customWrongNumberComparator = (a, b) => b.wrongNumber - a.wrongNumber
-const customHeap = new Heap(customWrongNumberComparator)
+const customIncorrectNumberComparator = (a, b) => b.incorrectNumber - a.incorrectNumber
+const customHeap = new Heap(customIncorrectNumberComparator)
 const customHeapInit = (inputList) => {
   customHeap.init(inputList)
 }

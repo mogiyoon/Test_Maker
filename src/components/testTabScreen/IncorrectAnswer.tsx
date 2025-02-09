@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {Dimensions} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { removeWrongAnswerRealmData } from '../../redux/RealmSlice';
+import { removeIncorrectAnswerRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 
 export const Container = styled.View`
@@ -56,7 +56,7 @@ export const OpenWordContainer = ({children, inputId}) => {
       {isOpen ? 
         <DeleteContainer
           onPress={() => {
-            dispatch(removeWrongAnswerRealmData(inputId))
+            dispatch(removeIncorrectAnswerRealmData(inputId))
           }}
         >
           <DeleteText>

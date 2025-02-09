@@ -8,7 +8,7 @@ import {Edit} from './makerTabScreen/Edit';
 import {MakerSetting} from './makerTabScreen/MakerSetting';
 import {TextBox} from './makerTabScreen/TextBox';
 import {TestSpace} from './testTabScreen/TestSpace';
-import {WrongAnswer} from './testTabScreen/WrongAnswer';
+import {IncorrectAnswer} from './testTabScreen/IncorrectAnswer';
 import {TestSetting} from './testTabScreen/TestSetting';
 import {Testing} from './testTabScreen/Testing';
 import {ExportTab} from './testTabScreen/ExportTab';
@@ -61,8 +61,8 @@ export const TestTabNavigation = ({navigation}) => {
         }}
       />
       <TestTab.Screen 
-        name={languageSet.WrongAnswer} 
-        component={WrongAnswer}
+        name={languageSet.IncorrectAnswer} 
+        component={IncorrectAnswer}
         listeners={({navigation}) => ({
           blur: () => {dispatch(setIsInfoWindowOpen(false))},
         })}

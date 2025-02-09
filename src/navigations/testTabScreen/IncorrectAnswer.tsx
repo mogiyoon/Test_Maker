@@ -7,26 +7,26 @@ import {
   NoDataText,
   OpenWordContainer,
   StyledText,
-} from '../../components/testTabScreen/WrongAnswer';
+} from '../../components/testTabScreen/IncorrectAnswer';
 import {useSelector} from 'react-redux';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { ExplainWindow } from '../../components/ExplainWindow';
-import { WrongAnswerTutorialSet } from '../../constants/testTab/WrongAnswer';
+import { IncorrectAnswerTutorialSet } from '../../constants/testTab/IncorrectAnswer';
 
-export const WrongAnswer = () => {
+export const IncorrectAnswer = () => {
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
   const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
 
-  const wrongAnswerList = useSelector(
-    state => state.wrongAnswerRealm.realmData,
+  const incorrectAnswerList = useSelector(
+    state => state.incorrectAnswerRealm.realmData,
   );
 
   return (
     <Container>
-      {wrongAnswerList.length === 0 ? (
+      {incorrectAnswerList.length === 0 ? (
         <DataContainer>
           <NoDataText>{languageSet.NoData}</NoDataText>
         </DataContainer>
@@ -34,7 +34,7 @@ export const WrongAnswer = () => {
         <GridComponent
           isFull={true}
           columnNumber={2}
-          data={wrongAnswerList}
+          data={incorrectAnswerList}
           renderItem={({item}) => (
             <OpenWordContainer
               inputId={item.id}
@@ -43,7 +43,7 @@ export const WrongAnswer = () => {
                 <GridInnerContainer>
                   <StyledText>{languageSet.Category} : {item.category + '\n'}</StyledText>
                   <StyledText>{languageSet.Word} : {item.word + '\n'}</StyledText>
-                  <StyledText>{languageSet.WrongTime} : {item.wrongNumber}</StyledText>
+                  <StyledText>{languageSet.IncorrectTime} : {item.incorrectNumber}</StyledText>
                 </GridInnerContainer>
               </GridContainer>
             </OpenWordContainer>
@@ -52,7 +52,7 @@ export const WrongAnswer = () => {
       )}
       {isInfoWindowOpen ? 
       <ExplainWindow>
-        <WrongAnswerTutorialSet/>
+        <IncorrectAnswerTutorialSet/>
       </ExplainWindow> : null}
     </Container>
   );
