@@ -313,7 +313,6 @@ export const FlatListChild = ({inputItem}: FlatListChildProps) => {
             <RemoveButton // 삭제 버튼
               onPress={() => {
                 dispatch(removeOneTestRealmData(inputItem.id));
-                testTreeInitiate();
                 itemIdReset();
               }}
             >
