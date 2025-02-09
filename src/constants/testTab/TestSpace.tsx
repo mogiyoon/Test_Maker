@@ -9,12 +9,12 @@ export const TestSpaceTutorialSet = () => {
 
   const testSpaceTutorialSet : ExplainSet[] = [
     {
-      imageUri: require('../assets/images/tutorials/testTab/testSpace/1.png'),
-      explainText: testSpaceExplainList[typedLanguageSetting].test1
+      imageUri: require('../../assets/images/tutorials/testTab/testSpace/1.png'),
+      explainText: testSpaceExplainList[typedLanguageSetting].explain1
     },
     {
-      imageUri: require('../assets/images/tutorials/testTab/testSpace/2.png'),
-      explainText: testSpaceExplainList[typedLanguageSetting].test2
+      imageUri: require('../../assets/images/tutorials/testTab/testSpace/2.png'),
+      explainText: testSpaceExplainList[typedLanguageSetting].explain2
     },
   ]
   return (
@@ -25,16 +25,16 @@ export const TestSpaceTutorialSet = () => {
 }
 
 interface TestSpaceExplainList {
-  test1: string
-  test2: string
+  explain1: string
+  explain2: string
 }
 const englishTestSpaceExplainList : TestSpaceExplainList = {
-  test1: 'test1',
-  test2: 'test2'
+  explain1: 'explain1',
+  explain2: 'explain2'
 }
 const koreanTestSpaceExplainList : TestSpaceExplainList = {
-  test1: '테스트1',
-  test2: '테스트2'
+  explain1: '테스트1',
+  explain2: '테스트2'
 }
 
 export const testSpaceExplainList = {

@@ -21,6 +21,7 @@ import { getLanguageSet, wordList } from '../../services/LanguageSet';
 import { returnContentPlusBlank, placeHolerColor } from '../../services/ChoreFunction';
 import { Dispatch, UnknownAction } from 'redux';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { EditTutorialSet } from '../../constants/makerTab/Edit';
 
 let tempTestList = [];
 let toggleCheckBoxFunctionList = [];
@@ -150,7 +151,10 @@ export const Edit = () => {
         <StyledText>{allContent}</StyledText>
       </ScrollableContainer>
 
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
+      {isInfoWindowOpen ? 
+      <ExplainWindow>
+        <EditTutorialSet/>
+      </ExplainWindow> : null}
     </WindowContainer>
   );
 };

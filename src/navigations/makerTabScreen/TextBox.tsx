@@ -12,6 +12,7 @@ import {setContentData, setIsChanged} from '../../redux/ContentsSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { placeHolerColor } from '../../services/ChoreFunction';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { TextBoxTutorialSet } from '../../constants/makerTab/TextBox';
 
 export const TextBox = () => {
   const languageSetting = useSelector((state) => state.language.language)
@@ -60,7 +61,10 @@ export const TextBox = () => {
           placeholder={languageSet.InputContent}
           placeholderTextColor={placeHolerColor}
         />
-        {isInfoWindowOpen ? <ExplainWindow/> : null}
+        {isInfoWindowOpen ? 
+        <ExplainWindow>
+          <TextBoxTutorialSet/>
+        </ExplainWindow> : null}
       </Container>
     </TouchableWithoutFeedback>
   );

@@ -17,8 +17,8 @@ import {
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { AdMobBanner } from '../../services/GoogleAd';
-import { TestSpaceTutorialSet } from '../../constants/Tutorials';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { TestSpaceTutorialSet } from '../../constants/testTab/TestSpace';
 
 export const TestSpace = () => {
   const myTestList = useSelector(state => state.testRealm.realmData);

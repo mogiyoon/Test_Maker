@@ -11,16 +11,17 @@ const RowContainer = styled.View`
 `
 const MoveButton = styled.TouchableOpacity`
   width: 23px;
-  height: 200px;
+  height: 300px;
   margin: 5px;
   border-radius: 5px;
   background-color: #bcffbc;
 `
 const ImageContainer = styled.Image`
   width: 270px;
-  height: 450px;
+  height: 400px;
 `
 const ExplainText = styled.Text`
+  margin: 10px 0px;
   font-size: 20px;
 `
 

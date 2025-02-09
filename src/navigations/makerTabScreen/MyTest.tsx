@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { testTree } from '../../db/TestTree';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { MyTestTutorialSet } from '../../constants/makerTab/MyTest';
 
 export const MyTest = () => {
   const languageSetting = useSelector((state) => state.language.language)
@@ -42,7 +43,9 @@ export const MyTest = () => {
         </MaxHeightContainer>
       )}
       {isInfoWindowOpen ? (
-        <ExplainWindow/>
+        <ExplainWindow>
+          <MyTestTutorialSet/>
+        </ExplainWindow>
       ) : (
         null
       )}

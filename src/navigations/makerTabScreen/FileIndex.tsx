@@ -15,6 +15,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { FileIndexTutorialSet } from '../../constants/makerTab/FileIndex';
 
 export const FileIndex = () => {
   const languageSetting = useSelector((state) => state.language.language)
@@ -45,7 +46,7 @@ export const FileIndex = () => {
     if (boolValue) {
       navigation.navigate(languageSet.TextBox);
     } else {
-      Alert.alert('Warning', 'Network Connection\nor\nToken Shortage');
+      Alert.alert(languageSet.Warning, languageSet.OCRError);
     }
   };
 
@@ -69,10 +70,14 @@ export const FileIndex = () => {
         {imageUri && (
           <ImageContainer
             source={{uri: imageUri}}
+            resizeMode='contain'
           />
         )}
 
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
+      {isInfoWindowOpen ? 
+      <ExplainWindow>
+        <FileIndexTutorialSet/>
+      </ExplainWindow>: null}
     </Container>
   );
 };

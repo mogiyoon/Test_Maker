@@ -22,6 +22,7 @@ import { getLanguageSet } from '../../services/LanguageSet';
 import { AdmobReward } from '../../services/GoogleAd';
 import { plusOneAdTime } from '../../redux/TimeSlice';
 import { ExplainWindow } from '../../components/ExplainWindow';
+import { MakerSettingTutorialSet } from '../../constants/makerTab/MakerSetting';
 
 export const MakerSetting = () => {
   const dispatch = useDispatch();
@@ -142,7 +143,10 @@ export const MakerSetting = () => {
             <StyledText>{languageSet.Ok}</StyledText>
           </StyledButton>
         </RowContainer>
-      {isInfoWindowOpen ? <ExplainWindow/> : null}
+        {isInfoWindowOpen ? 
+        <ExplainWindow>
+          <MakerSettingTutorialSet/>
+        </ExplainWindow> : null}
       </Container>
 
     </TouchableWithoutFeedback>
