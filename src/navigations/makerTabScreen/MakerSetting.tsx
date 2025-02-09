@@ -10,6 +10,7 @@ import {
   StyledSwitch,
   StyledText,
   StyledTextInput,
+  TokenText,
 } from '../../components/makerTabScreen/MakerSetting';
 import {useDispatch, useSelector} from 'react-redux';
 import {setIsChanged} from '../../redux/ContentsSlice';
@@ -60,7 +61,7 @@ export const MakerSetting = () => {
         <RowContainer>
           {/* 광고 */}
           <StyledText>{languageSet.OCR}</StyledText>
-          <StyledText>{adTime}</StyledText>
+          <TokenText>{adTime}</TokenText>
             {adTime < 5 ? (
               <AdmobReward
                 callBackFunction = {handleDispatch}
