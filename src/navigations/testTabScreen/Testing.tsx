@@ -19,46 +19,81 @@ import {
 } from '../../components/testTabScreen/Testing';
 import _ from 'lodash';
 import {dequeue, enqueue} from '../../services/Queue';
-import { getLanguageSet } from '../../services/LanguageSet';
-import { placeHolerColor } from '../../services/ChoreFunction';
-import { AdMobBanner } from '../../services/GoogleAd';
-import { ExplainWindow } from '../../components/ExplainWindow';
-import { TestingTutorialSet } from '../../constants/testTab/Testing';
+import {getLanguageSet} from '../../services/LanguageSet';
+import {placeHolerColor} from '../../services/ChoreFunction';
+import {AdMobBanner} from '../../services/GoogleAd';
+import {ExplainWindow} from '../../components/ExplainWindow';
+import {TestingTutorialSet} from '../../constants/testTab/Testing';
+import {TestData} from '../../db/TestTree';
 
-let tempQuizList = [];
-let tempQuizQueue = [];
+let tempQuizList : string[] = [];
+let tempQuizQueue : string[] = [];
 let tempQuizId = '';
 let testValue = {};
 
 let answerNumber = 0;
-let choiceList = [];
-let choiceNodeList = [];
-let randomQuizQueue = [];
+let choiceList : string[] = [];
+let choiceNodeList : TestData[] = [];
+let randomQuizQueue : string[] = [];
 
+/* TODO 아이템이 하나 포함되어 있을 때 예외*/
 export const Testing = () => {
   const [isSubjective, setIsSubjective] = useState(false);
   const [isRight, setIsRight] = useState('');
-  const [nowNode, setNowNode] = useState({});
+  const [nowNode, setNowNode] = useState<TestData>({
+    id: '',
+    category: '',
+    word: '',
+    meaning: '',
+  });
   const [myAnswer, setMyAnswer] = useState(''); // 주관식 답
-  const [renderChoiceList, setRenderChoiceList] = useState([]);
+  const [renderChoiceList, setRenderChoiceList] = useState<TestData[]>([]);
 
-  const [wasExplain, setWasExplain] = useState('')
+  const [wasExplain, setWasExplain] = useState('');
   const [wasAnswer, setWasAnswer] = useState('');
-  const [wasReply, setWasReply] = useState('')
+  const [wasReply, setWasReply] = useState('');
 
-  const languageSetting = useSelector((state) => state.language.language)
-  const languageSet = getLanguageSet(languageSetting)
+  const languageSetting = useSelector(state => state.language.language);
+  const languageSet = getLanguageSet(languageSetting);
 
-  const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
+  const testInitiate = () => {
+    tempQuizList = [];
+    tempQuizQueue = [];
+    tempQuizId = '';
+    testValue = {};
+    answerNumber = 0;
+    choiceList = [];
+    choiceNodeList  = [];
+    randomQuizQueue = [];
+    setIsRight('')
+    setNowNode({
+      id: '',
+      category: '',
+      word: '',
+      meaning: '',
+    })
+    setMyAnswer('')
+    setRenderChoiceList([])
+    setWasExplain('')
+    setWasAnswer('')
+    setWasReply('')
+    tempSetting();
+  }
+
+  const isInfoWindowOpen = useSelector(
+    state => state.infoWindow.isInfoWindowOpen,
+  );
 
   const myTestList = useSelector(state => state.testRealm.realmData);
-  const _makeIdToNode = (InputId : string) => {
-    const node = myTestList.find(value => value.id === InputId);
+  const _makeIdToNode = (InputId: string) => {
+    const node = myTestList.find((value : TestData) => value.id === InputId);
     return node;
   };
 
   const isTestChanged = useSelector(state => state.testChanged.isTestChanged);
-  const showCommentary = useSelector(state => state.showCommentary.showCommentary)
+  const showCommentary = useSelector(
+    state => state.showCommentary.showCommentary,
+  );
   const dispatch = useDispatch();
 
   //선택된 리스트 추출
@@ -118,26 +153,25 @@ export const Testing = () => {
     setRenderChoiceList(choiceNodeList);
   };
 
-  
-  //Answer FUnction
+  //Answer Function
   const chooseRight = () => {
     setIsRight(languageSet.True);
-    setWasAnswer('')
-  }
-  
+    setWasAnswer('');
+  };
+
   //Wrong Function
   const chooseWrong = () => {
     setIsRight(languageSet.Wrong);
-    setWasAnswer(nowNode.word)
+    setWasAnswer(nowNode.word);
     dispatch(addWrongAnswerRealmData(testValue));
-  }
-  
+  };
+
   //After Answer
-  const afterAnswering = (inputData) => {
+  const afterAnswering = (inputData : string) => {
     tempQuizId = dequeue(randomQuizQueue);
-    setWasExplain(nowNode.meaning)
-    setWasAnswer(nowNode.word)
-    setWasReply(inputData)
+    setWasExplain(nowNode.meaning);
+    setWasAnswer(nowNode.word);
+    setWasReply(inputData);
     if (tempQuizId === '00000000') {
       tempSetting();
       randomQuizQueueSetting();
@@ -148,22 +182,27 @@ export const Testing = () => {
     choiceMaker();
   };
 
-  useEffect(() => {
-    tempSetting();
+  const testSetting = () => {
+    testInitiate()
+    if (tempQuizList.length <= 1) {
+      return
+    }
     randomQuizQueueSetting();
     choiceMaker();
+  }
+
+  useEffect(() => {
+    testSetting()
   }, []);
 
   if (isTestChanged) {
-    tempSetting();
-    randomQuizQueueSetting();
-    choiceMaker();
+    testSetting()
     dispatch(setIsTestChanged(false));
   }
 
   return (
     <ScrollView>
-      <AdMobBanner/>
+      <AdMobBanner />
       <RowContainerWithColor>
         <FlexContainer>
           <TextBox>{languageSet.Choice}</TextBox>
@@ -180,8 +219,10 @@ export const Testing = () => {
       </RowContainerWithColor>
 
       <MeaningContainer>
-        {nowNode !== undefined ? (
+        {nowNode.id !== '' ? (
           <TextBox>{nowNode.meaning}</TextBox>
+        ) : tempQuizList.length === 1 ? (
+          <TextBox>{languageSet.AtLeast}</TextBox>
         ) : (
           <TextBox>{languageSet.NoDataChosen}</TextBox>
         )}
@@ -202,9 +243,9 @@ export const Testing = () => {
                 <Button
                   onPress={() => {
                     if (nowNode.word === myAnswer) {
-                      chooseRight()
+                      chooseRight();
                     } else {
-                      chooseWrong()
+                      chooseWrong();
                     }
                     setMyAnswer('');
                     afterAnswering(myAnswer);
@@ -228,16 +269,16 @@ export const Testing = () => {
       ) : (
         // 객관식
         <Container>
-          {renderChoiceList.length > 0 ? (
+          {renderChoiceList.length >= 1 ? (
             <Container>
               <RowContainer>
                 {renderChoiceList.length >= 1 ? (
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[0].word) {
-                        chooseRight()
+                        chooseRight();
                       } else {
-                        chooseWrong()
+                        chooseWrong();
                       }
                       afterAnswering(renderChoiceList[0].word);
                     }}>
@@ -251,9 +292,9 @@ export const Testing = () => {
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[1].word) {
-                        chooseRight()
+                        chooseRight();
                       } else {
-                        chooseWrong()
+                        chooseWrong();
                       }
                       afterAnswering(renderChoiceList[1].word);
                     }}>
@@ -269,9 +310,9 @@ export const Testing = () => {
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[2].word) {
-                        chooseRight()
+                        chooseRight();
                       } else {
-                        chooseWrong()
+                        chooseWrong();
                       }
                       afterAnswering(renderChoiceList[2].word);
                     }}>
@@ -284,9 +325,9 @@ export const Testing = () => {
                   <ChoiceBox
                     onPress={() => {
                       if (nowNode.word === renderChoiceList[3].word) {
-                        chooseRight()
+                        chooseRight();
                       } else {
-                        chooseWrong()
+                        chooseWrong();
                       }
                       afterAnswering(renderChoiceList[3].word);
                     }}>
@@ -320,17 +361,14 @@ export const Testing = () => {
               wasAnswer={wasAnswer}
               wasReply={wasReply}
             />
-          ) : (
-            null
-          )}
+          ) : null}
         </Container>
-      ) : (
-        null
-      )}
-      {isInfoWindowOpen ? 
-      <ExplainWindow>
-        <TestingTutorialSet/>
-      </ExplainWindow> : null}
+      ) : null}
+      {isInfoWindowOpen ? (
+        <ExplainWindow>
+          <TestingTutorialSet />
+        </ExplainWindow>
+      ) : null}
     </ScrollView>
   );
 };
