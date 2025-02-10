@@ -78,6 +78,7 @@ android/fastlane/*
 android/app/Yighon.jks
 android/key.properties
 android/app/src/main/assets/*
+test-maker-443512-0c04568f799f.json
 app.json
 
 # tsx
