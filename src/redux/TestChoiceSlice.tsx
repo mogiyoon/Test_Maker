@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import _ from 'lodash';
+import { TestTreeCategory } from '../db/TestTree';
 
 export const testChangedSlice = createSlice({
   name: 'testChanged',
@@ -13,14 +14,14 @@ export const testChangedSlice = createSlice({
 
 export const {setIsTestChanged} = testChangedSlice.actions;
 
-let itemIds = [];
+let itemIds : string[] = [];
 
 export const readItemIds = () => {
   const tempList = _.cloneDeep(itemIds);
   return tempList;
 };
 
-export const testChooser = node => {
+export const testChooser = (node : TestTreeCategory) => {
   itemIdReset();
   _itemIdAdder(node);
 };
@@ -29,7 +30,7 @@ export const itemIdReset = () => {
   itemIds = [];
 };
 
-const _itemIdAdder = node => {
+const _itemIdAdder = (node : TestTreeCategory) => {
   for (const itemId of node.childId) {
     itemIds.push(itemId);
   }
