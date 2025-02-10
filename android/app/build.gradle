@@ -87,8 +87,8 @@ android {
         applicationId "com.test_maker"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.2.0"
     }
     signingConfigs {
         release {
