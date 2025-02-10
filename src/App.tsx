@@ -17,8 +17,6 @@ import { initializeAdMob } from './services/GoogleAd';
 import { adTimeInit } from './redux/TimeSlice';
 import { loadingImages } from './assets/images/ImagesPath';
 
-//TODO 빌드
-
 const App = () => {
   const [loading, setLoading] = useState(0)
   const [loadingImg, setLoadingImg] = useState(false)

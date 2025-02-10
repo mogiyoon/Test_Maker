@@ -73,6 +73,10 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
+def keystorePropertiesFile = rootProject.file("./key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -87,6 +91,12 @@ android {
         versionName "1.0"
     }
     signingConfigs {
+        release {
+                storeFile file(keystoreProperties['MY_RELEASE_STORE_FILE'])
+                storePassword keystoreProperties['MY_RELEASE_STORE_PASSWORD']
+                keyAlias keystoreProperties['MY_RELEASE_KEY_ALIAS']
+                keyPassword keystoreProperties['MY_RELEASE_KEY_PASSWORD']
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -99,11 +109,9 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

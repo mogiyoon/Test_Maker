@@ -36,7 +36,6 @@ let choiceList : string[] = [];
 let choiceNodeList : TestData[] = [];
 let randomQuizQueue : string[] = [];
 
-/* TODO 아이템이 하나 포함되어 있을 때 예외*/
 export const Testing = () => {
   const [isSubjective, setIsSubjective] = useState(false);
   const [isRight, setIsRight] = useState('');
