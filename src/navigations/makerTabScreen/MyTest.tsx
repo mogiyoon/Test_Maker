@@ -7,7 +7,7 @@ import {
   MaxHeightContainer,
 } from '../../components/makerTabScreen/MyTest';
 import { useSelector } from 'react-redux';
-import { testTree } from '../../db/TestTree';
+import { testTree } from '../../repository/TestTree';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { ExplainWindow } from '../../components/ExplainWindow';
 import { MyTestTutorialSet } from '../../constants/makerTab/MyTest';

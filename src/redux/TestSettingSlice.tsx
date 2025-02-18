@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {
   readTestSetting,
   writeTestSetting,
-} from '../db/TestSettingAsyncStorage';
+} from '../repository/TestSettingAsyncStorage';
 import {store} from './ReduxStore';
 
 export const exportNumSlice = createSlice({

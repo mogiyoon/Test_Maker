@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { TestTreeCategory } from '../db/TestTree';
+import { TestTreeCategory } from '../repository/TestTree';
 
 export const testChangedSlice = createSlice({
   name: 'testChanged',

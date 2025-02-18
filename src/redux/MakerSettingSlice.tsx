@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {
   readMakerSetting,
   writeMakerSetting,
-} from '../db/MakerSettingAsyncStorage';
+} from '../repository/MakerSettingAsyncStorage';
 import {store} from './ReduxStore';
 
 export const wordInsideMeanSlice = createSlice({

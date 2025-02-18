@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {testTree} from '../../db/TestTree';
+import {testTree} from '../../repository/TestTree';
 import {setIsTestChanged, testChooser} from '../../redux/TestChoiceSlice';
 import {
   ScrollContainer,

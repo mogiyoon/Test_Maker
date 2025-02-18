@@ -13,7 +13,7 @@ import {
   StyledText,
 } from '../components/HomeScreen';
 import {useDispatch, useSelector} from 'react-redux';
-import {languageIndex} from '../db/LanguageAsyncStorage';
+import {languageIndex} from '../repository/LanguageAsyncStorage';
 import {setLanguageData} from '../redux/LanguageSlice';
 import {getLanguageSet} from '../services/LanguageSet';
 

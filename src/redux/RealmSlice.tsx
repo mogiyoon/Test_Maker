@@ -1,9 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {testMakerRealm} from '../db/TestMakerDB';
+import {testMakerRealm} from '../repository/TestMakerDB';
 import {store} from './ReduxStore';
 import _ from 'lodash';
 import {Heap} from 'heap-js'
-import { testTreeInitiate } from '../db/TestTree';
+import { testTreeInitiate } from '../repository/TestTree';
 
 export const testRealmSlice = createSlice({
   name: 'myTestRealmUpdate',

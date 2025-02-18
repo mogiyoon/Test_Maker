@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { languageIndex, readLanguageSetting, writeLanguageSetting } from '../db/LanguageAsyncStorage';
+import { languageIndex, readLanguageSetting, writeLanguageSetting } from '../repository/LanguageAsyncStorage';
 import { store } from './ReduxStore';
-import { setMainLanguage, testTreeInitiate } from '../db/TestTree';
+import { setMainLanguage, testTreeInitiate } from '../repository/TestTree';
 
 export const languageSlice = createSlice({
   name: 'LanguageUpdate',

@@ -15,7 +15,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {addTestRealmData} from '../../redux/RealmSlice';
 import {setIsChanged} from '../../redux/ContentsSlice';
-import {setTestTreeInsert, TestData} from '../../db/TestTree';
+import {setTestTreeInsert, TestData} from '../../repository/TestTree';
 import { GridComponent } from '../../components/GridComponent';
 import { getLanguageSet, wordList } from '../../services/LanguageSet';
 import { returnContentPlusBlank, placeHolerColor } from '../../services/ChoreFunction';

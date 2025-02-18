@@ -24,7 +24,7 @@ import {placeHolerColor} from '../../services/ChoreFunction';
 import {AdMobBanner} from '../../services/GoogleAd';
 import {ExplainWindow} from '../../components/ExplainWindow';
 import {TestingTutorialSet} from '../../constants/testTab/Testing';
-import {TestData} from '../../db/TestTree';
+import {TestData} from '../../repository/TestTree';
 
 let tempQuizList : string[] = [];
 let tempQuizQueue : string[] = [];

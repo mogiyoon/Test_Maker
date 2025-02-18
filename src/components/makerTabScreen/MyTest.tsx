@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { modifyTestReamData, removeCategoryTestRealmData, removeOneTestRealmData } from '../../redux/RealmSlice';
 import { getLanguageSet } from '../../services/LanguageSet';
 import { itemIdReset } from '../../redux/TestChoiceSlice';
-import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory, testTreeInitiate } from '../../db/TestTree';
+import { childRealCategoryNameList, parentCategoryNameCollector, TestData, TestTreeCategory, testTreeInitiate } from '../../repository/TestTree';
 import { placeHolerColor } from '../../services/ChoreFunction';
 
 //For export
