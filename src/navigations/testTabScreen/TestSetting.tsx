@@ -7,7 +7,7 @@ import { ExplainWindow } from '../../components/ExplainWindow';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { TestSettingTutorialSet } from '../../constants/testTab/TestSetting';
 
-
+//TODO 카테고리 내부에서 선택지 나올 수 있게 설정
 export const TestSetting = () => {
   const tempExportNum = useSelector(state => state.exportNum.exportNum)
   const exportNum = String(tempExportNum)
