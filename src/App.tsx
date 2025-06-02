@@ -2,24 +2,26 @@ import React, { useEffect, useState } from 'react';
 import {Provider} from 'react-redux';
 import {syncReduxWithRealm} from './redux/RealmSlice';
 import {StackNavigation} from './navigations/Stack';
-import {initiateTimeStorage} from './db/TimeAsyncStorage';
-import {initiateMakerSettingStorage} from './db/MakerSettingAsyncStorage';
+import {initiateTimeStorage} from './repository/TimeAsyncStorage';
+import {initiateMakerSettingStorage} from './repository/MakerSettingAsyncStorage';
 import {store} from './redux/ReduxStore';
-import {testTreeInitiate} from './db/TestTree';
+import {testTreeInitiate} from './repository/TestTree';
 import {makerSettingInit} from './redux/MakerSettingSlice';
 import { HomeView, ImageContainer, InitiateImg, InitiateText } from './components/App';
-import { initiateLanguageStorage } from './db/LanguageAsyncStorage';
-import { initiateTestSettingStorage } from './db/TestSettingAsyncStorage';
+import { initiateLanguageStorage } from './repository/LanguageAsyncStorage';
+import { initiateTestSettingStorage } from './repository/TestSettingAsyncStorage';
 import { testSettingInit } from './redux/TestSettingSlice';
 import { languageSettingInit } from './redux/LanguageSlice';
 import { wait } from './services/ChoreFunction';
 import { initializeAdMob } from './services/GoogleAd';
 import { adTimeInit } from './redux/TimeSlice';
 import { loadingImages } from './assets/images/ImagesPath';
+import { Tutorial } from './tutorial/Tutorial';
 
 const App = () => {
   const [loading, setLoading] = useState(0)
   const [loadingImg, setLoadingImg] = useState(false)
+  const [tutorialMode, setTutorialMode] = useState(true);
 
   const initiateStorage = async () => {
     await initiateTimeStorage();
@@ -61,7 +63,9 @@ const App = () => {
   }
 
   return (
-    <HomeView>
+    tutorialMode ? 
+    (<Tutorial>
+      <HomeView>
       {loading === loadingMax ? (
         <Provider store={store}>
           <StackNavigation />
@@ -92,6 +96,39 @@ const App = () => {
         </ImageContainer>
       )}
     </HomeView>
+    </Tutorial>)
+     : 
+    (<HomeView>
+      {loading === loadingMax ? (
+        <Provider store={store}>
+          <StackNavigation />
+        </Provider>
+      ) : (
+        <ImageContainer>
+          {loadingImg === false ? (
+            <ImageContainer>
+              <InitiateImg
+                source={loadingImages.loading1}
+                resizeMode={'contain'}
+              />
+              <InitiateText>
+                {'Test'}
+              </InitiateText>
+            </ImageContainer>
+          ) : (
+            <ImageContainer>
+              <InitiateImg
+                source={loadingImages.loading2}
+                resizeMode={'contain'}
+              />
+              <InitiateText>
+                {'Maker'}
+              </InitiateText>
+            </ImageContainer>
+          )}
+        </ImageContainer>
+      )}
+    </HomeView>)
   );
 };
 

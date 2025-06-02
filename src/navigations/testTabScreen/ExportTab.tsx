@@ -44,7 +44,6 @@ export const ExportTab = () => {
 
   const isInfoWindowOpen = useSelector((state) => state.infoWindow.isInfoWindowOpen)
   
-
   const languageSetting = useSelector((state) => state.language.language)
   const languageSet = getLanguageSet(languageSetting)
 
@@ -222,13 +221,18 @@ export const ExportTab = () => {
   return (
     <Container>
       <RowContainer>
-        <AdmobReward
+        {/* <AdmobReward
           callBackFunction = {makeExportableTest}
           >
           <ButtonStyleContainer>
             <Text>{languageSet.Extract}</Text>
           </ButtonStyleContainer>
-        </AdmobReward>
+        </AdmobReward> */}
+        <Button
+          onPress={() => makeExportableTest()}
+        >
+          <Text>{languageSet.Extract}</Text>
+        </Button>
         <Button
           onPress={() => {
             copyToClipboard(
