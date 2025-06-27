@@ -48,17 +48,6 @@
 
 <br>
 
-## 🚀 시작하기
-
-### 사전 요구 사항
-
-* Node.js
-* Yarn or npm
-* React Native CLI
-* Xcode (for iOS) / Android Studio (for Android)
-
-<br>
-
 ## 📜 라이선스
 
 이 프로젝트는 [MIT](LICENSE.md) 라이선스를 따릅니다.
