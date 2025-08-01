@@ -29,17 +29,37 @@
 <br>
 
 ## 📱 스크린샷
+## Main Screen
+| Main |
+| :---: |
+| <img src="https://github.com/user-attachments/assets/02c316b0-8815-4659-a27c-ca40c6575bb8" width="250"> |
 
-| OCR 촬영 화면 | 단어장 목록 | 문제 풀이 화면 |
-| :---: | :---: | :---: |
-| <img src="https://path.to/your/ocr-screen.png" width="250"> | <img src="https://path.to/your/wordlist-screen.png" width="250"> | <img src="https://path.to/your/quiz-screen.png" width="250"> |
+## Maker Screen
+| My Test || Camera | Text Box |
+| :---: | :---: | :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/40be85b1-fd8a-419e-b4e4-00cf7c9801c8" width="250"> | <img src="https://github.com/user-attachments/assets/3c36def7-881d-4148-be57-ae805108df23" width="250"> | <img src="https://github.com/user-attachments/assets/043f211c-c31a-453d-bfd7-366346a715c4" width="250"> | <img src="https://github.com/user-attachments/assets/06b123b6-6119-4327-8217-e399f6986853" width="250"> |
+
+| Text Box | Edit |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/06b123b6-6119-4327-8217-e399f6986853" width="250"> | <img src="https://github.com/user-attachments/assets/e29df63a-5664-49b0-b1f6-46db7d649099" width="250"> |
+
+## Test Screen
+| Select || Testing ||
+| :---: | :---: | :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/c8b02cf9-2bf0-493c-8ea6-b608eaedb391" width="250"> | <img src="https://github.com/user-attachments/assets/90fc5076-f673-4de9-8fc1-9225ce681eec" width="250"> | <img src="https://github.com/user-attachments/assets/6c61bfc3-38fb-452b-a470-263ef822a03b" width="250"> | <img src="https://github.com/user-attachments/assets/8aace176-2a2b-4555-8004-8a40a5469edb" width="250"> |
+
+| Incorrect | Extract |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/f862468d-2158-49a4-ac7f-fb3bcbae54e1" width="250"> | <img src="https://github.com/user-attachments/assets/cbb010a3-c866-4061-ab01-18dcbef6eb2d" width="250"> |
+
+
 
 <br>
 
 ## 🛠️ 기술 스택
 
 * **Core**: `React Native`
-* **State Management**: `Redux (or Zustand, Recoil)`
+* **State Management**: `Redux`
 * **Navigation**: `React Navigation`
 * **OCR**:  `Google Vision API`
 * **Camera**: `react-native-vision-camera`
