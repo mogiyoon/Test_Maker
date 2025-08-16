@@ -8,3 +8,8 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# Realm - ProGuard/R8 rules
+-keep class io.realm.** { *; }
+-keep public class io.realm.react.** { *; }
+-dontwarn io.realm.**

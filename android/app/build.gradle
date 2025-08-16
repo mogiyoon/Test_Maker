@@ -87,8 +87,8 @@ android {
         applicationId "com.test_maker"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "1.3.2"
+        versionCode 7
+        versionName "1.3.4"
     }
     signingConfigs {
         release {
@@ -110,8 +110,9 @@ android {
         }
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled true        // 코드 난독화
+            shrinkResources true      // 사용하지 않는 리소스 제거
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
 }
