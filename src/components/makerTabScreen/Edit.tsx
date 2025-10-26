@@ -86,7 +86,8 @@ export const InnerTouchBoxContainer = styled.TouchableOpacity`
   border-radius: 8px;
   flex-direction: row;
   background-color: ${({bgColor}) => bgColor};
-`
+`;
+
 export const TouchBoxContainer = ({value, onPress, children}) => {
   const bgColor = value ? '#e2bfbf' : '#d7d7d7';
 

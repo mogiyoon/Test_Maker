@@ -1,4 +1,6 @@
+import { ImageSourcePropType } from 'react-native'
+
 export interface ExplainSet {
-  imageUri: string
+  imageUri: ImageSourcePropType | undefined
   explainText: string
 }
